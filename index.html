@@ -1,0 +1,389 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <title>YouMed</title>
+    <link rel="website icon" type="png" href="hospital-logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="flex items-center justify- between">
+            <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
+        </div>
+        <nav class="nav">
+            <a href="#">Đặt khám</a>
+            <a href="#">Tư vấn trực tuyến</a>
+            <a href="#">Store</a>
+            <a href="#">Tin Y tế</a>
+            <a href="#">Dành cho nhân viên Y tế</a>
+        </nav>
+        <div id="authSection">
+            <!-- Nút đăng nhập -->
+            <button id="loginBtn" class="p-2 border-2 border-blue-500 text-blue-500 text-sm font-semibold py-1.5 px-4 rounded-md hover:bg-blue-500 hover:text-white active:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition">
+                Đăng nhập
+            </button>
+            
+            <!-- Dropdown menu khi đã đăng nhập -->
+            <div id="userDropdown" class="hidden relative">
+                <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
+                    <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar" class="w-8 h-8 rounded-full">
+                    <span id="userName" class="text-gray-800"></span>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </button>
+                
+                <!-- Dropdown content -->
+                <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                    <div class="py-1">
+                        <a href="admin.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hidden" id="adminPage">
+                            <i class="fas fa-home mr-2"></i>Trang quản trị
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user mr-2"></i>Thông tin cá nhân
+                        </a>
+                        <a href="#" onclick="logout()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Kết thúc dropdown menu -->
+        </div>
+    </header>
+    <!-- Main Section -->
+    <section class="main-section">
+        <div>
+            <h1>Ứng dụng đặt khám</h1>
+            <p>Đặt khám với hơn 600 bác sĩ, 25 bệnh viện, 100 phòng khám trên YouMed <br> để có số thứ tự và khung giờ khám
+                trước.</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Triệu chứng, bác sĩ, bệnh viện..." />
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+
+    </section>
+    <section class="additional-section">
+        <div>
+            <h2>Đặt lịch khám trực tuyến</h2>
+            <p>Tìm Bác sĩ chính xác - Đặt lịch khám dễ dàng</p>
+        </div>
+    </section>
+
+    <div class="container mx-auto p-4 max-w-7xl">
+
+        <div class="flex justify-between items-center px-4 gap-4">
+            <div>
+                <h2 class="text-lg md:text-xl font-bold mb-0">Đặt khám bác sĩ</h2>
+                <p class="hidden md:block text-sm">Phiếu khám kèm số thứ tự và thời gian của bạn được xác nhận.</p>
+            </div>
+            <a href="booking.html"
+                class="bg-blue-500 text-white px-3 group hover:text-white hover:bg-blue-900 transition-colors text-white py-1.5 rounded-full flex items-center"><span
+                    class="font-semibold whitespace-nowrap text-sm">Xem thêm</span><svg width="10" height="10"
+                    viewBox="0 0 10 10" aria-hidden="true" class="ml-2">
+                    <g fill-rule="evenodd">
+                        <path stroke-width="2" stroke="currentColor" fill="none" d="M0 5h8"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity"></path>
+                        <path stroke-width="2" stroke="currentColor" fill="none" d="M1 1l4 4-4 4"
+                            class="group-hover:translate-x-1 transition-transform"></path>
+                    </g>
+                </svg></a>
+        </div>
+
+        <div class="mt-4 flex overflow-x-auto space-x-4 px-8">
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of BS. CK2 Lê Thị Minh Hồng" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/MJJMum0CX_pl2Y4GHDIo2NouwH92CmCqwt49Q4RcTcQ.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        BS. CK2 Lê Thị Minh Hồng
+                    </h3>
+                    <p class="text-gray-500">
+                        Nhi khoa
+                    </p>
+                    <p class="text-gray-500">
+                        Bệnh viện Nhi Đồng 2
+                    </p>
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of PGS. TS. BS Lâm Việt Trung" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/j44YWK-FMO5BOHdvaSKXNK2Xbs6R0QAjkxyLEeGRnQ4.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        PGS. TS. BS Lâm Việt Trung
+                    </h3>
+                    <p class="text-gray-500">
+                        Tiêu hoá
+                    </p>
+                    <p class="text-gray-500">
+                        Bệnh viện Chợ Rẫy
+                    </p>
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of BS. CK2 Nguyễn Thị Thu Hà" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/LTCM0kxtPrgu25hG69rvkrg-70xzTv6YpLFJ23J3sKM.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        BS. CK2 Nguyễn Thị Thu Hà
+                    </h3>
+                    <p class="text-gray-500">
+                        Nhi khoa
+                    </p>
+                    <p class="text-gray-500">
+                        Bệnh viện Nhi Đồng Thành phố
+                    </p>
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of BS. CK2 Võ Đức Hiếu" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        BS. CK2 Võ Đức Hiếu
+                    </h3>
+                    <p class="text-gray-500">
+                        Ung bướu
+                    </p>
+                    <p class="text-gray-500">
+                        Bệnh viện Ung Bướu TP. HCM
+                    </p>
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of another doctor" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/wa9BE0uMP8I0cIhUTdnlrfv4KbSR6ZnuatGGHIuFmVs.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        PGS.
+                    </h3>
+                    <p class="text-gray-500">
+                        Bệnh viện
+                    </p>
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of BS. CK2 Nguyễn Thị Thu Hà" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/LTCM0kxtPrgu25hG69rvkrg-70xzTv6YpLFJ23J3sKM.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        BS. CK2 Nguyễn Thị Thu Hà
+                    </h3>
+                    <p class="text-gray-500">
+                        Nhi khoa
+                    </p>
+                    <p class="text-gray-500">
+                        Bệnh viện Nhi Đồng Thành phố
+                    </p>
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <section id="booking-specialties" class="bg-white">
+        <div class="max-w-7xl mx-auto py-10">
+            <div class="px-4 md:px-6 gap-4 pb-4">
+                <h2 class="text-lg md:text-xl font-bold mb-0">Đặt lịch theo Chuyên khoa</h2>
+                <p class="text-sm">Danh sách bác sĩ, bệnh viện, phòng khám theo chuyên khoa</p>
+            </div>
+            <div class="px-4 md:px-6">
+                <details class="group flex flex-row flex-wrap mt-10 [&amp;_summary::-webkit-details-marker]:hidden">
+                    <summary class="grid grid-cols-3 lg:grid-cols-6">
+                        <div class="col-span-1"><a href=""
+                                class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-yu rounded-xl transition">
+                                <div class="rounded-full mb-2 w-16 h-16"><img
+                                        src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Yhoccotruyen.png"
+                                        alt="Y học cổ truyền" height="64" width="64"
+                                        data-lazy-src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Yhoccotruyen.png"
+                                        data-ll-status="loaded" class="entered lazyloaded"><noscript><img loading="lazy"
+                                            src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Yhoccotruyen.png"
+                                            alt="Y học cổ truyền" height="64" width="64"></noscript></div>
+                                <h3>Y học cổ truyền</h3>
+                            </a>
+                        </div>
+                    </summary>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tin Y tế Section -->
+    <section id="medical-news" class="bg-gray-50">
+        <div class="max-w-7xl mx-auto py-10">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Tin Y tế</h2>
+                <p class="text-gray-600">Chính thống - Minh bạch - Trung lập</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 px-4">
+                <!-- News Item 1 -->
+                <a href="news-detail.html" class="block group">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/lomexin-1000-370x210.jpg" alt="Thuốc Lomexin" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">Thuốc Lomexin 1000 mg là gì? Công dụng, cách dùng và lưu ý khi dùng</h3>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <span>Dược sĩ Bùi Hoàng Ngọc Khánh</span>
+                                <span class="mx-2">•</span>
+                                <span>25/12/2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- News Item 2 -->
+                <a href="news-detail.html" class="block group">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/lomexin-200-370x210.jpg" alt="Thuốc Lomexin" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">Lomexin 200mg là thuốc gì? Công dụng, cách dùng và lưu ý khi dùng</h3>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <span>Dược sĩ Bùi Hoàng Ngọc Khánh</span>
+                                <span class="mx-2">•</span>
+                                <span>24/12/2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- News Item 3 -->
+                <a href="news-detail.html" class="block group">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/nextg-cal-370x210.jpg" alt="Thuốc NextG Cal" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">Thuốc NextG Cal: Bổ sung canxi và điều trị loãng xương</h3>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <span>Dược sĩ Trần Văn Thy</span>
+                                <span class="mx-2">•</span>
+                                <span>20/04/2022</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- News Item 4 -->
+                <a href="news-detail.html" class="block group">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/velaxin-370x210.jpg" alt="Thuốc Velaxin" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">Thuốc Velaxin là thuốc gì? Công dụng, cách dùng và lưu ý khi sử dụng</h3>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <span>Dược sĩ Trần Thị Thùy Linh</span>
+                                <span class="mx-2">•</span>
+                                <span>29/05/2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- News Item 5 -->
+                <a href="news-detail.html" class="block group">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/klamentin-370x210.jpg" alt="Thuốc Klamentin" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">Klamentin là thuốc gì? Công dụng và cách dùng hiệu quả</h3>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <span>Dược sĩ Bùi Hoàng Ngọc Khánh</span>
+                                <span class="mx-2">•</span>
+                                <span>24/05/2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section data-wpr-lazyrender="1" id="promise" class="bg-white">
+        <div class="max-w-7xl mx-auto px-4 py-3 md:py-4">
+            <div class="grid grid-cols-12 gap-px p-6 md:p-8 bg-blue-500 rounded-2xl">
+                <div class="col-span-12 lg:col-span-4 flex items-center">
+                    <p class="font-bold md:text-xl text-white mb-6 md:mb-0"> Tạo nên một nguồn thông tin sức
+                        khoẻ đáng tin cậy, dễ đọc, dễ hiểu cho mọi đối tượng độc giả </p>
+                </div>
+                <a href="#"
+                    class="col-span-12 md:col-span-3 lg:col-span-2 flex gap-1 md:flex-col md:justify-center items-center"><img
+                        width="100" height="100" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis.svg"
+                        alt="Biên soạn bởi Bác sĩ và Dược sĩ"
+                        data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis.svg"
+                        data-ll-status="loaded" class="entered lazyloaded"><noscript><img loading="lazy" width="100"
+                            height="100" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis.svg"
+                            alt="Biên soạn bởi Bác sĩ và Dược sĩ"></noscript>
+                    <h3 class="font-medium text-base text-white md:text-center"> Biên soạn bởi <br>Bác sĩ và Dược sĩ
+                    </h3>
+                </a>
+                <a href=""
+                    class="col-span-12 md:col-span-3 lg:col-span-2 flex gap-1 md:flex-col md:justify-center items-center"><img
+                        width="100" height="100"
+                        src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-2.svg"
+                        alt="Chính sách biên tập nội dung minh bạch"
+                        data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-2.svg"
+                        data-ll-status="loaded" class="entered lazyloaded"><noscript><img loading="lazy" width="100"
+                            height="100" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-2.svg"
+                            alt="Chính sách biên tập nội dung minh bạch"></noscript>
+                    <h3 class="font-medium text-base text-white md:text-center"> Chính sách biên tập<br>nội dung minh
+                        bạch </h3>
+                </a>
+                <a href=""
+                    class="col-span-12 md:col-span-3 lg:col-span-2 flex gap-1 md:flex-col md:justify-center items-center"><img
+                        width="100" height="100"
+                        src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-3.svg"
+                        alt="Chính sách quảng cáo"
+                        data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-3.svg"
+                        data-ll-status="loaded" class="entered lazyloaded"><noscript><img loading="lazy" width="100"
+                            height="100" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-3.svg"
+                            alt="Chính sách quảng cáo"></noscript>
+                    <h3 class="font-medium text-base text-white md:text-center"> Chính sách<br>quảng cáo </h3>
+                </a>
+                <a href=""
+                    class="col-span-12 md:col-span-3 lg:col-span-2 flex gap-1 md:flex-col md:justify-center items-center"><img
+                        width="100" height="100"
+                        src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-4.svg"
+                        alt="Chính sách bảo mật"
+                        data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-4.svg"
+                        data-ll-status="loaded" class="entered lazyloaded"><noscript><img loading="lazy" width="100"
+                            height="100" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/promis-4.svg"
+                            alt="Chính sách bảo mật"></noscript>
+                    <h3 class="font-medium text-base text-white md:text-center"> Chính sách<br>bảo mật </h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+<script src="index.js"></script>
+
+</html>

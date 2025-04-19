@@ -1,0 +1,268 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>YouMed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="website icon" type="png" href="hospital-logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100">
+
+<header class="bg-white shadow ">
+    <div class="container mx-auto px-4 py-2 flex justify-between">
+        <div class="flex items-center justify-between">
+            <img alt="YouMed logo" class="h-11"
+                 src="hospital-logo.png"
+            />
+        </div>
+        <nav class="flex items-center justify-between space-x-10">
+            <a class="text-gray-700 hover:text-blue-500 font-bold" href="#">Đặt khám</a>
+            <a class="text-gray-700 hover:text-blue-500 font-bold" href="#">Tư vấn trực tuyến</a>
+            <a class="text-gray-700 hover:text-blue-500 font-bold" href="#">Store</a>
+            <a class="text-gray-700 hover:text-blue-500 font-bold" href="#">Tin Y tế</a>
+            <a class="text-gray-700 hover:text-blue-500 font-bold" href="#">Dành cho nhân viên Y tế</a>
+            <button class="border-2 border-blue-500 text-blue-500 text-sm font-semibold py-1.5 px-4 rounded-md hover:bg-blue-500 hover:text-white active:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                    href="#" id="loginLink">
+                Đăng nhập
+            </button>
+        </nav>
+    </div>
+</header>
+
+<main class="flex items-center justify-center min-h-screen">
+    <div class="mx-auto">
+        <img src="hospital-bed-concept-illustration.png" height="500" width="500"/>
+    </div>
+
+    <!-- Form đăng nhập -->
+    <div id="loginForm" class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg mx-40">
+        <div class="mb-4 grid grid-cols-2 gap-4">
+
+            <!-- Liên kết Đăng nhập -->
+            <div class="flex justify-center py-2 border-b-2 border-blue-500">
+                <a class="text-blue-500 hover:text-blue-700" href="#">
+                    Đăng nhập
+                </a>
+            </div>
+
+            <!-- Liên kết Đăng ký -->
+            <div class="flex justify-center py-2 border-b-2 border-gray-500">
+                <a class="text-gray-700 hover:text-blue-500" href="#" id="registerLink">
+                    Đăng ký
+                </a>
+            </div>
+        </div>
+
+        <form onsubmit="event.preventDefault(); handleLogin();">
+            <!-- Số điện thoại -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold" for="phone">Số điện thoại</label>
+                <input class="w-full px-4 py-2 border rounded-lg" id="phone"
+                       placeholder="Số điện thoại" type="text" oninput="checkFields()"/>
+                <span id="phoneWarning" class="text-red-500 font-semibold text-sm mt-1 hidden">
+                    Vui lòng nhập số điện thoại chính xác
+                </span>
+            </div>
+
+            <!-- Mật khẩu -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold" for="password">Mật khẩu</label>
+                <input class="w-full px-4 py-2 border rounded-lg" id="password"
+                       placeholder="Nhập mật khẩu" type="password" oninput="checkFields()"/>
+                <span id="passWordWarning" class="text-red-500 font-semibold text-sm mt-1 hidden">
+                   Xin vui lòng nhập mật khẩu ít nhất 6 ký tự!
+                </span>
+            </div>
+            <div class="flex items-center justify-between">
+                <!-- Ghi nhớ mật khẩu -->
+                <div class="flex items-center mb-4">
+                    <input class="mr-2" id="remember" type="checkbox"/>
+                    <label class="text-gray-700" for="remember">Ghi nhớ mật khẩu</label>
+                </div>
+                <!-- Quên mật khẩu -->
+                <div class="text-right mt-2 mb-4">
+                    <a class="text-blue-500 hover:text-blue-700" href="#" id="forgotPassword">Quên mật khẩu?</a>
+                </div>
+            </div>
+            <!-- Nút Đăng nhập -->
+            <button class="w-full bg-gray-300 text-white py-2 rounded-lg cursor-not-allowed" type="submit"
+                    id="loginButton" disabled>
+                Đăng nhập
+            </button>
+            <div class="mt-8">
+                <hr class="border-gray-200 mb-4"/>
+                <p class="text-center text-gray-70 mt-5">
+                    Chưa có tài khoản? <a href="#" class="text-blue-500 hover:text-blue-700" id="registerNow">Đăng ký
+                    ngay</a>
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Form đăng ký -->
+    <div id="registerForm" class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg mx-auto" style="display: none;">
+        <div class="mb-4 grid grid-cols-2 gap-4">
+            <div class="flex justify-center py-2 border-b-2 border-gray-500">
+                <a class="text-gray-700" href="#" id="loginLink2">
+                    Đăng nhập
+                </a>
+            </div>
+            <div class="flex justify-center py-2 border-b-2 border-blue-500">
+                <a class="text-blue-500" href="#">
+                    Đăng ký
+                </a>
+            </div>
+        </div>
+        <!-- User name -->
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold" for="userName">Họ và tên người dùng</label>
+
+            <!-- Container cho input -->
+            <div class="flex items-center border rounded-lg">
+                <input class="w-full px-4 py-2 border-l rounded-r-lg" id="userName"
+                       placeholder="Nhập tên người dùng" type="text" oninput="checkRegister()"/>
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold" for="emailRegister">Email đăng ký</label>
+
+            <!-- Container cho input -->
+            <div class="flex items-center border rounded-lg">
+                <input class="w-full px-4 py-2 border-l rounded-r-lg" id="emailRegister"
+                       placeholder="Nhập email" type="text" oninput="checkRegister()"/>
+            </div>
+            <span id="emailWarning" class="text-red-500 font-semibold text-sm mt-1 hidden">
+                    Vui lòng nhập đúng định dạng email!
+                </span>
+        </div>
+
+        <!-- Phone  -->
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold" for="registerPhone">Số điện thoại</label>
+
+            <!-- Container cho input -->
+            <div class="flex items-center border rounded-lg">
+                <div class="flex items-center px-4 py-2 bg-gray-200 rounded-l-lg">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/Flag_of_Vietnam_%281-1%29.svg"
+                         alt="Vietnam Flag" class="h-6 w-6 rounded-full"/>
+                    <span class="text-black-400 font-bold mr-2">+84</span>
+                </div>
+
+                <input class="w-full px-4 py-2 border-l rounded-r-lg" id="registerPhone"
+                       placeholder="Nhập số điện thoại để tiếp tục" type="text" oninput="checkRegister()"/>
+            </div>
+            <span id="phoneWarning2" class="text-red-500 font-semibold text-sm mt-1 hidden">
+                    Vui lòng nhập số điện thoại chính xác
+                </span>
+        </div>
+        <!-- Mật khẩu -->
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold" for="password">Mật khẩu</label>
+            <input class="w-full px-4 py-2 border rounded-lg" id="passwordRegister"
+                   placeholder="Nhập mật khẩu" type="password" oninput="checkRegister()"/>
+            <span id="passWordWarning2" class="text-red-500 font-semibold text-sm mt-1 hidden">
+                  Xin vui lòng nhập mật khẩu ít nhất 6 ký tự!
+            </span>
+        </div>
+
+        <!-- Xác nhận Mật khẩu -->
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold" for="password">Xác nhận mật khẩu</label>
+            <input class="w-full px-4 py-2 border rounded-lg" id="passwordRegister2"
+                   placeholder="Xác nhận mật khẩu" type="password" oninput="checkRegister()"/>
+            <span id="passWordWarning3" class="text-red-500 font-semibold text-sm mt-1 hidden">
+                Mật khẩu không khớp! Vui lòng kiểm tra lại
+            </span>
+        </div>
+
+        <div class="flex items-center mb-4">
+            <input class="mr-2" id="accept" type="checkbox" oninput="checkRegister()"/>
+            <label class="text-gray-700" for="accept">
+                Tôi đã đọc và đồng ý với các điều khoản
+            </label>
+        </div>
+        <button class="w-full bg-gray-300 text-white py-2 rounded-lg cursor-not-allowed" type="button" id="sendOtpBtn">
+            Đăng ký
+        </button>
+        <div class="text-center mt-4">
+            <p>Đã có tài khoản? <a class="text-blue-500" href="#" id="backToLoginLink">Đăng nhập</a></p>
+        </div>
+    </div>
+
+    <!-- Form Forgot Password -->
+    <div id="ForgotPass" class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg mx-40" style="display: none;">
+        <div class="mb-4 grid grid-cols-1 gap-4">
+
+            <div class="flex justify-center py-2 border-b-2 border-blue-500 justify-center">
+                <a class="text-blue-500 hover:text-blue-700" href="#">
+                    Quên mật khẩu
+                </a>
+            </div>
+        </div>
+
+        <!-- Form Forgot Password -->
+        <form id="forgotPasswordForm" onsubmit="event.preventDefault();">
+            <!-- Email -->
+            <div class="mb-4 container">
+                <label class="block text-gray-700 font-bold" for="phone">Email</label>
+                <div class="justify-between items-start flex gap-2">
+                    <input class="w-full px-10 py-2 border rounded-lg" id="email"
+                           placeholder="Nhập email của bạn" type="text" oninput="checkForgot()"/>
+
+                    <button class="flex bg-green-500 text-white py-2 px-6 rounded-lg cursor-not-allowed" type="button"
+                            id="sendOtp" disabled>
+                        SendOTP
+                    </button>
+                </div>
+                <span id="emailWarning2" class="text-red-500 font-semibold text-sm mt-1 hidden" oninput="checkForgot()">
+                    Vui lòng nhập đúng định dạng email!
+                </span>
+            </div>
+            <!-- Mật khẩu -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold" for="password">Nhập mã OTP</label>
+                <input class="w-full px-4 py-2 border rounded-lg" id="enterOtp"
+                       placeholder="Nhập mã OTP" type="password" oninput="checkForgot()"/>
+            </div>
+
+            <!-- Mật khẩu -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold" for="password">Mật khẩu</label>
+                <input class="w-full px-4 py-2 border rounded-lg" id="passwordForgot"
+                       placeholder="Nhập mật khẩu" type="password" oninput="checkForgot()"/>
+                <span id="passWordWarning4" class="text-red-500 font-semibold text-sm mt-1 hidden">
+                   Xin vui lòng nhập mật khẩu ít nhất 6 ký tự!
+                </span>
+            </div>
+
+            <!-- Mật khẩu -->
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold" for="password">Xác nhận mật khẩu</label>
+                <input class="w-full px-4 py-2 border rounded-lg" id="passwordForgot2"
+                       placeholder="Xác nhận mật khẩu" type="password" oninput="checkForgot()"/>
+                <span id="passWordWarning5" class="text-red-500 font-semibold text-sm mt-1 hidden">
+                    Mật khẩu không khớp! Vui lòng thử lại
+                </span>
+            </div>
+            <!-- Nút Đổi mật khẩu -->
+            <button class="w-full bg-gray-300 text-white py-2 rounded-lg cursor-not-allowed" type="submit"
+                    id="submitButton" disabled>
+                Đổi mật khẩu
+            </button>
+            <div class="mt-8">
+                <hr class="border-gray-200 mb-4"/>
+                <p class="text-center text-gray-70 mt-5">
+                    Đã có tài khoản? <a href="#" class="text-blue-500 hover:text-blue-700" id="returnLoginForm">
+                    Đăng nhập ngay</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script src="auth.js"></script>
+
+</body>
+</html>

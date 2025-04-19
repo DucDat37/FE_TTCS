@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cài đặt - YouMed Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="website icon" type="png" href="hospital-logo.png">
+    <style>
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #4a90e2;
+            color: white;
+            padding: 20px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .nav-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            text-decoration: none;
+            color: white;
+        }
+        .nav-item:hover {
+            background-color: #357abd;
+        }
+        .nav-item.active {
+            background-color: #357abd;
+        }
+        .settings-tab {
+            display: none;
+        }
+        .settings-tab.active {
+            display: block;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #666;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-button.active {
+            color: #4a90e2;
+            border-bottom: 2px solid #4a90e2;
+        }
+        .settings-card:hover {
+            transform: translateY(-5px);
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            z-index: 1000;
+        }
+        .dropdown-menu.show {
+            display: block;
+        }
+        .dropdown-item {
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+        .dropdown-divider {
+            height: 1px;
+            background-color: #e5e5e5;
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="flex items-center mb-8">
+            <img src="hospital-logo.png" alt="YouMed Logo" class="h-10 w-10 mr-3">
+            <h1 class="text-xl font-bold">YouMed Admin</h1>
+        </div>
+        <nav>
+            <a href="admin.html" class="nav-item">
+                <i class="fas fa-home mr-2"></i> Dashboard
+            </a>
+            <a href="users.html" class="nav-item">
+                <i class="fas fa-users mr-2"></i> Quản lý người dùng
+            </a>
+            <a href="doctors.html" class="nav-item">
+                <i class="fas fa-user-md mr-2"></i> Quản lý bác sĩ
+            </a>
+            <a href="appointments.html" class="nav-item">
+                <i class="fas fa-calendar-check mr-2"></i> Quản lý lịch khám
+            </a>
+            <a href="hospitals.html" class="nav-item">
+                <i class="fas fa-hospital mr-2"></i> Quản lý bệnh viện
+            </a>
+            <a href="medicines.html" class="nav-item">
+                <i class="fas fa-pills mr-2"></i> Quản lý thuốc
+            </a>
+            <a href="statistics.html" class="nav-item">
+                <i class="fas fa-chart-bar mr-2"></i> Thống kê
+            </a>
+            <a href="settings.html" class="nav-item active">
+                <i class="fas fa-cog mr-2"></i> Cài đặt
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">Cài đặt hệ thống</h2>
+            <div class="flex items-center">
+                <div class="relative mr-4">
+                    <i class="fas fa-bell text-gray-600 text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
+                </div>
+                <div class="relative">
+                    <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
+                        <img src="hospital-logo.png" alt="Admin Avatar" class="rounded-full mr-2 w-10 h-10">
+                        <span class="text-gray-700">Admin</span>
+                    </div>
+                    <div id="dropdownMenu" class="dropdown-menu">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user mr-2"></i>Profile
+                        </a>
+                        <a href="index.html" class="dropdown-item">
+                            <i class="fas fa-home mr-2"></i>Home Page
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item text-red-600" onclick="handleLogout()">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tabs -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="border-b mb-6">
+                <button class="tab-button active" onclick="openTab(event, 'general')">Cài đặt chung</button>
+                <button class="tab-button" onclick="openTab(event, 'notifications')">Thông báo</button>
+                <button class="tab-button" onclick="openTab(event, 'security')">Bảo mật</button>
+                <button class="tab-button" onclick="openTab(event, 'backup')">Sao lưu</button>
+            </div>
+
+            <!-- General Settings -->
+            <div id="general" class="settings-tab active">
+                <h3 class="text-xl font-bold mb-4">Cài đặt chung</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tên hệ thống</label>
+                        <input type="text" value="YouMed" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Logo hệ thống</label>
+                        <div class="mt-1 flex items-center">
+                            <img src="hospital-logo.png" alt="Logo" class="h-12 w-12 mr-4">
+                            <button type="button" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200">
+                                Thay đổi logo
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Ngôn ngữ</label>
+                        <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option>Tiếng Việt</option>
+                            <option>English</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Múi giờ</label>
+                        <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option>GMT+7 (Hà Nội)</option>
+                            <option>GMT+0 (UTC)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Định dạng ngày tháng</label>
+                        <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option>DD/MM/YYYY</option>
+                            <option>MM/DD/YYYY</option>
+                            <option>YYYY-MM-DD</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                            Lưu thay đổi
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Notification Settings -->
+            <div id="notifications" class="settings-tab">
+                <h3 class="text-xl font-bold mb-4">Cài đặt thông báo</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Thông báo qua email</label>
+                        <div class="mt-2 space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2">Thông báo lịch khám mới</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2">Thông báo khi có người dùng mới</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2">Thông báo khi có bệnh viện mới</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Thông báo qua SMS</label>
+                        <div class="mt-2 space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2">Thông báo lịch khám mới</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2">Nhắc nhở lịch khám</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                            Lưu thay đổi
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Security Settings -->
+            <div id="security" class="settings-tab">
+                <h3 class="text-xl font-bold mb-4">Cài đặt bảo mật</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Đổi mật khẩu</label>
+                        <div class="mt-2 space-y-2">
+                            <input type="password" placeholder="Mật khẩu hiện tại" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <input type="password" placeholder="Mật khẩu mới" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <input type="password" placeholder="Xác nhận mật khẩu mới" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Xác thực hai yếu tố</label>
+                        <div class="mt-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2">Bật xác thực hai yếu tố</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Lịch sử đăng nhập</label>
+                        <div class="mt-2">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead>
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Thời gian</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">IP</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Thiết bị</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4">2024-03-20 15:30</td>
+                                        <td class="px-6 py-4">192.168.1.1</td>
+                                        <td class="px-6 py-4">Chrome trên Windows</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                            Lưu thay đổi
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Backup Settings -->
+            <div id="backup" class="settings-tab">
+                <h3 class="text-xl font-bold mb-4">Cài đặt sao lưu</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tự động sao lưu</label>
+                        <div class="mt-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2">Bật tính năng tự động sao lưu</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tần suất sao lưu</label>
+                        <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option>Hàng ngày</option>
+                            <option>Hàng tuần</option>
+                            <option>Hàng tháng</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Thời gian sao lưu</label>
+                        <input type="time" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Lịch sử sao lưu</label>
+                        <div class="mt-2">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead>
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ngày</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kích thước</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4">2024-03-20</td>
+                                        <td class="px-6 py-4">1.2 GB</td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                Thành công
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200">
+                            Tạo bản sao lưu ngay
+                        </button>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                            Lưu thay đổi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab content
+            var tabcontent = document.getElementsByClassName("settings-tab");
+            for (var i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Remove active class from all tab buttons
+            var tablinks = document.getElementsByClassName("tab-button");
+            for (var i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            // Show the selected tab and mark the button as active
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Form handling
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Đã lưu cài đặt thành công!');
+            });
+        });
+
+        // Add active class to clicked nav item
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.nav-item.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+
+        // Dropdown menu functionality
+        function toggleDropdown() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownToggle = document.querySelector('.cursor-pointer');
+            
+            if (!dropdownToggle.contains(event.target) && dropdownMenu.classList.contains('show')) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+        // Thêm hàm xử lý logout
+        function handleLogout() {
+            // Xóa token và thông tin người dùng
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user');
+            
+            // Chuyển hướng về trang chủ
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html> 

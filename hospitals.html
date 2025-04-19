@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bệnh viện - YouMed Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="website icon" type="png" href="hospital-logo.png">
+    <style>
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #4a90e2;
+            color: white;
+            padding: 20px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .nav-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            text-decoration: none;
+            color: white;
+        }
+        .nav-item:hover {
+            background-color: #357abd;
+        }
+        .nav-item.active {
+            background-color: #357abd;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 50%;
+            border-radius: 5px;
+        }
+        .hospital-card {
+            transition: transform 0.2s;
+        }
+        .hospital-card:hover {
+            transform: translateY(-5px);
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            z-index: 1000;
+        }
+        .dropdown-menu.show {
+            display: block;
+        }
+        .dropdown-item {
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+        .dropdown-divider {
+            height: 1px;
+            background-color: #e5e5e5;
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="flex items-center mb-8">
+            <img src="hospital-logo.png" alt="YouMed Logo" class="h-10 w-10 mr-3">
+            <h1 class="text-xl font-bold">YouMed Admin</h1>
+        </div>
+        <nav>
+            <a href="admin.html" class="nav-item">
+                <i class="fas fa-home mr-2"></i> Dashboard
+            </a>
+            <a href="users.html" class="nav-item">
+                <i class="fas fa-users mr-2"></i> Quản lý người dùng
+            </a>
+            <a href="doctors.html" class="nav-item">
+                <i class="fas fa-user-md mr-2"></i> Quản lý bác sĩ
+            </a>
+            <a href="appointments.html" class="nav-item">
+                <i class="fas fa-calendar-check mr-2"></i> Quản lý lịch khám
+            </a>
+            <a href="hospitals.html" class="nav-item active">
+                <i class="fas fa-hospital mr-2"></i> Quản lý bệnh viện
+            </a>
+            <a href="medicines.html" class="nav-item">
+                <i class="fas fa-pills mr-2"></i> Quản lý thuốc
+            </a>
+            <a href="statistics.html" class="nav-item">
+                <i class="fas fa-chart-bar mr-2"></i> Thống kê
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fas fa-cog mr-2"></i> Cài đặt
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">Quản lý bệnh viện</h2>
+            <div class="flex items-center">
+                <button onclick="openAddModal()" class="bg-blue-500 text-white px-4 py-2 rounded-lg mr-4">
+                    <i class="fas fa-plus mr-2"></i>Thêm bệnh viện
+                </button>
+                <div class="relative mr-4">
+                    <i class="fas fa-bell text-gray-600 text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
+                </div>
+                <div class="relative">
+                    <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
+                        <img src="hospital-logo.png" alt="Admin Avatar" class="rounded-full mr-2 w-10 h-10">
+                        <span class="text-gray-700">Admin</span>
+                    </div>
+                    <div id="dropdownMenu" class="dropdown-menu">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user mr-2"></i>Profile
+                        </a>
+                        <a href="index.html" class="dropdown-item">
+                            <i class="fas fa-home mr-2"></i>Home Page
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item text-red-600" onclick="handleLogout()">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats and Chart -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-4">Thống kê bệnh viện theo loại</h3>
+                <canvas id="hospitalChart"></canvas>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-4">Tổng quan</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <p class="text-blue-500 text-sm">Tổng số bệnh viện</p>
+                        <p class="text-2xl font-bold">24</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <p class="text-green-500 text-sm">Bệnh viện công</p>
+                        <p class="text-2xl font-bold">15</p>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <p class="text-yellow-500 text-sm">Bệnh viện tư</p>
+                        <p class="text-2xl font-bold">7</p>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg">
+                        <p class="text-purple-500 text-sm">Phòng khám</p>
+                        <p class="text-2xl font-bold">2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hospitals Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Hospital Card 1 -->
+            <div class="bg-white rounded-lg shadow-md p-6 hospital-card">
+                <div class="flex items-center mb-4">
+                    <img src="https://via.placeholder.com/60" alt="Hospital Logo" class="rounded-lg mr-4">
+                    <div>
+                        <h3 class="text-lg font-bold">Bệnh viện Bạch Mai</h3>
+                        <p class="text-gray-500 text-sm">Hà Nội</p>
+                    </div>
+                </div>
+                <div class="space-y-2 mb-4">
+                    <p class="text-sm"><i class="fas fa-phone mr-2"></i>024-3869 3731</p>
+                    <p class="text-sm"><i class="fas fa-map-marker-alt mr-2"></i>78 Giải Phóng, Đống Đa</p>
+                    <p class="text-sm"><i class="fas fa-user-md mr-2"></i>150 bác sĩ</p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Đang hoạt động</span>
+                    <div>
+                        <button onclick="openEditModal()" class="text-blue-500 hover:text-blue-700 mr-3">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteHospital()" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hospital Card 2 -->
+            <div class="bg-white rounded-lg shadow-md p-6 hospital-card">
+                <div class="flex items-center mb-4">
+                    <img src="https://via.placeholder.com/60" alt="Hospital Logo" class="rounded-lg mr-4">
+                    <div>
+                        <h3 class="text-lg font-bold">Bệnh viện Việt Đức</h3>
+                        <p class="text-gray-500 text-sm">Hà Nội</p>
+                    </div>
+                </div>
+                <div class="space-y-2 mb-4">
+                    <p class="text-sm"><i class="fas fa-phone mr-2"></i>024-3826 3531</p>
+                    <p class="text-sm"><i class="fas fa-map-marker-alt mr-2"></i>40 Tràng Thi, Hoàn Kiếm</p>
+                    <p class="text-sm"><i class="fas fa-user-md mr-2"></i>120 bác sĩ</p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Đang hoạt động</span>
+                    <div>
+                        <button onclick="openEditModal()" class="text-blue-500 hover:text-blue-700 mr-3">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteHospital()" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hospital Card 3 -->
+            <div class="bg-white rounded-lg shadow-md p-6 hospital-card">
+                <div class="flex items-center mb-4">
+                    <img src="https://via.placeholder.com/60" alt="Hospital Logo" class="rounded-lg mr-4">
+                    <div>
+                        <h3 class="text-lg font-bold">Bệnh viện Vinmec</h3>
+                        <p class="text-gray-500 text-sm">Hà Nội</p>
+                    </div>
+                </div>
+                <div class="space-y-2 mb-4">
+                    <p class="text-sm"><i class="fas fa-phone mr-2"></i>024-3974 3556</p>
+                    <p class="text-sm"><i class="fas fa-map-marker-alt mr-2"></i>458 Minh Khai, Hai Bà Trưng</p>
+                    <p class="text-sm"><i class="fas fa-user-md mr-2"></i>200 bác sĩ</p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Đang hoạt động</span>
+                    <div>
+                        <button onclick="openEditModal()" class="text-blue-500 hover:text-blue-700 mr-3">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteHospital()" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Hospital Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Thêm bệnh viện mới</h3>
+                <button onclick="closeAddModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tên bệnh viện</label>
+                    <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Loại bệnh viện</label>
+                    <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option>Bệnh viện công</option>
+                        <option>Bệnh viện tư</option>
+                        <option>Phòng khám</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Địa chỉ</label>
+                    <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Số điện thoại</label>
+                    <input type="tel" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Logo bệnh viện</label>
+                    <input type="file" accept="image/*" class="mt-1 block w-full">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Mô tả</label>
+                    <textarea class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" rows="3"></textarea>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeAddModal()" class="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-50">
+                        Hủy
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                        Thêm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Chart initialization
+        const ctx = document.getElementById('hospitalChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Bệnh viện công', 'Bệnh viện tư', 'Phòng khám'],
+                datasets: [{
+                    data: [15, 7, 2],
+                    backgroundColor: [
+                        '#60a5fa',
+                        '#34d399',
+                        '#a78bfa'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    }
+                }
+            }
+        });
+
+        // Form handling
+        document.querySelector('#addModal form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Lấy dữ liệu từ form
+            const formData = {
+                name: this.querySelector('input[type="text"]').value,
+                type: this.querySelector('select').value,
+                address: this.querySelectorAll('input[type="text"]')[1].value,
+                phone: this.querySelector('input[type="tel"]').value,
+                description: this.querySelector('textarea').value
+            };
+
+            // Kiểm tra dữ liệu bắt buộc
+            if (!formData.name || !formData.type || !formData.address || !formData.phone) {
+                alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+                return;
+            }
+
+            // Gửi dữ liệu đến server (giả lập)
+            console.log('Gửi dữ liệu:', formData);
+            
+            // Hiển thị thông báo thành công
+            alert('Thêm bệnh viện thành công!');
+            
+            // Đóng modal
+            closeAddModal();
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Modal functions
+        function openAddModal() {
+            document.getElementById('addModal').style.display = 'block';
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').style.display = 'none';
+        }
+
+        function openEditModal() {
+            alert('Chức năng sửa đang được phát triển!');
+        }
+
+        function deleteHospital() {
+            if(confirm('Bạn có chắc chắn muốn xóa bệnh viện này?')) {
+                alert('Xóa bệnh viện thành công!');
+            }
+        }
+
+        // Add active class to clicked nav item
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.nav-item.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+
+        // Dropdown menu functionality
+        function toggleDropdown() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownToggle = document.querySelector('.cursor-pointer');
+            
+            if (!dropdownToggle.contains(event.target) && dropdownMenu.classList.contains('show')) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+        // Thêm hàm xử lý logout
+        function handleLogout() {
+            // Xóa token và thông tin người dùng
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user');
+            
+            // Chuyển hướng về trang chủ
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html> 

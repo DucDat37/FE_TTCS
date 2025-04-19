@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Tất cả bác sĩ - YouMed</title>
+    <link rel="website icon" type="png" href="hospital-logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="flex items-center justify-between">
+            <a href="index.html">
+                <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
+            </a>
+        </div>
+        <nav class="nav">
+            <a href="#">Đặt khám</a>
+            <a href="#">Tư vấn trực tuyến</a>
+            <a href="#">Store</a>
+            <a href="#">Tin Y tế</a>
+            <a href="#">Dành cho nhân viên Y tế</a>
+        </nav>
+        <button class="login-btn" onclick="window.location.href='auth.html'">Đăng nhập</button>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-4 max-w-7xl">
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold mb-4">Danh sách bác sĩ</h1>
+            <div class="flex gap-4 mb-6">
+                <div class="flex-1">
+                    <input type="text" placeholder="Tìm kiếm bác sĩ, chuyên khoa..." class="w-full p-3 border rounded-lg">
+                </div>
+                <div class="flex-1">
+                    <select class="w-full p-3 border rounded-lg">
+                        <option value="">Chọn bệnh viện</option>
+                        <option value="1">Bệnh viện Nhi Đồng 2</option>
+                        <option value="2">Bệnh viện Chợ Rẫy</option>
+                        <option value="3">Bệnh viện Nhi Đồng Thành phố</option>
+                        <option value="4">Bệnh viện Ung Bướu TP. HCM</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doctor List -->
+        <div id="doctorList" class="space-y-4">
+            <!-- Doctor rows will be dynamically inserted here -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-8 flex justify-center gap-2">
+            <button id="prevPage" class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div id="pageNumbers" class="flex gap-2">
+                <!-- Page numbers will be dynamically inserted here -->
+            </div>
+            <button id="nextPage" class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sample doctor data
+        const doctors = [
+            {
+                name: "BS. CK2 Lê Thị Minh Hồng",
+                specialty: "Nhi khoa",
+                hospital: "Bệnh viện Nhi Đồng 2",
+                image: "https://storage.googleapis.com/a1aa/image/MJJMum0CX_pl2Y4GHDIo2NouwH92CmCqwt49Q4RcTcQ.jpg"
+            },
+            {
+                name: "PGS. TS. BS Lâm Việt Trung",
+                specialty: "Tiêu hoá",
+                hospital: "Bệnh viện Chợ Rẫy",
+                image: "https://storage.googleapis.com/a1aa/image/j44YWK-FMO5BOHdvaSKXNK2Xbs6R0QAjkxyLEeGRnQ4.jpg"
+            },
+            {
+                name: "BS. CK2 Nguyễn Thị Thu Hà",
+                specialty: "Nhi khoa",
+                hospital: "Bệnh viện Nhi Đồng Thành phố",
+                image: "https://storage.googleapis.com/a1aa/image/LTCM0kxtPrgu25hG69rvkrg-70xzTv6YpLFJ23J3sKM.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            {
+                name: "BS. CK2 Võ Đức Hiếu",
+                specialty: "Ung bướu",
+                hospital: "Bệnh viện Ung Bướu TP. HCM",
+                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+            },
+            // Add more doctors here...
+        ];
+
+        // Pagination settings
+        const doctorsPerPage = 10;
+        let currentPage = 1;
+        const totalPages = Math.ceil(doctors.length / doctorsPerPage);
+
+        // Function to create doctor row HTML
+        function createDoctorRow(doctor) {
+            return `
+                <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <img src="${doctor.image}" 
+                             alt="${doctor.name}" 
+                             class="w-16 h-16 rounded-full object-cover">
+                        <div>
+                            <h3 class="font-semibold text-lg">${doctor.name}</h3>
+                            <p class="text-gray-600">${doctor.specialty}</p>
+                            <p class="text-gray-600">${doctor.hospital}</p>
+                        </div>
+                    </div>
+                    <button class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            `;
+        }
+
+        // Function to update page numbers
+        function updatePageNumbers() {
+            const pageNumbers = document.getElementById('pageNumbers');
+            pageNumbers.innerHTML = '';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.className = `px-4 py-2 border rounded-lg hover:bg-gray-100 ${i === currentPage ? 'bg-blue-500 text-white' : ''}`;
+                button.textContent = i;
+                button.onclick = () => goToPage(i);
+                pageNumbers.appendChild(button);
+            }
+        }
+
+        // Function to go to specific page
+        function goToPage(page) {
+            currentPage = page;
+            displayDoctors();
+            updatePageNumbers();
+        }
+
+        // Function to display doctors for current page
+        function displayDoctors() {
+            const doctorList = document.getElementById('doctorList');
+            const start = (currentPage - 1) * doctorsPerPage;
+            const end = start + doctorsPerPage;
+            const pageDoctors = doctors.slice(start, end);
+            
+            doctorList.innerHTML = pageDoctors.map(doctor => createDoctorRow(doctor)).join('');
+        }
+
+        // Event listeners for prev/next buttons
+        document.getElementById('prevPage').onclick = () => {
+            if (currentPage > 1) {
+                goToPage(currentPage - 1);
+            }
+        };
+
+        document.getElementById('nextPage').onclick = () => {
+            if (currentPage < totalPages) {
+                goToPage(currentPage + 1);
+            }
+        };
+
+        // Initial display
+        displayDoctors();
+        updatePageNumbers();
+    </script>
+</body>
+</html> 

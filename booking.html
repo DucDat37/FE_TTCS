@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Đặt lịch khám - YouMed</title>
+    <link rel="website icon" type="png" href="hospital-logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="flex items-center justify-between">
+            <a href="index.html">
+                <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
+            </a>
+        </div>
+        <nav class="nav">
+            <a href="#">Đặt khám</a>
+            <a href="#">Tư vấn trực tuyến</a>
+            <a href="#">Store</a>
+            <a href="#">Tin Y tế</a>
+            <a href="#">Dành cho nhân viên Y tế</a>
+        </nav>
+        <button class="login-btn" onclick="window.location.href='auth.html'">Đăng nhập</button>
+    </header>
+
+    <!-- Main Section -->
+    <section class="main-section">
+        <div>
+            <h1>Đặt lịch khám bác sĩ</h1>
+            <p>Đặt khám với hơn 600 bác sĩ đã kết nối chính thức với YouMed <br>để có số thứ tự và khung giờ khám trước
+            </p>
+            <div class="search-bar">
+                <input type="text" placeholder="Triệu chứng, bác sĩ, bệnh viện..." />
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto text-center my-5">
+        <h2 class="text-xl md:text-4xl font-bold">Đặt lịch khám trực tuyến</h2>
+        <p class="opacity-80"> Tìm Bác sĩ chính xác - Đặt lịch khám dễ dàng </p>
+    </div>
+    <!-- Main Content -->
+    <div class="container mx-auto p-4 max-w-7xl">
+
+        <div class="flex justify-between items-center px-4 gap-4">
+            <div>
+                <h2 class="text-lg md:text-xl font-bold mb-0">Đặt khám bác sĩ</h2>
+                <p class="hidden md:block text-sm">Phiếu khám kèm số thứ tự và thời gian của bạn được xác nhận.</p>
+            </div>
+            <a href="all-doctors.html"
+                class="bg-blue-500 text-white px-3 group hover:text-white hover:bg-blue-900 transition-colors text-white py-1.5 rounded-full flex items-center"><span
+                    class="font-semibold whitespace-nowrap text-sm">Xem tất cả</span><svg width="10" height="10"
+                    viewBox="0 0 10 10" aria-hidden="true" class="ml-2">
+                    <g fill-rule="evenodd">
+                        <path stroke-width="2" stroke="currentColor" fill="none" d="M0 5h8"
+                            class="opacity-0 group-hover:opacity-100 transition-opacity"></path>
+                        <path stroke-width="2" stroke="currentColor" fill="none" d="M1 1l4 4-4 4"
+                            class="group-hover:translate-x-1 transition-transform"></path>
+                    </g>
+                </svg></a>
+        </div>
+
+        <div class="mt-4 flex overflow-x-auto space-x-4 px-8">
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of BS. CK2 Lê Thị Minh Hồng" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/MJJMum0CX_pl2Y4GHDIo2NouwH92CmCqwt49Q4RcTcQ.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        BS. CK2 Lê Thị Minh Hồng
+                    </h3>
+                    <p class="text-gray-500">
+                        Nhi khoa
+                    </p>
+
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of PGS. TS. BS Lâm Việt Trung" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/j44YWK-FMO5BOHdvaSKXNK2Xbs6R0QAjkxyLEeGRnQ4.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        PGS. TS. BS Lâm Việt Trung
+                    </h3>
+                    <p class="text-gray-500">
+                        Tiêu hoá
+                    </p>
+
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of BS. CK2 Nguyễn Thị Thu Hà" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/LTCM0kxtPrgu25hG69rvkrg-70xzTv6YpLFJ23J3sKM.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        BS. CK2 Nguyễn Thị Thu Hà
+                    </h3>
+                    <p class="text-gray-500">
+                        Nhi khoa
+                    </p>
+
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of BS. CK2 Võ Đức Hiếu" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        BS. CK2 Võ Đức Hiếu
+                    </h3>
+                    <p class="text-gray-500">
+                        Ung bướu
+                    </p>
+
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of BS. CK2 Nguyễn Thị Thu Hà" class="rounded-full mx-auto" height="100"
+                    src="https://storage.googleapis.com/a1aa/image/LTCM0kxtPrgu25hG69rvkrg-70xzTv6YpLFJ23J3sKM.jpg"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        BS. CK2 Nguyễn Thị Thu Hà
+                    </h3>
+                    <p class="text-gray-500">
+                        Nhi khoa
+                    </p>
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
