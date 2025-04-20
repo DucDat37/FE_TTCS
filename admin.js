@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     position: 'top',
                 }
             }
+
         }
     });
 
@@ -110,3 +111,4 @@ function checkLoginStatus() {
         window.location.href = 'auth.html';
     }
 } 
+

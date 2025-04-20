@@ -103,6 +103,9 @@
             <a href="medicines.html" class="nav-item">
                 <i class="fas fa-pills mr-2"></i> Quản lý thuốc
             </a>
+            <a href="specialty.html" class="nav-item">
+                <i class="fas fa-stethoscope mr-2"></i> Quản lý chuyên khoa
+            </a>
             <a href="statistics.html" class="nav-item active">
                 <i class="fas fa-chart-bar mr-2"></i> Thống kê
             </a>
@@ -230,6 +233,24 @@
                 <h3 class="text-xl font-bold mb-4">Doanh thu theo tháng</h3>
                 <div class="chart-container">
                     <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Specialty Statistics -->
+        <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+            <h3 class="text-xl font-bold mb-4">Thống kê chuyên khoa</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <canvas id="specialtyDistributionChart"></canvas>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-3">Top 5 chuyên khoa được đặt khám nhiều nhất</h4>
+                    <div class="space-y-4">
+                        <div id="topSpecialties" class="space-y-2">
+                            <!-- Dữ liệu được load từ JavaScript -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
