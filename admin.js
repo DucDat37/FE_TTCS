@@ -48,17 +48,27 @@ async function fetchDashboardStats() {
 
 // Update dashboard statistics
 function updateDashboardStats(data) {
-    // Update user count
-    document.querySelector('.text-2xl.font-bold').textContent = data.dashboard.userCount;
+    // Update Tổng người dùng (userCount)
+    document.getElementById('userCount').textContent = data.dashboard.userCount;
     
-    // Update doctor count
-    document.querySelectorAll('.text-2xl.font-bold')[1].textContent = data.dashboard.doctorCount;
+    // Update Tổng bác sĩ (doctorCount)
+    document.getElementById('doctorCount').textContent = data.dashboard.doctorCount;
     
-    // Update appointment count
-    document.querySelectorAll('.text-2xl.font-bold')[2].textContent = data.dashboard.timeSlotCountOfDay;
+    // Update Lịch khám hôm nay (timeSlotCountOfDay)
+    document.getElementById('timeSlotCount').textContent = data.dashboard.timeSlotCountOfDay;
     
-    // Update hospital count
-    document.querySelectorAll('.text-2xl.font-bold')[3].textContent = data.dashboard.bookingCountOfDay;
+    // Update Số cuộc hẹn khám hôm nay (bookingCountOfDay)
+    document.getElementById('bookingCount').textContent = data.dashboard.bookingCountOfDay;
+
+    // Update recent activities (usually)
+    if (data.usually) {
+        document.getElementById('activity-user').textContent = `Người dùng mới đăng ký: ${data.usually.userCountOfDay}`;
+        document.getElementById('activity-user-time').textContent = 'Hôm nay';
+        document.getElementById('activity-doctor').textContent = `Bác sĩ mới tham gia: ${data.usually.doctorCountOfDay}`;
+        document.getElementById('activity-doctor-time').textContent = 'Hôm nay';
+        document.getElementById('activity-appointment').textContent = `Lịch khám mới được tạo: ${data.usually.appointmentCountOfDay}`;
+        document.getElementById('activity-appointment-time').textContent = 'Hôm nay';
+    }
 }
 
 // Initialize Appointments Chart

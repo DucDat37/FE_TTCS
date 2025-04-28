@@ -99,6 +99,9 @@
             <a href="specialty.html" class="nav-item">
                 <i class="fas fa-stethoscope mr-2"></i> Quản lý chuyên khoa
             </a>
+            <a href="service.html" class="nav-item">
+                <i class="fas fa-cogs mr-2"></i> Quản lý dịch vụ
+            </a>
             <a href="statistics.html" class="nav-item">
                 <i class="fas fa-chart-bar mr-2"></i> Thống kê
             </a>
@@ -116,7 +119,7 @@
             <div class="flex items-center">
                 <div class="relative mr-4">
                     <i class="fas fa-bell text-gray-600 text-xl"></i>
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
                 </div>
                 <div class="relative">
                     <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
@@ -148,7 +151,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-gray-500">Tổng người dùng</p>
-                        <p class="text-2xl font-bold">1,234</p>
+                        <p class="text-2xl font-bold" id="userCount"></p>
                     </div>
                 </div>
             </div>
@@ -159,7 +162,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-gray-500">Tổng bác sĩ</p>
-                        <p class="text-2xl font-bold">156</p>
+                        <p class="text-2xl font-bold" id="doctorCount"></p>
                     </div>
                 </div>
             </div>
@@ -170,7 +173,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-gray-500">Lịch khám hôm nay</p>
-                        <p class="text-2xl font-bold">45</p>
+                        <p class="text-2xl font-bold" id="timeSlotCount"></p>
                     </div>
                 </div>
             </div>
@@ -180,8 +183,8 @@
                         <i class="fas fa-hospital text-2xl"></i>
                     </div>
                     <div class="ml-4">
-                        <p class="text-gray-500">Bệnh viện liên kết</p>
-                        <p class="text-2xl font-bold">23</p>
+                        <p class="text-gray-500">Số cuộc hẹn khám hôm nay</p>
+                        <p class="text-2xl font-bold" id="bookingCount"></p>
                     </div>
                 </div>
             </div>
@@ -202,14 +205,14 @@
         <!-- Recent Activities -->
         <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-xl font-bold mb-4">Hoạt động gần đây</h3>
-            <div class="space-y-4">
+            <div class="space-y-4" id="recentActivities">
                 <div class="flex items-center p-4 bg-gray-50 rounded-lg">
                     <div class="p-2 rounded-full bg-blue-100 text-blue-500">
                         <i class="fas fa-user-plus"></i>
                     </div>
                     <div class="ml-4">
-                        <p class="font-medium">Người dùng mới đăng ký</p>
-                        <p class="text-sm text-gray-500">5 phút trước</p>
+                        <p class="font-medium" id="activity-user">Người dùng mới đăng ký</p>
+                        <p class="text-sm text-gray-500" id="activity-user-time">--</p>
                     </div>
                 </div>
                 <div class="flex items-center p-4 bg-gray-50 rounded-lg">
@@ -217,8 +220,8 @@
                         <i class="fas fa-calendar-check"></i>
                     </div>
                     <div class="ml-4">
-                        <p class="font-medium">Lịch khám mới được tạo</p>
-                        <p class="text-sm text-gray-500">15 phút trước</p>
+                        <p class="font-medium" id="activity-appointment">Lịch khám mới được tạo</p>
+                        <p class="text-sm text-gray-500" id="activity-appointment-time">--</p>
                     </div>
                 </div>
                 <div class="flex items-center p-4 bg-gray-50 rounded-lg">
@@ -226,8 +229,8 @@
                         <i class="fas fa-user-md"></i>
                     </div>
                     <div class="ml-4">
-                        <p class="font-medium">Bác sĩ mới tham gia</p>
-                        <p class="text-sm text-gray-500">1 giờ trước</p>
+                        <p class="font-medium" id="activity-doctor">Bác sĩ mới tham gia</p>
+                        <p class="text-sm text-gray-500" id="activity-doctor-time">--</p>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,401 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Liên hệ - YouMed</title>
+    <link rel="website icon" type="png" href="hospital-logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="flex items-center justify-between">
+            <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
+            <a href="index.html">
+                <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg" alt="YouMed">
+            </a>
+        </div>
+        <nav class="flex items-center justify-between">
+            <div class="flex space-x-2 pr-4">
+                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt khám</a>
+                <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn trực tuyến</a>
+                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển dụng</a>
+                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tin Y tế</a>
+                <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
+            </div>
+            <div id="authSection">
+                <!-- Nút đăng nhập -->
+                <button id="loginBtn"
+                    class="login-btn p-2 border-2 border-blue-500 text-blue-500 text-sm font-semibold py-1.5 px-4 rounded-md hover:bg-blue-500 hover:text-white active:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition">
+                    Đăng nhập
+                </button>
+
+                <!-- Dropdown menu khi đã đăng nhập -->
+                <div id="userDropdown" class="hidden relative">
+                    <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
+                        <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar"
+                            class="w-8 h-8 rounded-full">
+                        <span id="userName" class="text-gray-800"></span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </button>
+
+                    <!-- Dropdown content -->
+                    <div id="userDropdownMenu"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                        <div class="py-1">
+                            <a href="admin.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hidden"
+                                id="adminPage">
+                                <i class="fas fa-home mr-2"></i>Trang quản trị
+                            </a>
+                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-user mr-2"></i>Thông tin cá nhân
+                            </a>
+                            <a href="#" onclick="logout()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Kết thúc dropdown menu -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content (with padding-top to account for fixed header) -->
+    <main style="padding-top: 60px;">
+        <!-- Page Title Section -->
+        <section class="bg-blue-500 py-12 text-white">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">Liên Hệ</h1>
+                <p class="text-lg">Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn</p>
+            </div>
+        </section>
+
+        <!-- Contact Information and Form Section -->
+        <section class="max-w-7xl mx-auto py-12 px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Contact Information -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Thông Tin Liên Hệ</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-map-marker-alt text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Địa Chỉ</h3>
+                            <p class="text-gray-600">3/1 Thành Thái, P.14, Q.10, TP. HCM</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-phone-alt text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Hotline</h3>
+                            <p class="text-gray-600">1900-2805 (8:00 - 17:30 từ T2 đến T7)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-envelope text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Email</h3>
+                            <p class="text-gray-600">cskh@youmed.vn</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h3 class="font-semibold text-gray-800 mb-4">Kết nối với chúng tôi</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-blue-100 p-3 rounded-full text-blue-500 hover:bg-blue-500 hover:text-white transition-colors">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="bg-blue-100 p-3 rounded-full text-blue-500 hover:bg-blue-500 hover:text-white transition-colors">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="bg-blue-100 p-3 rounded-full text-blue-500 hover:bg-blue-500 hover:text-white transition-colors">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="bg-blue-100 p-3 rounded-full text-blue-500 hover:bg-blue-500 hover:text-white transition-colors">
+                                <i class="fas fa-comment"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Gửi Tin Nhắn Cho Chúng Tôi</h2>
+                
+                <form>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="name" class="block text-gray-700 mb-2">Họ và tên <span class="text-red-600">*</span></label>
+                            <input type="text" id="name" class="w-full border border-gray-300 rounded p-2" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 mb-2">Email <span class="text-red-600">*</span></label>
+                            <input type="email" id="email" class="w-full border border-gray-300 rounded p-2" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="phone" class="block text-gray-700 mb-2">Số điện thoại <span class="text-red-600">*</span></label>
+                        <input type="tel" id="phone" class="w-full border border-gray-300 rounded p-2" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="subject" class="block text-gray-700 mb-2">Chủ đề</label>
+                        <select id="subject" class="w-full border border-gray-300 rounded p-2">
+                            <option value="">-- Chọn chủ đề --</option>
+                            <option value="appointment">Đặt lịch khám</option>
+                            <option value="inquiry">Thắc mắc dịch vụ</option>
+                            <option value="feedback">Góp ý, phản hồi</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="message" class="block text-gray-700 mb-2">Nội dung <span class="text-red-600">*</span></label>
+                        <textarea id="message" rows="5" class="w-full border border-gray-300 rounded p-2" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Gửi tin nhắn</button>
+                </form>
+            </div>
+        </section>
+        
+        <!-- Map Section -->
+        <section class="max-w-7xl mx-auto mb-12 px-4">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Bản Đồ</h2>
+                <div class="h-96 bg-gray-100 rounded-lg overflow-hidden">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.518348335742!2d106.6648348!3d10.7733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f20db432c8f%3A0xd7be1969f16ff21d!2zMywgMSBUaMOgbmggVGjDoWksIFBoxrDhu51uZyAxNCwgUXXhuq1uIDEwLCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1656420318845!5m2!1svi!2s" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="max-w-7xl mx-auto mb-12 px-4">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Câu Hỏi Thường Gặp</h2>
+                
+                <div class="space-y-4">
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <button class="flex justify-between items-center w-full p-4 text-left bg-gray-50 hover:bg-gray-100 focus:outline-none">
+                            <span class="font-medium">Làm thế nào để đặt lịch khám trên YouMed?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="p-4 bg-white">
+                            <p>Để đặt lịch khám trên YouMed, bạn có thể truy cập vào mục "Đặt khám" trên trang chủ, sau đó tìm kiếm bác sĩ hoặc bệnh viện phù hợp. Tiếp theo, chọn ngày giờ khám và điền thông tin cá nhân để hoàn tất quá trình đặt lịch. Bạn sẽ nhận được xác nhận qua email hoặc tin nhắn.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <button class="flex justify-between items-center w-full p-4 text-left bg-gray-50 hover:bg-gray-100 focus:outline-none">
+                            <span class="font-medium">Tôi có thể hủy hoặc thay đổi lịch khám không?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="p-4 bg-white">
+                            <p>Có, bạn có thể hủy hoặc thay đổi lịch khám trước thời gian đã đặt 24 giờ. Để thực hiện việc này, vui lòng đăng nhập vào tài khoản YouMed của bạn, vào mục "Lịch sử đặt khám" và chọn lịch khám cần thay đổi hoặc hủy.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <button class="flex justify-between items-center w-full p-4 text-left bg-gray-50 hover:bg-gray-100 focus:outline-none">
+                            <span class="font-medium">Tôi cần chuẩn bị gì khi đi khám?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="p-4 bg-white">
+                            <p>Khi đi khám, bạn nên mang theo CMND/CCCD, thẻ BHYT (nếu có), và các kết quả xét nghiệm, chẩn đoán trước đó (nếu có). Bạn nên đến trước giờ hẹn 15-30 phút để hoàn tất thủ tục.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <button class="flex justify-between items-center w-full p-4 text-left bg-gray-50 hover:bg-gray-100 focus:outline-none">
+                            <span class="font-medium">Tôi có thể đặt lịch tư vấn trực tuyến không?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="p-4 bg-white">
+                            <p>Có, YouMed cung cấp dịch vụ tư vấn trực tuyến với các bác sĩ. Bạn có thể chọn mục "Tư vấn trực tuyến" trên trang chủ và làm theo các bước hướng dẫn để đặt lịch tư vấn qua video call hoặc chat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 pt-10 pb-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4 px-4">
+            <div class="px-4 py-6 text-sm col-span-12 sm:col-span-6 lg:col-span-4 space-y-2">
+                <p class="font-semibold">CÔNG TY TNHH YOUMED VIỆT NAM</p>
+                <p><strong>VPĐD:</strong> 3/1 Thành Thái, P.14, Q.10, TP. HCM</p>
+                <p>
+                    <strong>Hotline:</strong> <a href="tel:19002805" class="font-medium hover:underline">1900-2805</a>
+                    (8:00 - 17:30 từ T2 đến T7)
+                </p>
+                <p>
+                    Số ĐKKD 0315268642 do Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh cấp lần đầu
+                    ngày 14/09/2018.
+                </p>
+                <p>
+                    Chịu trách nhiệm nội dung:
+                    <a href="" class="hover:underline underline-offset-2 hover:text-blue-500 font-medium">
+                        Dược sĩ Dương Anh Hoàng</a>.
+                </p>
+            </div>
+            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-2">
+                <label for="checkbox-about-us"
+                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                    Về YouMed <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="48" d="M112 184l144 144 144-144"></path>
+                    </svg>
+                </label>
+                <ul id="footer-1" class="list-none p-0 block text-sm space-y-2 transition-all">
+                    <li class="hover:underline"><a href="">Giới thiệu về YouMed</a></li>
+                    <li class="hover:underline"><a href="">Ban điều hành</a></li>
+                    <li class="hover:underline"><a href="">Nhân sự &amp; Tuyển dụng</a></li>
+                    <li class="hover:underline"><a href="contact.html">Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
+                <label for="check-services"
+                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                    Dịch vụ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="48" d="M112 184l144 144 144-144"></path>
+                    </svg>
+                </label>
+                <ul id="footer-2" class="list-none p-0 block text-sm space-y-2 transition-all">
+                    <li class="hover:underline"><a href="">Đặt khám Bác sĩ</a></li>
+                    <li class="hover:underline"><a href="">Đặt khám Bệnh viện</a></li>
+                    <li class="hover:underline"><a href="">Đặt khám Phòng Khám</a></li>
+                    <li class="hover:underline"><a href="">YouMed Store</a></li>
+                    <li class="hover:underline"><a target="_blank" href="">Y360</a></li>
+                    <li class="hover:underline"><a href="">YouMed Clinic</a></li>
+                </ul>
+            </div>
+            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
+                <label for="check-more"
+                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                    Hỗ trợ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="48" d="M112 184l144 144 144-144"></path>
+                    </svg>
+                </label>
+                <ul id="footer-3" class="list-none p-0 block text-sm space-y-2 transition-all">
+                    <li class="hover:underline"><a href="">Điều Khoản Sử Dụng</a></li>
+                    <li class="hover:underline"><a href="">Chính Sách Bảo Mật</a></li>
+                    <li class="hover:underline"><a href="">Chính sách giải quyết khiếu nại</a></li>
+                    <li>Hỗ trợ khách hàng: <a href="mailto:cskh@youmed.vn" class="hover:underline">cskh@youmed.vn</a></li>
+                </ul>
+            </div>
+            <div class="px-4 py-6 md:py-0 text-sm col-span-12 md:col-span-4 space-y-2">
+                <div class="flex justify-center md:justify-start items-center text-sm font-semibold">
+                    Kết nối với chúng tôi </div>
+                <ul class="flex space-x-3 items-center justify-center md:justify-start">
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg" width="24"
+                                height="24" alt="Facebook">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg" width="24"
+                                height="24" alt="YouTube">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg" width="24"
+                                height="24" alt="Linkedin">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg" width="36"
+                                height="16" alt="Zalo">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-span-12 md:col-span-8 px-4 py-6 md:p-6">
+                <ul class="flex space-x-4 items-center justify-center md:justify-end">
+                    <li>
+                        <a href="" target="_blank" title="Đã đăng ký Bộ Công Thương">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/dadangky.svg" width="79"
+                                height="30" alt="Đã đăng ký Bộ Công Thương">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank" title="DMCA.com Protection Status. Click to verify.">
+                            <img src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
+                                width="60" height="30" alt="DMCA.com Protection Status. Click to verify.">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl text-xs text-center mx-auto md:border-t border-slate-200 py-6 px-4">
+            <p>
+                Các thông tin trên YouMed chỉ dành cho mục đích tham khảo, tra cứu và
+                không thay thế cho việc chẩn đoán hoặc điều trị y khoa.<br class="hidden lg:block">
+                Cần tuyệt đối tuân theo hướng dẫn của Bác sĩ và Nhân viên y tế.
+            </p>
+            <p class="mt-1">
+                Copyright © 2018 - 2025 Công ty TNHH YouMed Việt Nam.
+            </p>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+    <script>
+        // FAQ toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqButtons = document.querySelectorAll('.faq-item button, .border-gray-200 button');
+            
+            faqButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    // Toggle display
+                    if (content.style.display === 'none' || !content.style.display) {
+                        content.style.display = 'block';
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    } else {
+                        content.style.display = 'none';
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    }
+                });
+            });
+            
+            // Hide all FAQ content initially except the first one
+            const contents = document.querySelectorAll('.faq-item > div:nth-child(2), .border-gray-200 > div:nth-child(2)');
+            contents.forEach((content, index) => {
+                if (index !== 0) {
+                    content.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
