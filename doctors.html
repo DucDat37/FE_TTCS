@@ -191,13 +191,10 @@
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold">Danh sách bác sĩ</h3>
                 <div class="flex items-center">
-                    <input type="text" placeholder="Tìm kiếm..." class="border rounded-lg px-4 py-2 mr-4">
-                    <select class="border rounded-lg px-4 py-2">
-                        <option>Tất cả chuyên khoa</option>
-                        <option>Nhi khoa</option>
-                        <option>Tim mạch</option>
-                        <option>Nội khoa</option>
-                        <option>Nhi khoa</option>
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm..." class="border rounded-lg px-4 py-2 mr-4">
+                    <select id="specialtySelect" class="border rounded-lg px-4 py-2">
+                        <option value="">Tất cả chuyên khoa</option>
+                        <!-- Option chuyên khoa sẽ được render động bằng JS -->
                     </select>
                 </div>
             </div>
@@ -205,7 +202,7 @@
                 <table class="min-w-full">
                     <thead>
                         <tr class="bg-gray-50">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">STT</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ảnh</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Họ và tên</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chuyên khoa</th>
@@ -215,31 +212,8 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">#001</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <img src="https://via.placeholder.com/40" alt="Doctor" class="h-10 w-10 rounded-full">
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">BS. Nguyễn Văn A</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Nhi khoa</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Bệnh viện Nhi Đồng</td>
-                            <td class="px-6 py-4 whitespace-nowrap">0123456789</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Đang làm việc
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <button onclick="openEditModal()" class="text-blue-500 hover:text-blue-700 mr-3">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button onclick="deleteDoctor()" class="text-red-500 hover:text-red-700">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <!-- Add more rows as needed -->
+                    <tbody id="doctorTableBody" class="bg-white divide-y divide-gray-200">
+                        <!-- Dữ liệu sẽ được render ở đây -->
                     </tbody>
                 </table>
             </div>
@@ -437,10 +411,10 @@
             // Xóa token và thông tin người dùng
             localStorage.removeItem('access_token');
             localStorage.removeItem('user');
-            
             // Chuyển hướng về trang chủ
             window.location.href = 'index.html';
         }
     </script>
+    <script src="doctors.js"></script>
 </body>
 </html> 
