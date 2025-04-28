@@ -368,47 +368,208 @@
             }
         }
 
+        // Fetch dashboard statistics
+        async function fetchDashboardStats() {
+            try {
+                const accessToken = localStorage.getItem('access_token');
+                
+                if (!accessToken) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                const response = await fetch('http://localhost:5000/api/statistic/dashboard', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.status === 401) {
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                const result = await response.json();
+                
+                if (result.isError) {
+                    throw new Error(result.message);
+                }
+                
+                return result.data;
+            } catch (error) {
+                console.error('Error fetching dashboard statistics:', error);
+                return null;
+            }
+        }
+
+        // Fetch user statistics
+        async function fetchUserStats() {
+            try {
+                const accessToken = localStorage.getItem('access_token');
+                
+                if (!accessToken) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                const response = await fetch('http://localhost:5000/api/statistic/user', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.status === 401) {
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                const result = await response.json();
+                
+                if (result.isError) {
+                    throw new Error(result.message);
+                }
+                
+                return result.data;
+            } catch (error) {
+                console.error('Error fetching user statistics:', error);
+                return null;
+            }
+        }
+
+        // Initialize charts with API data
+        async function initCharts() {
+            const dashboardStats = await fetchDashboardStats();
+            const userStats = await fetchUserStats();
+            
+            if (!dashboardStats || !userStats) {
+                return;
+            }
+            
+            // Appointments Chart
+            const appointmentsCtx = document.getElementById('appointmentsChart').getContext('2d');
+            new Chart(appointmentsCtx, {
+                type: 'line',
+                data: {
+                    labels: dashboardStats.chartAppointment.label,
+                    datasets: [{
+                        label: 'Số lượng lịch khám',
+                        data: dashboardStats.chartAppointment.data,
+                        borderColor: '#4a90e2',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: Math.max(...dashboardStats.chartAppointment.data) > 0 ? null : 50,
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)',
+                                drawBorder: false,
+                                display: true
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Users Chart
+            const usersCtx = document.getElementById('usersChart').getContext('2d');
+            new Chart(usersCtx, {
+                type: 'bar',
+                data: {
+                    labels: userStats.chart.label,
+                    datasets: [{
+                        label: 'Số lượng người dùng',
+                        data: userStats.chart.data,
+                        backgroundColor: '#4a90e2'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: Math.max(...userStats.chart.data) > 0 ? null : 10,
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                precision: 0
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)',
+                                drawBorder: false,
+                                display: true
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'bar',
+                data: {
+                    labels: dashboardStats.chartInvoice.label,
+                    datasets: [{
+                        label: 'Doanh thu (triệu VNĐ)',
+                        data: dashboardStats.chartInvoice.data,
+                        backgroundColor: '#4a90e2'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: Math.max(...dashboardStats.chartInvoice.data) > 0 ? null : 500,
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)',
+                                drawBorder: false,
+                                display: true
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
         // Call fetch functions when page loads
         document.addEventListener('DOMContentLoaded', () => {
             fetchTotalUsers();
             fetchTotalBookings();
-        });
-
-        // Appointments Chart
-        const appointmentsCtx = document.getElementById('appointmentsChart').getContext('2d');
-        new Chart(appointmentsCtx, {
-            type: 'line',
-            data: {
-                labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-                datasets: [{
-                    label: 'Số lượng lịch khám',
-                    data: [1200, 1900, 1500, 2100, 1800, 2400, 2200, 2800, 2600, 3000, 2800, 3200],
-                    borderColor: '#4a90e2',
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
-
-        // Users Age Distribution Chart
-        const usersCtx = document.getElementById('usersChart').getContext('2d');
-        new Chart(usersCtx, {
-            type: 'bar',
-            data: {
-                labels: ['18-25', '26-35', '36-45', '46-55', '56+'],
-                datasets: [{
-                    label: 'Số lượng người dùng',
-                    data: [3000, 4500, 2800, 1500, 800],
-                    backgroundColor: '#4a90e2'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
+            initCharts();
         });
 
         // Specialties Chart
@@ -436,24 +597,6 @@
                         position: 'right'
                     }
                 }
-            }
-        });
-
-        // Revenue Chart
-        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-        new Chart(revenueCtx, {
-            type: 'bar',
-            data: {
-                labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-                datasets: [{
-                    label: 'Doanh thu (triệu VNĐ)',
-                    data: [120, 190, 150, 210, 180, 240, 220, 280, 260, 300, 280, 320],
-                    backgroundColor: '#4a90e2'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
             }
         });
 

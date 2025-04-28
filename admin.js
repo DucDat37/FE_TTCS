@@ -1,14 +1,86 @@
 // Khởi tạo các biểu đồ khi DOM đã sẵn sàng
 document.addEventListener('DOMContentLoaded', function() {
-    // Appointments Chart
+    // Fetch dashboard statistics from API
+    fetchDashboardStats();
+
+    // Kiểm tra trạng thái đăng nhập và hiển thị thông tin người dùng
+    checkLoginStatus();
+});
+
+// Fetch dashboard statistics from API
+async function fetchDashboardStats() {
+    try {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            window.location.href = 'auth.html';
+            return;
+        }
+
+        const response = await fetch('http://localhost:5000/api/statistic/dashboard', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const result = await response.json();
+        
+        if (result.statusCode === 200 && !result.isError) {
+            // Update dashboard stats
+            updateDashboardStats(result.data);
+            
+            // Initialize charts with API data
+            initAppointmentsChart(result.data.chartAppointment);
+            initRevenueChart(result.data.chartInvoice);
+        } else {
+            console.error('Error fetching dashboard stats:', result.message);
+            if (result.statusCode === 401) {
+                // Unauthorized, token expired or invalid
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('user');
+                window.location.href = 'auth.html';
+            }
+        }
+    } catch (error) {
+        console.error('Failed to fetch dashboard stats:', error);
+    }
+}
+
+// Update dashboard statistics
+function updateDashboardStats(data) {
+    // Update user count
+    document.querySelector('.text-2xl.font-bold').textContent = data.dashboard.userCount;
+    
+    // Update doctor count
+    document.querySelectorAll('.text-2xl.font-bold')[1].textContent = data.dashboard.doctorCount;
+    
+    // Update appointment count
+    document.querySelectorAll('.text-2xl.font-bold')[2].textContent = data.dashboard.timeSlotCountOfDay;
+    
+    // Update hospital count
+    document.querySelectorAll('.text-2xl.font-bold')[3].textContent = data.dashboard.bookingCountOfDay;
+}
+
+// Initialize Appointments Chart
+function initAppointmentsChart(chartData) {
+    // Check if all values are 0, if so set a max of 50
+    const allZeros = chartData.data.every(val => val === 0);
+    let chartMaxValue = undefined;
+    
+    if (allZeros) {
+        chartMaxValue = 50;
+        // Convert data to integers
+        chartData.data = chartData.data.map(val => Math.round(val));
+    }
+
     const appointmentsCtx = document.getElementById('appointmentsChart').getContext('2d');
     new Chart(appointmentsCtx, {
         type: 'line',
         data: {
-            labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+            labels: chartData.label,
             datasets: [{
                 label: 'Số lịch khám',
-                data: [65, 59, 80, 81, 56, 55, 40],
+                data: chartData.data,
                 fill: false,
                 borderColor: '#4a90e2',
                 tension: 0.1
@@ -20,19 +92,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 legend: {
                     position: 'top',
                 }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: chartMaxValue,
+                    ticks: {
+                        stepSize: 5,
+                        precision: 0
+                    }
+                }
             }
         }
     });
+}
 
-    // Revenue Chart
+// Initialize Revenue Chart
+function initRevenueChart(chartData) {
+    // Check if all values are 0, if so set a max of 50
+    const allZeros = chartData.data.every(val => val === 0);
+    let chartMaxValue = undefined;
+    
+    if (allZeros) {
+        chartMaxValue = 50;
+        // Convert data to integers
+        chartData.data = chartData.data.map(val => Math.round(val));
+    }
+
     const revenueCtx = document.getElementById('revenueChart').getContext('2d');
     new Chart(revenueCtx, {
         type: 'bar',
         data: {
-            labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+            labels: chartData.label,
             datasets: [{
                 label: 'Doanh thu (triệu VNĐ)',
-                data: [12, 19, 3, 5, 2, 3, 7],
+                data: chartData.data,
                 backgroundColor: '#4a90e2'
             }]
         },
@@ -42,14 +136,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 legend: {
                     position: 'top',
                 }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: chartMaxValue,
+                    ticks: {
+                        stepSize: 5,
+                        precision: 0
+                    }
+                }
             }
-
         }
     });
-
-    // Kiểm tra trạng thái đăng nhập và hiển thị thông tin người dùng
-    checkLoginStatus();
-});
+}
 
 // Dropdown menu functionality
 function toggleDropdown() {
