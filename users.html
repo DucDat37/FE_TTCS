@@ -10,6 +10,7 @@
     <!-- Ant Design CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@4.24.3/dist/antd.min.css">
     <link rel="website icon" type="png" href="hospital-logo.png">
+    <script src="sideBar.js"></script>
     <style>
         .sidebar {
             width: 250px;
@@ -113,39 +114,7 @@
 <body class="bg-gray-100">
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="flex items-center mb-8">
-            <img src="hospital-logo.png" alt="YouMed Logo" class="h-10 w-10 mr-3">
-            <h1 class="text-xl font-bold">YouMed Admin</h1>
-        </div>
-        <nav>
-            <a href="admin.html" class="nav-item">
-                <i class="fas fa-home mr-2"></i> Dashboard
-            </a>
-            <a href="users.html" class="nav-item active">
-                <i class="fas fa-users mr-2"></i> Quản lý người dùng
-            </a>
-            <a href="doctors.html" class="nav-item">
-                <i class="fas fa-user-md mr-2"></i> Quản lý bác sĩ
-            </a>
-            <a href="appointments.html" class="nav-item">
-                <i class="fas fa-calendar-check mr-2"></i> Quản lý lịch khám
-            </a>
-            <a href="hospitals.html" class="nav-item">
-                <i class="fas fa-hospital mr-2"></i> Quản lý bệnh viện
-            </a>
-            <a href="medicines.html" class="nav-item">
-                <i class="fas fa-pills mr-2"></i> Quản lý thuốc
-            </a>
-            <a href="specialty.html" class="nav-item">
-                <i class="fas fa-stethoscope mr-2"></i> Quản lý chuyên khoa
-            </a>
-            <a href="statistics.html" class="nav-item">
-                <i class="fas fa-chart-bar mr-2"></i> Thống kê
-            </a>
-            <a href="settings.html" class="nav-item">
-                <i class="fas fa-cog mr-2"></i> Cài đặt
-            </a>
-        </nav>
+        
     </div>
 
     <!-- Main Content -->
@@ -157,9 +126,9 @@
                 <button onclick="openAddModal()" class="bg-blue-500 text-white px-4 py-2 rounded-lg mr-4">
                     <i class="fas fa-plus mr-2"></i>Thêm người dùng
                 </button>
-                <div class="relative mr-4">
+                <div class="relative mr-4" id="notificationBell">
                     <i class="fas fa-bell text-gray-600 text-xl"></i>
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
+                    <span class="absolute -top-2 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span>
                 </div>
                 <div class="relative">
                     <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
@@ -403,5 +372,7 @@
     <!-- Ant Design JS and Moment.js -->
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/antd@4.24.3/dist/antd.min.js"></script>
+    <script src="toast.js"></script>
+    <script src="notificationBell.js"></script>
 </body>
 </html> 

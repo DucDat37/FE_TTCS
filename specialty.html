@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link rel="website icon" type="png" href="hospital-logo.png">
+    <script src="sideBar.js"></script>
     <style>
         .sidebar {
             width: 250px;
@@ -66,6 +67,40 @@
             background-color: #e5e5e5;
             margin: 4px 0;
         }
+        /* Notification Bell Styles */
+        .notification-badge {
+            display: none;
+        }
+        #notificationDropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            z-index: 1000;
+            margin-top: 8px;
+            width: 320px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        #notificationDropdown.show {
+            display: block;
+        }
+        .notification-item {
+            transition: background-color 0.2s;
+        }
+        .notification-item:hover {
+            background-color: #f9fafb;
+        }
+        .fa-bell.cursor-pointer {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .fa-bell.cursor-pointer:hover {
+            color: #4a90e2;
+        }
         /* Toast Notification Styles */
         .toast-container {
             position: fixed;
@@ -124,39 +159,7 @@
 <body class="bg-gray-100">
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="flex items-center mb-8">
-            <img src="hospital-logo.png" alt="YouMed Logo" class="h-10 w-10 mr-3">
-            <h1 class="text-xl font-bold">YouMed Admin</h1>
-        </div>
-        <nav>
-            <a href="admin.html" class="nav-item">
-                <i class="fas fa-home mr-2"></i> Dashboard
-            </a>
-            <a href="users.html" class="nav-item">
-                <i class="fas fa-users mr-2"></i> Quản lý người dùng
-            </a>
-            <a href="doctors.html" class="nav-item">
-                <i class="fas fa-user-md mr-2"></i> Quản lý bác sĩ
-            </a>
-            <a href="appointments.html" class="nav-item">
-                <i class="fas fa-calendar-check mr-2"></i> Quản lý lịch khám
-            </a>
-            <a href="hospitals.html" class="nav-item">
-                <i class="fas fa-hospital mr-2"></i> Quản lý bệnh viện
-            </a>
-            <a href="medicines.html" class="nav-item">
-                <i class="fas fa-pills mr-2"></i> Quản lý thuốc
-            </a>
-            <a href="specialty.html" class="nav-item active">
-                <i class="fas fa-stethoscope mr-2"></i> Quản lý chuyên khoa
-            </a>
-            <a href="statistics.html" class="nav-item">
-                <i class="fas fa-chart-bar mr-2"></i> Thống kê
-            </a>
-            <a href="settings.html" class="nav-item">
-                <i class="fas fa-cog mr-2"></i> Cài đặt
-            </a>
-        </nav>
+        
     </div>
 
     <!-- Main Content -->
@@ -165,9 +168,9 @@
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-2xl font-bold text-gray-800">Quản lý chuyên khoa</h2>
             <div class="flex items-center">
-                <div class="relative mr-4">
-                    <i class="fas fa-bell text-gray-600 text-xl"></i>
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
+                <div class="relative mr-4" id="notificationBell">
+                    <i class="fas fa-bell text-gray-600 text-xl cursor-pointer"></i>
+                    <span class="absolute -top-2 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span>
                 </div>
                 <div class="relative">
                     <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
@@ -321,6 +324,8 @@
     <!-- Toast Container -->
     <div id="toastContainer" class="toast-container"></div>
 
+    <script src="toast.js"></script>
+    <script src="notificationBell.js"></script>
     <script src="specialty.js"></script>
     <script>
         // Dropdown menu toggle
