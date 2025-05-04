@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hóa Đơn Thanh Toán</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif, sans-serif;
+      margin: 40px;
+      background-color: #f8f8f8;
+    }
+    .invoice {
+      background: #fff;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    h3 {
+      text-align: center;
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+    .info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .info-section {
+      flex: 1;
+      padding: 0 10px;
+    }
+    .info-section-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    table th {
+      background-color: #f0f0f0;
+    }
+    .total {
+      width: 350px;              
+      margin-left: auto;         
+      margin-right: 0;           
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .total-row {
+      display: flex;
+      gap: 20px;
+    }
+    .total-label, .total-value {
+      text-align: left;
+      font-weight: normal;
+    }
+    .total-label {
+      width: 150px;
+    }
+    .total-value {
+      width: 200px;
+      font-weight: bold;
+    }
+    .signature {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+    }
+    .signature div {
+      text-align: center;
+      width: 30%;
+    }
+    .signature-line {
+      border-top: 1px solid #000;
+      width: 80%;
+      margin: 0 auto;
+      padding-top: 5px;
+    }
+    .print-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .print-btn:hover {
+      background-color: #45a049;
+    }
+    .time-slot {
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+    .time-slot-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  function downloadPDF() {
+    const element = document.querySelector(".invoice");
+    const opt = {
+      margin: 0.5,
+      filename: 'hoa_don.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+  }
+
+  // Dữ liệu mẫu - có thể thay thế bằng dữ liệu từ API
+  const invoiceData = {
+    id: "INV123456",
+    appointmentId: "APT789",
+    total: 350000,
+    status: "Đã thanh toán",
+    note: "Thanh toán đầy đủ",
+    createdAt: "24/04/2025 15:45:12",
+    updatedAt: "24/04/2025 15:45:12",
+    appointment: {
+      id: "APT789",
+      date: "24/04/2025",
+      status: "Hoàn thành"
+    },
+    service: {
+      id: "SV001",
+      name: "Khám tổng quát",
+      price: 350000
+    },
+    patient: {
+      id: "PT123",
+      userName: "Nguyễn Văn A",
+      email: "nguyenvana@example.com",
+      phone: "0123456789",
+      address: "123 Đường ABC, Quận XYZ, Hà Nội"
+    },
+    timeSlot: {
+      id: "TS456",
+      startDate: "24/04/2025 08:00:00",
+      endDate: "24/04/2025 08:30:00",
+      status: "Đã sử dụng"
+    },
+    doctor: {
+      id: "DR001",
+      userName: "BS. Trần Văn B",
+      email: "drb@youmed.com",
+      phone: "0987654321",
+      address: "Bệnh viện YOUMED, Hà Nội",
+      specialty: "Nội tổng quát"
+    }
+  };
+
+  // Định dạng thời gian
+  function formatTime(dateTimeStr) {
+    if (!dateTimeStr) return "";
+    const [datePart, timePart] = dateTimeStr.split(" ");
+    const [day, month, year] = datePart.split("/");
+    const [hour, minute, second] = timePart.split(":");
+    return `${hour}:${minute} ngày ${day}/${month}/${year}`;
+  }
+
+  // Điền dữ liệu vào hóa đơn khi trang tải xong
+  document.addEventListener('DOMContentLoaded', function() {
+    // Thông tin chung
+    document.getElementById('invoice-id').textContent = invoiceData.id;
+    document.getElementById('invoice-date').textContent = invoiceData.createdAt;
+    
+    // Thông tin bệnh nhân
+    document.getElementById('patient-name').textContent = invoiceData.patient.userName;
+    document.getElementById('patient-id').textContent = invoiceData.patient.id;
+    document.getElementById('patient-phone').textContent = invoiceData.patient.phone;
+    document.getElementById('patient-address').textContent = invoiceData.patient.address;
+    
+    // Thông tin bác sĩ
+    document.getElementById('doctor-name').textContent = invoiceData.doctor.userName;
+    document.getElementById('doctor-specialty').textContent = invoiceData.doctor.specialty;
+    document.getElementById('doctor-phone').textContent = invoiceData.doctor.phone;
+    
+    // Thông tin cuộc hẹn
+    document.getElementById('appointment-date').textContent = invoiceData.appointment.date;
+    document.getElementById('appointment-status').textContent = invoiceData.appointment.status;
+    
+    // Thông tin khung giờ
+    document.getElementById('time-slot').textContent = 
+      `${formatTime(invoiceData.timeSlot.startDate)} - ${formatTime(invoiceData.timeSlot.endDate).split(" ")[0]}`;
+    document.getElementById('time-slot-status').textContent = invoiceData.timeSlot.status;
+    
+    // Điền thông tin dịch vụ vào bảng
+    const serviceTable = document.getElementById('service-table');
+    const row = serviceTable.insertRow();
+    row.insertCell(0).textContent = "1";
+    row.insertCell(1).textContent = invoiceData.service.name;
+    row.insertCell(2).textContent = "1";
+    row.insertCell(3).textContent = invoiceData.service.price.toLocaleString('vi-VN');
+    row.insertCell(4).textContent = invoiceData.service.price.toLocaleString('vi-VN');
+    
+    // Điền thông tin tổng
+    document.getElementById('total-amount').textContent = invoiceData.total.toLocaleString('vi-VN');
+    document.getElementById('paid-amount').textContent = invoiceData.total.toLocaleString('vi-VN');
+    document.getElementById('remaining-amount').textContent = "0";
+    document.getElementById('invoice-status').textContent = invoiceData.status;
+    document.getElementById('invoice-note').textContent = invoiceData.note;
+  });
+</script>
+<body>
+  <div class="invoice">
+    <h2>Bệnh viện đa khoa YOUMED</h2>
+    <h3>Số 1 Văn Quán, Hà Đông, Hà Nội<br>Hotline: 0988.988.988</h3>
+    
+    <div style="text-align: right; margin-bottom: 20px;">
+      <p><strong>Mã hóa đơn:</strong> <span id="invoice-id">HD123456</span></p>
+      <p><strong>Ngày lập:</strong> <span id="invoice-date">24/04/2025 15:45:12</span></p>
+    </div>
+    
+    <h1>HÓA ĐƠN THANH TOÁN DỊCH VỤ Y TẾ</h1>
+    
+    <div class="info">
+      <div class="info-section">
+        <div class="info-section-title">THÔNG TIN BỆNH NHÂN</div>
+        <p><strong>Họ tên:</strong> <span id="patient-name">Nguyễn Văn A</span></p>
+        <p><strong>Mã:</strong> <span id="patient-id">PT123</span></p>
+        <p><strong>Điện thoại:</strong> <span id="patient-phone">0123 456 789</span></p>
+        <p><strong>Địa chỉ:</strong> <span id="patient-address">123 Đường ABC, Hà Nội</span></p>
+      </div>
+      
+      <div class="info-section">
+        <div class="info-section-title">THÔNG TIN BÁC SĨ</div>
+        <p><strong>Bác sĩ:</strong> <span id="doctor-name">BS. Trần Văn B</span></p>
+        <p><strong>Chuyên khoa:</strong> <span id="doctor-specialty">Nội tổng quát</span></p>
+        <p><strong>Điện thoại:</strong> <span id="doctor-phone">0987 654 321</span></p>
+      </div>
+    </div>
+    
+    <div class="info">
+      <div class="info-section">
+        <div class="info-section-title">THÔNG TIN CUỘC HẸN</div>
+        <p><strong>Ngày khám:</strong> <span id="appointment-date">24/04/2025</span></p>
+        <p><strong>Trạng thái:</strong> <span id="appointment-status">Hoàn thành</span></p>
+      </div>
+      
+      <div class="info-section">
+        <div class="info-section-title">THÔNG TIN CA KHÁM</div>
+        <div class="time-slot">
+          <div class="time-slot-title">Khung giờ đặt hẹn:</div>
+          <p id="time-slot">08:00 - 08:30 ngày 24/04/2025</p>
+          <p><strong>Trạng thái:</strong> <span id="time-slot-status">Đã đặt</span></p>
+        </div>
+      </div>
+    </div>
+    
+    <table id="service-table">
+      <tr>
+        <th>STT</th>
+        <th>Tên dịch vụ</th>
+        <th>Số lượng</th>
+        <th>Đơn giá (VNĐ)</th>
+        <th>Thành tiền (VNĐ)</th>
+      </tr>
+
+    </table>
+    
+    <div class="total">
+      <div class="total-row">
+        <div class="total-label">Tổng tiền dịch vụ:</div>
+        <div class="total-value"><span id="total-amount">350.000</span> VNĐ</div>
+      </div>
+      <div class="total-row">
+        <div class="total-label">Đã thanh toán:</div>
+        <div class="total-value"><span id="paid-amount">350.000</span> VNĐ</div>
+      </div>
+      <div class="total-row">
+        <div class="total-label">Còn lại:</div>
+        <div class="total-value"><span id="remaining-amount">0</span> VNĐ</div>
+      </div>
+      <div class="total-row">
+        <div class="total-label">Trạng thái hóa đơn:</div>
+        <div class="total-value"><span id="invoice-status">Đã thanh toán</span></div>
+      </div>
+    </div>
+    
+    <div style="margin-top: 20px; text-align: left;">
+      <strong>Ghi chú:</strong> <span id="invoice-note">Thanh toán đầy đủ</span>
+    </div>
+    
+    <div class="signature">
+      <div>
+        <p>NGƯỜI LẬP HÓA ĐƠN</p>
+        <p>(Ký, ghi rõ họ tên)</p>
+        <div class="signature-line"></div>
+      </div>
+      <div></div>
+      <div>
+        <p>KHÁCH HÀNG</p>
+        <p>(Ký, ghi rõ họ tên)</p>
+        <div class="signature-line"></div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px; font-style: italic;">
+      <p>Cảm ơn quý khách đã sử dụng dịch vụ của chúng tôi!</p>
+      <p>Mọi thắc mắc vui lòng liên hệ hotline: 0988.988.988</p>
+    </div>
+  </div>
+  
+  <button class="print-btn" onclick="downloadPDF()">Xuất PDF</button>
+</body>
+</html>
