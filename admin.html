@@ -9,6 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="website icon" type="png" href="hospital-logo.png">
+    <script src="sideBar.js"></script>
     <style>
         .sidebar {
             width: 250px;
@@ -50,6 +51,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 4px;
             z-index: 1000;
+            margin-top: 0.5rem;
         }
         .dropdown-menu.show {
             display: block;
@@ -59,6 +61,7 @@
             color: #333;
             text-decoration: none;
             display: block;
+            white-space: nowrap;
         }
         .dropdown-item:hover {
             background-color: #f5f5f5;
@@ -73,42 +76,7 @@
 <body class="bg-gray-100">
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="flex items-center mb-8">
-            <img src="hospital-logo.png" alt="YouMed Logo" class="h-10 w-10 mr-3">
-            <h1 class="text-xl font-bold">YouMed Admin</h1>
-        </div>
-        <nav>
-            <a href="admin.html" class="nav-item active">
-                <i class="fas fa-home mr-2"></i> Dashboard
-            </a>
-            <a href="users.html" class="nav-item">
-                <i class="fas fa-users mr-2"></i> Quản lý người dùng
-            </a>
-            <a href="doctors.html" class="nav-item">
-                <i class="fas fa-user-md mr-2"></i> Quản lý bác sĩ
-            </a>
-            <a href="appointments.html" class="nav-item">
-                <i class="fas fa-calendar-check mr-2"></i> Quản lý lịch khám
-            </a>
-            <a href="hospitals.html" class="nav-item">
-                <i class="fas fa-hospital mr-2"></i> Quản lý bệnh viện
-            </a>
-            <a href="medicines.html" class="nav-item">
-                <i class="fas fa-pills mr-2"></i> Quản lý thuốc
-            </a>
-            <a href="specialty.html" class="nav-item">
-                <i class="fas fa-stethoscope mr-2"></i> Quản lý chuyên khoa
-            </a>
-            <a href="service.html" class="nav-item">
-                <i class="fas fa-cogs mr-2"></i> Quản lý dịch vụ
-            </a>
-            <a href="statistics.html" class="nav-item">
-                <i class="fas fa-chart-bar mr-2"></i> Thống kê
-            </a>
-            <a href="settings.html" class="nav-item">
-                <i class="fas fa-cog mr-2"></i> Cài đặt
-            </a>
-        </nav>
+        
     </div>
 
     <!-- Main Content -->
@@ -117,27 +85,12 @@
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-2xl font-bold text-gray-800">Dashboard</h2>
             <div class="flex items-center">
-                <div class="relative mr-4">
+                <div class="relative mr-4" id="notificationBell">
                     <i class="fas fa-bell text-gray-600 text-xl"></i>
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    <span class="absolute -top-2 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span>
                 </div>
-                <div class="relative">
-                    <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
-                        <img id="userAvatar" src="https://i.pinimg.com/736x/4f/a9/f9/4fa9f9916731730fa5530958d3082548.jpg" alt="Admin Avatar" class="rounded-full mr-2 w-10 h-10">
-                        <span class="text-gray-700">Admin</span>
-                    </div>
-                    <div id="dropdownMenu" class="dropdown-menu">
-                        <a href="" class="dropdown-item">
-                            <i class="fas fa-user mr-2"></i>Profile
-                        </a>
-                        <a href="index.html" class="dropdown-item">
-                            <i class="fas fa-home mr-2"></i>Home Page
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item text-red-600" onclick="handleLogout()">
-                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                        </a>
-                    </div>
+                <div class="avatar">
+                    <!-- Avatar dropdown will be inserted here -->
                 </div>
             </div>
         </div>
@@ -183,7 +136,7 @@
                         <i class="fas fa-hospital text-2xl"></i>
                     </div>
                     <div class="ml-4">
-                        <p class="text-gray-500">Số cuộc hẹn khám hôm nay</p>
+                        <p class="text-gray-500">Cuộc hẹn khám hôm nay</p>
                         <p class="text-2xl font-bold" id="bookingCount"></p>
                     </div>
                 </div>
@@ -238,6 +191,9 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="toast.js"></script>
+    <script src="notificationBell.js"></script>
+    <script src="avatarDropdown.js"></script>
     <script src="admin.js"></script>
 </body>
 </html> 

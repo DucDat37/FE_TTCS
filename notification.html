@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo - YouMed Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="website icon" type="png" href="hospital-logo.png">
+    
+    <style>
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #4a90e2;
+            color: white;
+            padding: 20px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .nav-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            text-decoration: none;
+            color: white;
+        }
+        .nav-item:hover {
+            background-color: #357abd;
+        }
+        .nav-item.active {
+            background-color: #357abd;
+        }
+        .notification-card {
+            transition: transform 0.2s;
+        }
+        .notification-card:hover {
+            transform: translateY(-2px);
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            z-index: 1000;
+        }
+        .dropdown-menu.show {
+            display: block;
+        }
+        .dropdown-item {
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+        .dropdown-divider {
+            height: 1px;
+            background-color: #e5e5e5;
+            margin: 4px 0;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        /* Form styles */
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            margin-top: 4px;
+            font-size: 14px;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+        /* Select styles */
+        select.form-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+        /* Button styles */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        .btn-secondary:hover {
+            background-color: #f9fafb;
+        }
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Sidebar -->
+    <div class="sidebar"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">Thông báo</h2>
+            <div class="flex items-center">
+                <button onclick="openAddModal()" class="bg-blue-500 text-white px-4 py-2 rounded-lg mr-4">
+                    <i class="fas fa-plus mr-2"></i>Tạo thông báo mới
+                </button>
+                <div class="relative mr-4" id="notificationBell">
+                    <i class="fas fa-bell text-gray-600 text-xl"></i>
+                    <span class="absolute -top-2 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span>
+                </div>
+                <div class="avatar">
+                    <!-- Avatar dropdown will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications List -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Danh sách thông báo</h3>
+                <div class="flex items-center space-x-4">
+                    <select id="userFilter" class="form-input">
+                        <option value="">Tất cả người dùng</option>
+                    </select>
+                    <select id="sortOrder" class="form-input">
+                        <option value="desc">Mới nhất</option>
+                        <option value="asc">Cũ nhất</option>
+                    </select>
+                    <select id="pageSize" class="form-input">
+                        <option value="5">5 thông báo/trang</option>
+                        <option value="10">10 thông báo/trang</option>
+                        <option value="20">20 thông báo/trang</option>
+                    </select>
+                </div>
+            </div>
+            <div id="loadingSpinner" class="hidden flex justify-center items-center py-8">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            </div>
+            <div id="notificationsList" class="space-y-4">
+                <!-- Notifications will be populated here -->
+            </div>
+            <div class="flex justify-between items-center mt-4">
+                <div class="text-sm text-gray-500" id="tableInfo">
+                    Hiển thị 0 thông báo
+                </div>
+                <div class="flex space-x-2" id="pagination">
+                    <!-- Pagination will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Notification Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Tạo thông báo mới</h3>
+                <button onclick="closeAddModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addNotificationForm" class="space-y-4">
+                <div>
+                    <label class="form-label">Người nhận</label>
+                    <select id="userSelect" class="form-input" required>
+                        <option value="">Chọn người nhận</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Tiêu đề</label>
+                    <input type="text" id="title" class="form-input" required>
+                </div>
+                <div>
+                    <label class="form-label">Nội dung</label>
+                    <textarea id="content" rows="4" class="form-input" required></textarea>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeAddModal()" class="btn btn-secondary">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Tạo
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Detail Notification Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Chi tiết thông báo</h3>
+                <button onclick="closeDetailModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="form-label">Người nhận</label>
+                    <div id="detailUser" class="form-input bg-gray-50"></div>
+                </div>
+                <div>
+                    <label class="form-label">Tiêu đề</label>
+                    <div id="detailTitle" class="form-input bg-gray-50"></div>
+                </div>
+                <div>
+                    <label class="form-label">Nội dung</label>
+                    <div id="detailContent" class="form-input bg-gray-50 min-h-[100px]"></div>
+                </div>
+                <div>
+                    <label class="form-label">Thời gian tạo</label>
+                    <div id="detailCreatedAt" class="form-input bg-gray-50"></div>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button onclick="closeDetailModal()" class="btn btn-secondary">
+                        Đóng
+                    </button>
+                    <button onclick="deleteNotification()" class="btn btn-danger">
+                        <i class="fas fa-trash-alt mr-2"></i>Xóa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dropdown menu functionality
+        function toggleDropdown() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownToggle = document.querySelector('.cursor-pointer');
+            
+            if (!dropdownToggle.contains(event.target) && dropdownMenu.classList.contains('show')) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+    </script>
+    <script src="sideBar.js"></script>
+    <script src="toast.js"></script>
+    <script src="notification.js"></script>
+    <script src="notificationBell.js"></script>
+    <script src="avatarDropdown.js"></script>
+</body>
+</html> 

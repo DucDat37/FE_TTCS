@@ -1,370 +1,335 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý lịch hẹn - YouMed Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Đặt lịch khám - YouMed</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link rel="website icon" type="png" href="hospital-logo.png">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="index.css">
+    <script src="sideBar.js"></script>
+    <style>
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #4a90e2;
+            color: white;
+            padding: 20px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .nav-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            text-decoration: none;
+            color: white;
+        }
+        .nav-item:hover {
+            background-color: #357abd;
+        }
+        .nav-item.active {
+            background-color: #357abd;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            z-index: 9999;
+            margin-top: 8px;
+            width: 320px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .dropdown-menu.show {
+            display: block !important;
+        }
+        .dropdown-item {
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+        .dropdown-divider {
+            height: 1px;
+            background-color: #e5e5e5;
+            margin: 4px 0;
+        }
+        /* Notification Bell Styles */
+        .notification-badge {
+            display: none;
+        }
+        #notificationDropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            z-index: 1000;
+            margin-top: 8px;
+            width: 320px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        #notificationDropdown.show {
+            display: block;
+        }
+        .notification-item {
+            transition: background-color 0.2s;
+        }
+        .notification-item:hover {
+            background-color: #f9fafb;
+        }
+        .fa-bell.cursor-pointer {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .fa-bell.cursor-pointer:hover {
+            color: #4a90e2;
+        }
+    </style>
 </head>
 
-<body>
-    <!-- Header -->
-    <header class="header mx-auto">
-        <div class="flex items-center justify-between">
-            <a href="index.html">
-                <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
-            </a>
-        </div>
-        <nav class="flex items-center justify-between">
-            <div class="flex space-x-2">
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt khám</a>
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn trực tuyến</a>
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Store</a>
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tin Y tế</a>
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Dành cho nhân viên Y tế</a>
+<body class="bg-gray-100">
+    <!-- Sidebar -->
+    <div class="sidebar"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">Quản lý lịch hẹn</h2>
+            <div class="flex items-center">
+                <div class="relative mr-4" id="notificationBell">
+                    <i class="fas fa-bell text-gray-600 text-xl"></i>
+                    <span class="absolute -top-2 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span>
+                </div>
+                <div class="avatar">
+                    <!-- Avatar dropdown will be inserted here -->
+                </div>
             </div>
-            <div id="authSection">
-                <!-- Nút đăng nhập -->
-                <button id="loginBtn"
-                    class="p-2 border-2 border-blue-500 text-blue-500 text-sm font-semibold py-1.5 px-4 rounded-md hover:bg-blue-500 hover:text-white active:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition">
-                    Đăng nhập
-                </button>
+        </div>
 
-                <!-- Dropdown menu khi đã đăng nhập -->
-                <div id="userDropdown" class="hidden relative">
-                    <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
-                        <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar"
-                            class="w-8 h-8 rounded-full">
-                        <span id="userName" class="text-gray-800"></span>
-                        <i class="fas fa-chevron-down text-gray-500"></i>
+        <!-- Bookings List -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Danh sách lịch hẹn</h3>
+                <div class="flex space-x-2">
+                    <button id="addBookingBtn" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <i class="fas fa-plus mr-2"></i>Thêm lịch hẹn
                     </button>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm..." class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                    </div>
+                    <div class="relative">
+                        <select id="statusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="true">Đã xác nhận</option>
+                            <option value="false">Chờ xác nhận</option>
+                        </select>
+                    </div>
+                    <button id="applyFilters" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-filter mr-2"></i>Lọc
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mã</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bác sĩ</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bệnh nhân</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thời gian bắt đầu</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thời gian kết thúc</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dịch vụ</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTable" class="divide-y divide-gray-200">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-between items-center mt-4">
+                <div class="text-sm text-gray-500">Hiển thị <span id="currentDisplayed">0</span> / <span id="totalBookings">0</span> lịch hẹn</div>
+                <div class="flex space-x-1" id="pagination">
+                    <!-- Pagination will be generated here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <!-- Dropdown content -->
-                    <div id="userDropdownMenu"
-                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-                        <div class="py-1">
-                            <a href="admin.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hidden"
-                                id="adminPage">
-                                <i class="fas fa-home mr-2"></i>Trang quản trị
-                            </a>
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <i class="fas fa-user mr-2"></i>Thông tin cá nhân
-                            </a>
-                            <a href="#" onclick="logout()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
-                            </a>
-                        </div>
+    <!-- Add Booking Modal -->
+    <div id="addBookingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
+        <div class="relative top-20 mx-auto p-5 border w-4/5 shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Thêm lịch hẹn mới</h3>
+                <button onclick="closeAddBookingModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addBookingForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Service Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Dịch vụ</label>
+                        <select id="serviceSelect" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                            <option value="">Chọn dịch vụ</option>
+                        </select>
+                    </div>
+                    <!-- Patient Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Bệnh nhân</label>
+                        <select id="patientSelect" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                            <option value="">Chọn bệnh nhân</option>
+                        </select>
                     </div>
                 </div>
-                <!-- Kết thúc dropdown menu -->
-            </div>
-        </nav>
-    </header>
 
-    <!-- Main Section -->
-    <section class="main-section">
-        <div>
-            <h1>Đặt lịch khám bác sĩ</h1>
-            <p>Đặt khám với hơn 600 bác sĩ đã kết nối chính thức với YouMed <br>để có số thứ tự và khung giờ khám trước
-            </p>
-            <div class="search-bar">
-                <input type="text" placeholder="Triệu chứng, bác sĩ, bệnh viện..." />
-                <i class="fas fa-search"></i>
-            </div>
-        </div>
-    </section>
+                <!-- Doctor Selection -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Bác sĩ</label>
+                    <select id="doctorSelect" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                        <option value="">Chọn bác sĩ</option>
+                    </select>
+                </div>
 
-    <div class="container mx-auto text-center my-5">
-        <h2 class="text-xl md:text-4xl font-bold">Đặt lịch khám trực tuyến</h2>
-        <p class="opacity-80"> Tìm Bác sĩ chính xác - Đặt lịch khám dễ dàng </p>
-    </div>
-    <!-- Main Content -->
-    <div class="container mx-auto p-4 max-w-7xl">
+                <!-- Date Selection -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Ngày khám</label>
+                    <input type="date" id="dateSelect" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                </div>
 
-        <div class="flex justify-between items-center px-4 gap-4">
-            <div>
-                <h2 class="text-lg md:text-xl font-bold mb-0">Đặt khám bác sĩ</h2>
-                <p class="hidden md:block text-sm">Phiếu khám kèm số thứ tự và thời gian của bạn được xác nhận.</p>
-            </div>
-            <a href="all-doctors.html"
-                class="bg-blue-500 text-white px-3 group hover:text-white hover:bg-blue-900 transition-colors text-white py-1.5 rounded-full flex items-center"><span
-                    class="font-semibold whitespace-nowrap text-sm">Xem tất cả</span><svg width="10" height="10"
-                    viewBox="0 0 10 10" aria-hidden="true" class="ml-2">
-                    <g fill-rule="evenodd">
-                        <path stroke-width="2" stroke="currentColor" fill="none" d="M0 5h8"
-                            class="opacity-0 group-hover:opacity-100 transition-opacity"></path>
-                        <path stroke-width="2" stroke="currentColor" fill="none" d="M1 1l4 4-4 4"
-                            class="group-hover:translate-x-1 transition-transform"></path>
-                    </g>
-                </svg></a>
-        </div>
+                <!-- Time Slots -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Khung giờ khám</label>
+                    <div id="timeSlotsContainer" class="grid grid-cols-4 gap-2">
+                        <!-- Time slots will be loaded here -->
+                    </div>
+                </div>
 
-        <div class="mt-4 flex overflow-x-auto space-x-4 px-8">
-            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
-                <img alt="Portrait of BS. CK2 Lê Thị Minh Hồng" class="rounded-full mx-auto" height="100"
-                    src="https://storage.googleapis.com/a1aa/image/MJJMum0CX_pl2Y4GHDIo2NouwH92CmCqwt49Q4RcTcQ.jpg"
-                    width="100" />
-                <div class="text-center mt-4">
-                    <h3 class="font-semibold">
-                        BS. CK2 Lê Thị Minh Hồng
-                    </h3>
-                    <p class="text-gray-500">
-                        Nhi khoa
-                    </p>
-
-                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
-                        Đặt lịch khám
+                <div class="flex justify-end space-x-2 mt-4">
+                    <button type="button" onclick="closeAddBookingModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        Hủy
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                        Tạo lịch hẹn
                     </button>
                 </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
-                <img alt="Portrait of PGS. TS. BS Lâm Việt Trung" class="rounded-full mx-auto" height="100"
-                    src="https://storage.googleapis.com/a1aa/image/j44YWK-FMO5BOHdvaSKXNK2Xbs6R0QAjkxyLEeGRnQ4.jpg"
-                    width="100" />
-                <div class="text-center mt-4">
-                    <h3 class="font-semibold">
-                        PGS. TS. BS Lâm Việt Trung
-                    </h3>
-                    <p class="text-gray-500">
-                        Tiêu hoá
-                    </p>
-
-                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
-                        Đặt lịch khám
-                    </button>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
-                <img alt="Portrait of BS. CK2 Nguyễn Thị Thu Hà" class="rounded-full mx-auto" height="100"
-                    src="https://storage.googleapis.com/a1aa/image/LTCM0kxtPrgu25hG69rvkrg-70xzTv6YpLFJ23J3sKM.jpg"
-                    width="100" />
-                <div class="text-center mt-4">
-                    <h3 class="font-semibold">
-                        BS. CK2 Nguyễn Thị Thu Hà
-                    </h3>
-                    <p class="text-gray-500">
-                        Nhi khoa
-                    </p>
-
-                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
-                        Đặt lịch khám
-                    </button>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
-                <img alt="Portrait of BS. CK2 Võ Đức Hiếu" class="rounded-full mx-auto" height="100"
-                    src="https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-                    width="100" />
-                <div class="text-center mt-4">
-                    <h3 class="font-semibold">
-                        BS. CK2 Võ Đức Hiếu
-                    </h3>
-                    <p class="text-gray-500">
-                        Ung bướu
-                    </p>
-
-                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
-                        Đặt lịch khám
-                    </button>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
-                <img alt="Portrait of BS. CK2 Nguyễn Thị Thu Hà" class="rounded-full mx-auto" height="100"
-                    src="https://storage.googleapis.com/a1aa/image/LTCM0kxtPrgu25hG69rvkrg-70xzTv6YpLFJ23J3sKM.jpg"
-                    width="100" />
-                <div class="text-center mt-4">
-                    <h3 class="font-semibold">
-                        BS. CK2 Nguyễn Thị Thu Hà
-                    </h3>
-                    <p class="text-gray-500">
-                        Nhi khoa
-                    </p>
-                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
-                        Đặt lịch khám
-                    </button>
-                </div>
-            </div>
-
+            </form>
         </div>
     </div>
 
-    <footer data-wpr-lazyrender="1" class="relative site-footer bg-gray-50 py-3">
-        <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4 md:pt-10">
-            <div class="px-4 py-6 text-sm col-span-12 sm:col-span-6 lg:col-span-4 space-y-2">
-                <p class="font-semibold">CÔNG TY TNHH YOUMED VIỆT NAM</p>
-                <p><strong>VPĐD:</strong> 3/1 Thành Thái, P.14, Q.10, TP. HCM</p>
-                <p>
-                    <strong>Hotline:</strong> <a href="tel:19002805" class="font-medium hover:underline">1900-2805</a>
-                    (8:00 - 17:30 từ T2 đến T7)
-                </p>
-                <p>
-                    Số ĐKKD 0315268642 do Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh cấp lần đầu
-                    ngày 14/09/2018.
-                </p>
-                <p>
-                    Chịu trách nhiệm nội dung:
-                    <a href="" class="hover:underline underline-offset-2 hover:text-primary font-medium">
-                        Dược sĩ Dương Anh Hoàng</a>.
-                </p>
+    <!-- Detail Booking Modal -->
+    <div id="detailBookingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
+        <div class="relative top-20 mx-auto p-5 border w-2/5 shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Chi tiết lịch hẹn</h3>
+                <button onclick="closeDetailBookingModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-2">
-                <label for="checkbox-about-us"
-                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
-                    Về YouMed <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
-                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="48" d="M112 184l144 144 144-144"></path>
-                    </svg>
-                </label>
-                <ul id="footer-1" class="list-none p-0 block text-sm space-y-2 transition-all">
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-84 hover:underline"><a
-                            href="">Giới thiệu về YouMed</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-85 hover:underline"><a
-                            href="">Ban điều hành</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-86 hover:underline"><a
-                            href="">Nhân sự &amp; Tuyển dụng</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-87 hover:underline"><a
-                            href="">Liên hệ</a></li>
-                </ul>
-            </div>
-            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
-                <label for="check-services"
-                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
-                    Dịch vụ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
-                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="48" d="M112 184l144 144 144-144"></path>
-                    </svg>
-                </label>
-                <ul id="footer-2" class="list-none p-0 block text-sm space-y-2 transition-all">
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-73 hover:underline"><a
-                            href="">Đặt khám Bác sĩ</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-74 hover:underline"><a
-                            href="">Đặt khám Bệnh viện</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-75 hover:underline"><a
-                            href="">Đặt khám Phòng Khám</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-76 hover:underline"><a
-                            href="">YouMed Store</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-77 hover:underline"><a
-                            target="_blank" href="">Y360</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-497 hover:underline">
-                        <a href="">YouMed Clinic</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
-                <label for="check-more"
-                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
-                    Hỗ trợ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
-                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="48" d="M112 184l144 144 144-144"></path>
-                    </svg>
-                </label>
-                <ul id="footer-3" class="list-none p-0 block text-sm space-y-2 transition-all">
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-106 hover:underline">
-                        <a href="">Điều Khoản Sử Dụng</a>
-                    </li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-105 hover:underline">
-                        <a href="">Chính Sách Bảo Mật</a>
-                    </li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-104 hover:underline">
-                        <a href="">Chính
-                            sách giải quyết khiếu nại</a>
-                    </li>
-                    <li>Hỗ trợ khách hàng: <a href="mailto:cskh@youmed.vn" class="hover:underline">cskh@youmed.vn</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="px-4 py-6 md:py-0 text-sm col-span-12 md:col-span-4 space-y-2">
-                <div class="flex justify-center md:justify-start items-center text-sm font-semibold">
-                    Kết nối với chúng tôi </div>
-                <ul class="flex space-x-3 items-center justify-center md:justify-start">
-                    <li>
-                        <a href="" target="_blank">
-                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg" width="24"
-                                height="24" alt="Facebook"
-                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
-                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg" width="24"
-                                    height="24" loading="lazy" alt="Facebook"></noscript>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank">
-                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg" width="24"
-                                height="24" alt="YouTube"
-                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
-                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg" width="24"
-                                    height="24" loading="lazy" alt="YouTube"></noscript>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank">
-                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg" width="24"
-                                height="24" alt="Linkedin"
-                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
-                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg" width="24"
-                                    height="24" loading="lazy" alt="Linkedin"></noscript>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank">
-                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg" width="36"
-                                height="16" alt="Zalo"
-                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
-                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg" width="36"
-                                    height="16" loading="lazy" alt="Zalo"></noscript>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-span-12 md:col-span-8 px-4 py-6 md:p-6">
-                <ul class="flex space-x-4 items-center justify-center md:justify-end">
-                    <li>
-                        <a href="" target="_blank" title="Đã đăng ký Bộ Công Thương">
-                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/dadangky.svg" width="79"
-                                height="30" alt="Đã đăng ký Bộ Công Thương"
-                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/dadangky.svg"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img src="" width="79"
-                                    height="30" loading="lazy" alt="Đã đăng ký Bộ Công Thương" /></noscript>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="DMCA.com Protection Status. Click to verify.">
-                            <img src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
-                                width="60" height="30" alt="DMCA.com Protection Status. Click to verify."
-                                data-lazy-src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
-                                    src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
-                                    loading="lazy" width="60" height="30"
-                                    alt="DMCA.com Protection Status. Click to verify." /></noscript>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-7xl text-xs text-center mx-auto md:border-t border-slate-100 py-6 px-4">
-            <p>
-                Các thông tin trên YouMed chỉ dành cho mục đích tham khảo, tra cứu và
-                không thay thế cho việc chẩn đoán hoặc điều trị y khoa.<br class="hidden lg:block">
-                Cần tuyệt đối tuân theo hướng dẫn của Bác sĩ và Nhân viên y tế.
-            </p>
-            <p class="mt-1">
-                Copyright © 2018 - 2025 Công ty TNHH YouMed Việt Nam.
-            </p>
-        </div>
-    </footer>
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500">Mã lịch hẹn</label>
+                        <p id="detailCode" class="mt-1 text-gray-900"></p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500">Trạng thái</label>
+                        <p id="detailStatus" class="mt-1"></p>
+                    </div>
+                </div>
 
-    <script src="index.js"></script>
+                <div>
+                    <label class="block text-sm font-medium text-gray-500">Thông tin bệnh nhân</label>
+                    <div class="mt-1 p-3 bg-gray-50 rounded-md">
+                        <p id="detailPatientName" class="text-gray-900"></p>
+                        <p id="detailPatientEmail" class="text-gray-600 text-sm"></p>
+                        <p id="detailPatientPhone" class="text-gray-600 text-sm"></p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-500">Thời gian khám</label>
+                    <div class="mt-1 p-3 bg-gray-50 rounded-md">
+                        <p id="detailStartDate" class="text-gray-900"></p>
+                        <p id="detailEndDate" class="text-gray-600 text-sm"></p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-500">Dịch vụ</label>
+                    <div class="mt-1 p-3 bg-gray-50 rounded-md">
+                        <p id="detailServiceName" class="text-gray-900"></p>
+                        <p id="detailServicePrice" class="text-gray-600 text-sm"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500">Ngày tạo</label>
+                        <p id="detailCreatedAt" class="mt-1 text-gray-900"></p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500">Cập nhật lần cuối</label>
+                        <p id="detailUpdatedAt" class="mt-1 text-gray-900"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="sideBar.js"></script>
+    <script src="toast.js"></script>
+    <script src="notificationBell.js"></script>
+    <script src="avatarDropdown.js"></script>
+    <script src="booking.js"></script>
+    <script>
+        // Dropdown menu toggle
+        function toggleDropdown() {
+            document.getElementById('dropdownMenu').classList.toggle('show');
+        }
+
+        // Close the dropdown if clicked outside
+        window.onclick = function(event) {
+            if (!event.target.matches('#userAvatar') && !event.target.matches('#dropdownMenu')) {
+                var dropdowns = document.getElementsByClassName('dropdown-menu');
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        // Handle logout
+        function handleLogout() {
+            localStorage.removeItem('access_token');
+            window.location.href = 'auth.html';
+        }
+    </script>
 </body>
 
 </html>

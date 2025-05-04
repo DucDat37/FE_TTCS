@@ -162,7 +162,10 @@ function initRevenueChart(chartData) {
 }
 
 // Dropdown menu functionality
-function toggleDropdown() {
+function toggleDropdown(event) {
+    if (event) {
+        event.stopPropagation();
+    }
     const dropdownMenu = document.getElementById('dropdownMenu');
     dropdownMenu.classList.toggle('show');
 }
@@ -175,6 +178,11 @@ document.addEventListener('click', function(event) {
     if (!dropdownToggle.contains(event.target) && dropdownMenu.classList.contains('show')) {
         dropdownMenu.classList.remove('show');
     }
+});
+
+// Prevent dropdown from closing when clicking inside it
+document.getElementById('dropdownMenu').addEventListener('click', function(event) {
+    event.stopPropagation();
 });
 
 // Add active class to clicked nav item

@@ -46,37 +46,40 @@ document.getElementById("sendOtpBtn").addEventListener("click", function () {
 });
 
 function checkFields() {
-    var phone = document.getElementById("phone");
-    var password = document.getElementById("password");
-    var loginButton = document.getElementById("loginButton");
+    const phone = document.getElementById("phone").value;
+    const password = document.getElementById("password").value;
+    const phoneWarning = document.getElementById("phoneWarning");
+    const passWordWarning = document.getElementById("passWordWarning");
+    const loginButton = document.getElementById("loginButton");
 
-    if (phone.value.length !== 10 || isNaN(phone.value)) {
-        // Hiển thị thông báo cảnh báo
+    // Kiểm tra định dạng email hoặc số điện thoại
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^0[0-9]{9}$/;
+    const isValidInput = emailRegex.test(phone) || phoneRegex.test(phone);
+
+    if (!isValidInput) {
         phoneWarning.classList.remove("hidden");
     } else {
-        // Ẩn thông báo cảnh báo khi số điện thoại hợp lệ
         phoneWarning.classList.add("hidden");
     }
 
-    if (password.value.length < 6) {
-        passWordWarning.classList.remove("hidden")
+    if (password.length < 6) {
+        passWordWarning.classList.remove("hidden");
     } else {
-        passWordWarning.classList.add("hidden")
+        passWordWarning.classList.add("hidden");
     }
 
-    // Kiểm tra nếu các trường nhập liệu trống
-    if (phone.value === "" || password.value === "" || isNaN(phone.value) || phone.value.length !== 10 || password.value.length < 6) {
-        loginButton.disabled = true;  // Vô hiệu hóa nút đăng nhập
-        loginButton.classList.remove('bg-blue-500', 'hover:bg-blue-600'); // Loại bỏ màu xanh khi vô hiệu hóa
-        loginButton.classList.add('bg-gray-300', 'hover:bg-gray-400');  // Màu xám khi vô hiệu hóa
-        loginButton.style.cursor = "not-allowed";  // Con trỏ biển báo cấm cho nút
+    // Kiểm tra và cập nhật trạng thái nút đăng nhập
+    if (isValidInput && password.length >= 6) {
+        loginButton.disabled = false;
+        loginButton.classList.remove('bg-gray-300', 'hover:bg-gray-400');
+        loginButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
+        loginButton.style.cursor = "pointer";
     } else {
-        phone.style.cursor = "auto";  // Con trỏ mặc định khi trường có dữ liệu
-        password.style.cursor = "auto";  // Con trỏ mặc định khi trường có dữ liệu
-        loginButton.disabled = false;  // Kích hoạt nút đăng nhập
-        loginButton.classList.remove('bg-gray-300', 'hover:bg-gray-400'); // Loại bỏ màu xám
-        loginButton.classList.add('bg-blue-500', 'hover:bg-blue-600');  // Đổi màu xanh khi nút hoạt động
-        loginButton.style.cursor = "pointer";  // Con trỏ chỉ vào nút
+        loginButton.disabled = true;
+        loginButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+        loginButton.classList.add('bg-gray-300', 'hover:bg-gray-400');
+        loginButton.style.cursor = "not-allowed";
     }
 }
 
@@ -207,11 +210,11 @@ async function handleLogin() {
             }
         } else {
             // Handle error response
-            alert(responseData.message || 'Đăng nhập thất bại');
+            toast.error(responseData.message || 'Đăng nhập thất bại');
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Có lỗi xảy ra khi đăng nhập');
+        toast.error('Có lỗi xảy ra khi đăng nhập');
     }
 }
 
@@ -240,17 +243,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(data => {
                     if (data.isError === false && data.statusCode === 200) {
                         // Hiển thị thông báo thành công
-                        alert(data.message);
+                        toast.success(data.message);
                         // Focus vào ô nhập OTP
                         document.getElementById('enterOtp').focus();
                     } else {
                         // Hiển thị thông báo lỗi
-                        alert('Có lỗi xảy ra: ' + (data.message || 'Không thể gửi OTP'));
+                        toast.error('Có lỗi xảy ra: ' + (data.message || 'Không thể gửi OTP'));
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Đã xảy ra lỗi khi gửi OTP. Vui lòng thử lại sau.');
+                    toast.error('Đã xảy ra lỗi khi gửi OTP. Vui lòng thử lại sau.');
                 })
                 .finally(() => {
                     // Khôi phục trạng thái nút
@@ -259,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     sendOtpBtn.disabled = false;
                 });
             } else {
-                alert('Vui lòng nhập email hợp lệ');
+                toast.error('Vui lòng nhập email hợp lệ');
             }
         });
     }
@@ -300,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (!data.error) {
                     // Đổi mật khẩu thành công
-                    alert('Đổi mật khẩu thành công! Vui lòng đăng nhập lại.');
+                    toast.success('Đổi mật khẩu thành công! Vui lòng đăng nhập lại.');
                     // Chuyển về trang đăng nhập
                     document.getElementById('loginForm').style.display = 'block';
                     document.getElementById('ForgotPass').style.display = 'none';
@@ -316,12 +319,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     }
                     
-                    alert(errorMessage);
+                    toast.error(errorMessage);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Đã xảy ra lỗi khi đổi mật khẩu. Vui lòng thử lại sau.');
+                toast.error('Đã xảy ra lỗi khi đổi mật khẩu. Vui lòng thử lại sau.');
             })
             .finally(() => {
                 // Khôi phục trạng thái nút
@@ -330,4 +333,61 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+});
+
+// Xử lý đăng ký
+async function handleRegister() {
+    const userName = document.getElementById("userName").value;
+    const email = document.getElementById("emailRegister").value;
+    const phone = document.getElementById("registerPhone").value;
+    const password = document.getElementById("passwordRegister").value;
+    const confirmPassword = document.getElementById("passwordRegister2").value;
+
+    try {
+        const response = await fetch('http://localhost:5000/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userName,
+                email,
+                phone,
+                password,
+                confirmPassword
+            })
+        });
+
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Hiển thị thông báo thành công
+            toast.success(data.message);
+            // Chuyển về form đăng nhập sau 2 giây
+            setTimeout(() => {
+                document.getElementById("registerForm").style.display = "none";
+                document.getElementById("loginForm").style.display = "block";
+            }, 2000);
+        } else {
+            // Xử lý lỗi
+            let errorMessage = data.message;
+            if (data.errors && data.errors.length > 0) {
+                errorMessage += ':\n';
+                data.errors.forEach(err => {
+                    errorMessage += `- ${err.message}\n`;
+                });
+            }
+            toast.error(errorMessage);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        toast.error('Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại sau.');
+    }
+}
+
+// Thêm event listener cho nút đăng ký
+document.getElementById("sendOtpBtn").addEventListener("click", function(event) {
+    event.preventDefault();
+    handleRegister();
 }); 
