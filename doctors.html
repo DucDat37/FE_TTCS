@@ -105,23 +105,8 @@
                     <i class="fas fa-bell text-gray-600 text-xl"></i>
                     <span class="absolute -top-2 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span>
                 </div>
-                <div class="relative">
-                    <div class="flex items-center cursor-pointer" onclick="toggleDropdown()">
-                        <img src="hospital-logo.png" alt="Admin Avatar" class="rounded-full mr-2 w-10 h-10">
-                        <span class="text-gray-700">Admin</span>
-                    </div>
-                    <div id="dropdownMenu" class="dropdown-menu">
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-user mr-2"></i>Profile
-                        </a>
-                        <a href="index.html" class="dropdown-item">
-                            <i class="fas fa-home mr-2"></i>Home Page
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item text-red-600" onclick="handleLogout()">
-                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                        </a>
-                    </div>
+                <div class="avatar">
+                    <!-- Avatar dropdown will be inserted here -->
                 </div>
             </div>
         </div>
@@ -387,5 +372,6 @@
     <script src="doctors.js"></script>
     <script src="toast.js"></script>
     <script src="notificationBell.js"></script>
+    <script src="avatarDropdown.js"></script>
 </body>
 </html> 

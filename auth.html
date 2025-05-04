@@ -56,11 +56,11 @@
         <form onsubmit="event.preventDefault(); handleLogin();">
             <!-- Số điện thoại -->
             <div class="mb-4">
-                <label class="block text-gray-700 font-bold" for="phone">Số điện thoại</label>
+                <label class="block text-gray-700 font-bold" for="phone">Số điện thoại hoặc Email</label>
                 <input class="w-full px-4 py-2 border rounded-lg" id="phone"
-                       placeholder="Số điện thoại" type="text" oninput="checkFields()"/>
+                       placeholder="Nhập số điện thoại hoặc email" type="text" oninput="checkFields()"/>
                 <span id="phoneWarning" class="text-red-500 font-semibold text-sm mt-1 hidden">
-                    Vui lòng nhập số điện thoại chính xác
+                    Vui lòng nhập số điện thoại hoặc email hợp lệ
                 </span>
             </div>
 
@@ -262,7 +262,7 @@
     </div>
 </main>
 
+<script src="toast.js"></script>
 <script src="auth.js"></script>
-
 </body>
 </html>
