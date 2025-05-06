@@ -55,44 +55,45 @@ function handleUnauthorizedResponse(response) {
     return false;
 }
 
+function showGlobalLoading() {
+    const loading = document.getElementById('globalLoading');
+    if (loading) loading.style.display = 'flex';
+}
+
+function hideGlobalLoading() {
+    const loading = document.getElementById('globalLoading');
+    if (loading) loading.style.display = 'none';
+}
+
 // Load all specialties
 async function loadSpecialties(page = 1, limit = 10, search = '', sort = 'createdAt', order = 'DESC') {
     if (!checkAuthentication()) return;
-
     try {
+        showGlobalLoading();
         // Build query parameters
         const queryParams = new URLSearchParams({
             page,
             limit,
             sort
         });
-        
         if (search) {
             queryParams.append('search', search);
         }
-        
         if (order) {
             queryParams.append('order', order);
         }
-
         const response = await fetch(`${SPECIALTY_API}?${queryParams.toString()}`, {
             headers: getAuthHeaders()
         });
-        
         if (handleUnauthorizedResponse(response)) return;
-        
         const result = await response.json();
-        
         if (result.isError === false) {
             displaySpecialties(result.data.specialty || result.data);
-            
             // Update counters
             const currentDisplayed = result.data.specialty ? result.data.specialty.length : result.data.length;
             const totalSpecialties = result.data.total || currentDisplayed;
-            
             document.getElementById('currentDisplayed').textContent = currentDisplayed;
             document.getElementById('totalSpecialties').textContent = totalSpecialties;
-            
             // Update pagination if available
             updatePagination(page, Math.ceil(totalSpecialties / limit), limit);
         } else {
@@ -101,22 +102,21 @@ async function loadSpecialties(page = 1, limit = 10, search = '', sort = 'create
     } catch (error) {
         console.error('Error loading specialties:', error);
         showNotification('Không thể kết nối đến máy chủ', 'error');
+    } finally {
+        hideGlobalLoading();
     }
 }
 
 // Fetch specialty by ID
 async function fetchSpecialtyById(id) {
     if (!checkAuthentication()) return null;
-    
     try {
+        showGlobalLoading();
         const response = await fetch(`${SPECIALTY_API}/${id}`, {
             headers: getAuthHeaders()
         });
-        
         if (handleUnauthorizedResponse(response)) return null;
-        
         const result = await response.json();
-        
         if (result.isError === false) {
             return result.data;
         } else {
@@ -127,6 +127,8 @@ async function fetchSpecialtyById(id) {
         console.error('Error fetching specialty:', error);
         showNotification('Không thể kết nối đến máy chủ', 'error');
         return null;
+    } finally {
+        hideGlobalLoading();
     }
 }
 
@@ -182,27 +184,22 @@ function displaySpecialties(specialties) {
 // Handle add specialty form submission
 async function handleAddSpecialty(event) {
     event.preventDefault();
-    
     if (!checkAuthentication()) return;
-    
     const nameInput = document.getElementById('specialtyName');
     const fileInput = document.getElementById('specialtyImage');
-    
     // Validate inputs
     if (!nameInput.value.trim()) {
         showNotification('Vui lòng nhập tên chuyên khoa', 'error');
         return;
     }
-    
     // Create form data
     const formData = new FormData();
     formData.append('name', nameInput.value.trim());
-    
     if (fileInput.files.length > 0) {
         formData.append('file', fileInput.files[0]);
     }
-    
     try {
+        showGlobalLoading();
         const accessToken = localStorage.getItem('access_token');
         const response = await fetch(`${SPECIALTY_API}/add`, {
             method: 'POST',
@@ -211,19 +208,14 @@ async function handleAddSpecialty(event) {
                 'Authorization': `Bearer ${accessToken}`
             }
         });
-        
         if (handleUnauthorizedResponse(response)) return;
-        
         const result = await response.json();
-        
         if (result.isError === false) {
             // Show success message
             showNotification('Thêm chuyên khoa thành công', 'success');
-            
             // Reset form
             nameInput.value = '';
             fileInput.value = '';
-            
             // Reload specialties list
             loadSpecialties();
         } else {
@@ -232,6 +224,8 @@ async function handleAddSpecialty(event) {
     } catch (error) {
         console.error('Error adding specialty:', error);
         showNotification('Không thể kết nối đến máy chủ', 'error');
+    } finally {
+        hideGlobalLoading();
     }
 }
 
@@ -315,31 +309,25 @@ function closeDeleteModal() {
 // Handle edit specialty form submission
 async function handleEditSpecialty(event) {
     event.preventDefault();
-    
     if (!checkAuthentication()) return;
-    
     const idInput = document.getElementById('editSpecialtyId');
     const nameInput = document.getElementById('editSpecialtyName');
     const fileInput = document.getElementById('editSpecialtyImage');
-    
     // Validate inputs
     if (!nameInput.value.trim()) {
         showNotification('Vui lòng nhập tên chuyên khoa', 'error');
         return;
     }
-    
     // Create form data
     const formData = new FormData();
     formData.append('name', nameInput.value.trim());
-    
     // Add ID parameter
     const id = idInput.value;
-    
     if (fileInput.files.length > 0) {
         formData.append('file', fileInput.files[0]);
     }
-    
     try {
+        showGlobalLoading();
         const accessToken = localStorage.getItem('access_token');
         const response = await fetch(`${SPECIALTY_API}/update/${id}`, {
             method: 'PUT',
@@ -348,18 +336,13 @@ async function handleEditSpecialty(event) {
                 'Authorization': `Bearer ${accessToken}`
             }
         });
-        
         if (handleUnauthorizedResponse(response)) return;
-        
         const result = await response.json();
-        
         if (result.isError === false) {
             // Show success message
             showNotification('Cập nhật chuyên khoa thành công', 'success');
-            
             // Close modal
             closeEditModal();
-            
             // Reload specialties list
             loadSpecialties();
         } else {
@@ -368,14 +351,16 @@ async function handleEditSpecialty(event) {
     } catch (error) {
         console.error('Error updating specialty:', error);
         showNotification('Không thể kết nối đến máy chủ', 'error');
+    } finally {
+        hideGlobalLoading();
     }
 }
 
 // Handle delete specialty
 async function handleDeleteSpecialty(id) {
     if (!checkAuthentication()) return;
-
     try {
+        showGlobalLoading();
         const accessToken = localStorage.getItem('access_token');
         const response = await fetch(`${SPECIALTY_API}/delete/${id}`, {
             method: 'DELETE',
@@ -383,18 +368,13 @@ async function handleDeleteSpecialty(id) {
                 'Authorization': `Bearer ${accessToken}`
             }
         });
-        
         if (handleUnauthorizedResponse(response)) return;
-        
         const result = await response.json();
-        
         if (result.isError === false) {
             // Show success message
             showNotification('Xóa chuyên khoa thành công', 'success');
-            
             // Reload specialties list
             loadSpecialties();
-            
             // Close modal
             closeDeleteModal();
         } else {
@@ -403,6 +383,8 @@ async function handleDeleteSpecialty(id) {
     } catch (error) {
         console.error('Error deleting specialty:', error);
         showNotification('Không thể kết nối đến máy chủ', 'error');
+    } finally {
+        hideGlobalLoading();
     }
 }
 

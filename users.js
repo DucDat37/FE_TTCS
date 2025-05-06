@@ -1,31 +1,3 @@
-// Chart initialization
-document.addEventListener('DOMContentLoaded', function() {
-    // Kiểm tra trạng thái đăng nhập trước
-    checkLoginStatus();
-    
-    const ctx = document.getElementById('userChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-            datasets: [{
-                label: 'Người dùng mới',
-                data: [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56],
-                borderColor: 'rgb(59, 130, 246)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                }
-            }
-        }
-    });
-});
-
 // Kiểm tra trạng thái đăng nhập
 function checkLoginStatus() {
     const token = localStorage.getItem('access_token');
@@ -64,6 +36,13 @@ function handleLogout() {
 
 // Form handling
 document.addEventListener('DOMContentLoaded', function() {
+    // Kiểm tra trạng thái đăng nhập trước
+    checkLoginStatus();
+    
+    // Load users and statistics when page loads
+    fetchUsers();
+    fetchAndUpdateStatistics();
+    
     // Initialize AntD DatePickers once DOM is loaded
     initAddDatePicker();
     
@@ -100,9 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // Load users when page loads
-    fetchUsers();
 });
 
 // Modal functions
@@ -308,31 +284,29 @@ async function submitAddForm() {
         
         const result = await response.json();
         
-        if (response.status === 400) {
+        if (!response.ok) {
             // Handle validation errors from API
             if (result.errors && Array.isArray(result.errors)) {
                 result.errors.forEach(error => {
                     showAddError(error.field, error.message);
                 });
-            } else {
-                throw new Error(result.message || 'Thêm người dùng thất bại');
             }
-        } else if (response.status === 201 || response.status === 200) {
-            // Adding successful
-            alert('Thêm người dùng mới thành công!');
-            closeAddModal();
-            
-            // Refresh user list
-            fetchUsers();
-        } else {
             throw new Error(result.message || 'Thêm người dùng thất bại');
         }
         
-        // Remove loading state
-        document.getElementById('addUserForm').classList.remove('opacity-50');
+        // Adding successful
+        toast.success('Thêm người dùng mới thành công!');
+        closeAddModal();
+        
+        // Refresh user list and statistics
+        fetchUsers();
+        fetchAndUpdateStatistics();
+        
     } catch (error) {
         console.error('Error adding user:', error);
-        alert(error.message || 'Không thể thêm người dùng. Vui lòng thử lại sau.');
+        toast.error(error.message || 'Không thể thêm người dùng. Vui lòng thử lại sau.');
+    } finally {
+        // Remove loading state
         document.getElementById('addUserForm').classList.remove('opacity-50');
     }
 }
@@ -395,6 +369,7 @@ async function fetchUserData(userId) {
         document.getElementById('editUsername').value = userData.userName || '';
         document.getElementById('editEmail').value = userData.email || '';
         document.getElementById('editPhone').value = userData.phone || '';
+        document.getElementById('editImgUrl').value = userData.img || '';
         
         // Format birthdate if exists
         if (userData.birthDate) {
@@ -466,26 +441,11 @@ async function fetchUserData(userId) {
         document.getElementById('editUserForm').classList.remove('opacity-50');
     } catch (error) {
         console.error('Error fetching user data:', error);
-        alert(error.message || 'Không thể tải thông tin người dùng. Vui lòng thử lại sau.');
+        toast.error(error.message || 'Không thể tải thông tin người dùng. Vui lòng thử lại sau.');
     }
 }
 
 // Form validation and submission
-document.addEventListener('DOMContentLoaded', function() {
-    const editUserForm = document.getElementById('editUserForm');
-    
-    if (editUserForm) {
-        editUserForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validate form before submission
-            if (validateEditForm()) {
-                submitEditForm();
-            }
-        });
-    }
-});
-
 function validateEditForm() {
     // Clear previous errors
     clearErrors();
@@ -581,8 +541,8 @@ async function submitEditForm() {
             birthDate: formattedBirthDate,
             gender: document.getElementById('editGender').value === 'true',
             address: document.getElementById('editAddress').value,
-            roleName: document.getElementById('editRole').value,
             status: document.getElementById('editStatus').value === 'true',
+            img: document.getElementById('editImgUrl').value,
             id: document.getElementById('editUserId').value
         };
         
@@ -601,29 +561,29 @@ async function submitEditForm() {
         
         const result = await response.json();
         
-        if (result.isError) {
+        if (!response.ok) {
             // Handle validation errors from API
             if (result.errors && Array.isArray(result.errors)) {
                 result.errors.forEach(error => {
                     showError(error.field, error.message);
                 });
-            } else {
-                throw new Error(result.message || 'Cập nhật thất bại');
             }
-        } else {
-            // Update successful
-            alert('Cập nhật thông tin người dùng thành công!');
-            closeEditModal();
-            
-            // Refresh user list
-            fetchUsers();
+            throw new Error(result.message || 'Cập nhật thất bại');
         }
         
-        // Remove loading state
-        document.getElementById('editUserForm').classList.remove('opacity-50');
+        // Update successful
+        toast.success('Cập nhật thông tin người dùng thành công!');
+        closeEditModal();
+        
+        // Refresh user list and statistics
+        fetchUsers();
+        fetchAndUpdateStatistics();
+        
     } catch (error) {
         console.error('Error updating user:', error);
-        alert(error.message || 'Không thể cập nhật thông tin người dùng. Vui lòng thử lại sau.');
+        toast.error(error.message || 'Không thể cập nhật thông tin người dùng. Vui lòng thử lại sau.');
+    } finally {
+        // Remove loading state
         document.getElementById('editUserForm').classList.remove('opacity-50');
     }
 }
@@ -654,26 +614,27 @@ async function deleteUser(userId) {
             }
             
             if (response.status === 404) {
-                alert('Không tìm thấy người dùng này!');
+                toast.error('Không tìm thấy người dùng này!');
                 return;
             }
             
             if (response.status === 500) {
-                alert('Lỗi máy chủ, vui lòng thử lại sau!');
+                toast.error('Lỗi máy chủ, vui lòng thử lại sau!');
                 return;
             }
             
             if (response.status === 200) {
-        alert('Xóa người dùng thành công!');
-                // Refresh the users list
+                toast.success('Xóa người dùng thành công!');
+                // Refresh the users list and statistics
                 fetchUsers();
+                fetchAndUpdateStatistics();
             } else {
                 const result = await response.json();
                 throw new Error(result.message || 'Xóa người dùng thất bại!');
             }
         } catch (error) {
             console.error('Error deleting user:', error);
-            alert(error.message || 'Không thể xóa người dùng. Vui lòng thử lại sau.');
+            toast.error(error.message || 'Không thể xóa người dùng. Vui lòng thử lại sau.');
         }
     }
 }
@@ -730,13 +691,15 @@ let filteredUsers = [];
 async function fetchUsers() {
     try {
         const accessToken = localStorage.getItem('access_token');
+        const searchTerm = document.getElementById('searchInput').value;
+        const statusFilter = document.getElementById('statusFilter').value;
         
         if (!accessToken) {
             window.location.href = '/login.html';
             return;
         }
 
-        const response = await fetch('http://localhost:5000/api/users', {
+        const response = await fetch(`http://localhost:5000/api/users?page=${currentPage}&limit=${itemsPerPage}&search=${searchTerm}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -766,39 +729,23 @@ async function fetchUsers() {
         const activeUsers = allUsers.filter(user => user.status).length;
         document.getElementById('activeUsersCount').textContent = activeUsers;
         
+        // Calculate total pages based on API response
+        totalPages = Math.ceil(result.data.total / itemsPerPage);
+        
         updatePagination();
         displayUsers();
     } catch (error) {
         console.error('Error fetching users:', error);
-        alert(error.message || 'Không thể tải danh sách người dùng. Vui lòng thử lại sau.');
+        toast.error(error.message || 'Không thể tải danh sách người dùng. Vui lòng thử lại sau.');
     }
 }
 
 function handleSearch() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const statusFilter = document.getElementById('statusFilter').value;
-    
-    filteredUsers = allUsers.filter(user => {
-        const matchesSearch = 
-            user.userName.toLowerCase().includes(searchTerm) ||
-            user.email.toLowerCase().includes(searchTerm) ||
-            user.phone.toLowerCase().includes(searchTerm);
-        
-        const matchesStatus = 
-            statusFilter === 'all' ||
-            (statusFilter === 'active' && user.status) ||
-            (statusFilter === 'locked' && !user.status);
-        
-        return matchesSearch && matchesStatus;
-    });
-    
-    currentPage = 1;
-    updatePagination();
-    displayUsers();
+    currentPage = 1; // Reset to first page when searching
+    fetchUsers();
 }
 
 function updatePagination() {
-    totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
     const paginationElement = document.getElementById('pagination');
     
     let paginationHTML = `
@@ -832,8 +779,7 @@ function updatePagination() {
 function changePage(page) {
     if (page < 1 || page > totalPages) return;
     currentPage = page;
-    updatePagination();
-    displayUsers();
+    fetchUsers();
 }
 
 // Display users in table
@@ -841,16 +787,20 @@ function displayUsers() {
     const tableBody = document.getElementById('usersTableBody');
     const tableInfo = document.getElementById('tableInfo');
     
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = Math.min(startIndex + itemsPerPage, filteredUsers.length);
-    
     // Clear table body
     tableBody.innerHTML = '';
     
+    if (!filteredUsers.length) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="8" class="text-center py-4 text-gray-500">Không có dữ liệu</td>`;
+        tableBody.appendChild(tr);
+        tableInfo.textContent = 'Không có kết quả';
+        return;
+    }
+    
     // Display users for current page
-    for (let i = startIndex; i < endIndex; i++) {
-        const user = filteredUsers[i];
-        const rowIndex = i + 1; // Calculate row index (1-based)
+    filteredUsers.forEach((user, index) => {
+        const rowIndex = (currentPage - 1) * itemsPerPage + index + 1;
         
         const statusClass = user.status 
             ? 'bg-green-100 text-green-800' 
@@ -861,7 +811,7 @@ function displayUsers() {
         const roleBadgeColor = getRoleBadgeColor(user.roleName || 'User');
         
         const row = document.createElement('tr');
-        row.dataset.userId = user.id; // Store the user ID as a data attribute
+        row.dataset.userId = user.id;
         row.innerHTML = `
             <td class="px-6 py-4 whitespace-nowrap text-sm">${rowIndex}</td>
             <td class="px-6 py-4 whitespace-nowrap">
@@ -897,19 +847,20 @@ function displayUsers() {
         `;
         
         tableBody.appendChild(row);
-    }
+    });
     
     // Add event listeners to delete buttons
     document.querySelectorAll('.delete-user-btn').forEach(button => {
         button.addEventListener('click', function() {
             const userId = this.getAttribute('data-user-id');
-            console.log(userId);
             deleteUser(userId);
         });
     });
     
     // Update table info
-    tableInfo.textContent = `Hiển thị ${startIndex + 1} đến ${endIndex} của ${filteredUsers.length} người dùng`;
+    const startIndex = (currentPage - 1) * itemsPerPage + 1;
+    const endIndex = Math.min(startIndex + filteredUsers.length - 1, currentPage * itemsPerPage);
+    tableInfo.textContent = `Hiển thị ${startIndex} đến ${endIndex} của ${totalPages * itemsPerPage} người dùng`;
 }
 
 // Get badge color based on role
@@ -923,5 +874,58 @@ function getRoleBadgeColor(role) {
             return 'bg-gray-100 text-gray-800';
         default:
             return 'bg-gray-100 text-gray-800';
+    }
+}
+
+// Hàm lấy thống kê và cập nhật UI
+async function fetchAndUpdateStatistics() {
+    try {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            window.location.href = '/login.html';
+            return;
+        }
+
+        const response = await fetch('http://localhost:5000/api/statistic/user', {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        const result = await response.json();
+        if (result.statusCode === 200 && result.data) {
+            const stats = result.data;
+            
+            // Cập nhật các số liệu thống kê
+            document.getElementById('totalUsersOverview').textContent = stats.userCount;
+            document.querySelector('.bg-green-50 p:nth-child(2)').textContent = stats.userOfMonth;
+            document.getElementById('activeUsersCount').textContent = stats.userActive;
+            document.querySelector('.bg-red-50 p:nth-child(2)').textContent = stats.userInactive;
+
+            // Cập nhật biểu đồ
+            const ctx = document.getElementById('userChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: stats.chart.label,
+                    datasets: [{
+                        label: 'Người dùng mới',
+                        data: stats.chart.data,
+                        borderColor: 'rgb(59, 130, 246)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching statistics:', error);
     }
 }

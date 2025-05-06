@@ -66,7 +66,7 @@ function updateDashboardStats(data) {
         document.getElementById('activity-user-time').textContent = 'Hôm nay';
         document.getElementById('activity-doctor').textContent = `Bác sĩ mới tham gia: ${data.usually.doctorCountOfDay}`;
         document.getElementById('activity-doctor-time').textContent = 'Hôm nay';
-        document.getElementById('activity-appointment').textContent = `Lịch khám mới được tạo: ${data.usually.appointmentCountOfDay}`;
+        document.getElementById('activity-appointment').textContent = `Lịch khám được xác nhận hôm nay: ${data.usually.appointmentCountOfDay}`;
         document.getElementById('activity-appointment-time').textContent = 'Hôm nay';
     }
 }
@@ -135,7 +135,7 @@ function initRevenueChart(chartData) {
         data: {
             labels: chartData.label,
             datasets: [{
-                label: 'Doanh thu (triệu VNĐ)',
+                label: 'Doanh thu (VNĐ)',
                 data: chartData.data,
                 backgroundColor: '#4a90e2'
             }]
