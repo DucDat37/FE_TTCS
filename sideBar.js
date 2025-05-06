@@ -36,9 +36,9 @@ const sidebarItems = [
         href: 'record.html'
     },
     {
-        href: 'medicines.html',
-        icon: 'fas fa-pills',
-        text: 'Quản lý thuốc'
+        href: 'news.html',
+        icon: 'fas fa-newspaper',
+        text: 'Quản lý bài đăng'
     },
     {
         href: 'specialty.html',
