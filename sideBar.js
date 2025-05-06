@@ -25,6 +25,16 @@ const sidebarItems = [
         icon: 'fas fa-hospital',
         text: 'Quản lý lịch hẹn'
     },
+        {
+        text: 'Xác nhận lịch hẹn',
+        icon: 'fas fa-clipboard-check',
+        href: 'appointment.html'
+    },
+    {
+        text: 'Quản lý hồ sơ bệnh án',
+        icon: 'fas fa-file-medical',
+        href: 'record.html'
+    },
     {
         href: 'medicines.html',
         icon: 'fas fa-pills',

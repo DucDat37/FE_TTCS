@@ -89,7 +89,7 @@ function initAppointmentsChart(chartData) {
         data: {
             labels: chartData.label,
             datasets: [{
-                label: 'Số lịch khám',
+                label: 'Số lịch khám đã xác nhận',
                 data: chartData.data,
                 fill: false,
                 borderColor: '#4a90e2',
