@@ -1,3 +1,13 @@
+function getTopicLabel(topic) {
+    const topicLabels = {
+      appointment: "Đặt lịch khám",
+      inquiry: "Thắc mắc dịch vụ",
+      feedback: "Góp ý, phản hồi",
+      other: "Khác"
+    };
+  
+    return topicLabels[topic] || topic;
+  }
 document.querySelector("form").addEventListener("submit", async function (e) {
   e.preventDefault(); // Ngăn form submit mặc định
 
@@ -19,13 +29,13 @@ document.querySelector("form").addEventListener("submit", async function (e) {
       name: name,
       email: email,
       phone: phone,
-      subject: subject,
-      message: message
+      topic: getTopicLabel(subject),
+      content: message
   };
 
   // Gửi dữ liệu đến API
   try {
-      const response = await fetch("https://localhost:5000/api/notification/contactus", {
+      const response = await fetch("http://localhost:5000/api/notification/contactus", {
           method: "POST",
           headers: {
               "Content-Type": "application/json"
