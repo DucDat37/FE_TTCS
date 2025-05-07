@@ -118,113 +118,50 @@
   </style>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script>
-  function downloadPDF() {
-    const element = document.querySelector(".invoice");
-    const opt = {
-      margin: 0.5,
-      filename: 'hoa_don.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(element).save();
-  }
-
-  // Dữ liệu mẫu - có thể thay thế bằng dữ liệu từ API
-  const invoiceData = {
-    id: "INV123456",
-    appointmentId: "APT789",
-    total: 350000,
-    status: "Đã thanh toán",
-    note: "Thanh toán đầy đủ",
-    createdAt: "24/04/2025 15:45:12",
-    updatedAt: "24/04/2025 15:45:12",
-    appointment: {
-      id: "APT789",
-      date: "24/04/2025",
-      status: "Hoàn thành"
+<!-- <script>
+  const data = {
+    "id": "ce519d00-000f-4191-b593-0896cb358488",
+    "appointmentId": "08bd22aa-89aa-47d3-a9f1-432b7de8ba01",
+    "total": 1000000,
+    "status": "Chưa thanh toán",
+    "note": "ads",
+    "createdAt": "01/05/2025 00:01:31",
+    "updatedAt": "01/05/2025 00:01:31",
+    "appointment": {
+      "id": "08bd22aa-89aa-47d3-a9f1-432b7de8ba01",
+      "date": "20/04/2025",
+      "status": "Đã khám xong"
     },
-    service: {
-      id: "SV001",
-      name: "Khám tổng quát",
-      price: 350000
+    "service": {
+      "id": "c64a6d79-a62d-4602-9719-203524b95d08",
+      "name": "Khám bệnh",
+      "price": 500000
     },
-    patient: {
-      id: "PT123",
-      userName: "Nguyễn Văn A",
-      email: "nguyenvana@example.com",
-      phone: "0123456789",
-      address: "123 Đường ABC, Quận XYZ, Hà Nội"
+    "patient": {
+      "id": "401c33b4-02b7-4a77-b685-a9b687458557",
+      "userName": "Nguyễn Thị Liên",
+      "email": "nguyenchi13628003@gmail.com",
+      "phone": "01234567899"
     },
-    timeSlot: {
-      id: "TS456",
-      startDate: "24/04/2025 08:00:00",
-      endDate: "24/04/2025 08:30:00",
-      status: "Đã sử dụng"
+    "timeSlot": {
+      "id": "221c469c-d450-4bbe-92b1-14d11c05b656",
+      "startDate": "09/04/2025 10:00:00",
+      "endDate": "09/04/2025 10:30:00",
+      "status": null
     },
-    doctor: {
-      id: "DR001",
-      userName: "BS. Trần Văn B",
-      email: "drb@youmed.com",
-      phone: "0987654321",
-      address: "Bệnh viện YOUMED, Hà Nội",
-      specialty: "Nội tổng quát"
+    "doctor": {
+      "id": "35cdcb73-65d7-42fb-a681-fe78a67ed32a",
+      "userName": "Doctor",
+      "email": "doctor@example.com",
+      "phone": "0987654321",
+      "address": "Hà Nội"
     }
   };
-
-  // Định dạng thời gian
-  function formatTime(dateTimeStr) {
-    if (!dateTimeStr) return "";
-    const [datePart, timePart] = dateTimeStr.split(" ");
-    const [day, month, year] = datePart.split("/");
-    const [hour, minute, second] = timePart.split(":");
-    return `${hour}:${minute} ngày ${day}/${month}/${year}`;
-  }
-
-  // Điền dữ liệu vào hóa đơn khi trang tải xong
-  document.addEventListener('DOMContentLoaded', function() {
-    // Thông tin chung
-    document.getElementById('invoice-id').textContent = invoiceData.id;
-    document.getElementById('invoice-date').textContent = invoiceData.createdAt;
-    
-    // Thông tin bệnh nhân
-    document.getElementById('patient-name').textContent = invoiceData.patient.userName;
-    document.getElementById('patient-id').textContent = invoiceData.patient.id;
-    document.getElementById('patient-phone').textContent = invoiceData.patient.phone;
-    document.getElementById('patient-address').textContent = invoiceData.patient.address;
-    
-    // Thông tin bác sĩ
-    document.getElementById('doctor-name').textContent = invoiceData.doctor.userName;
-    document.getElementById('doctor-specialty').textContent = invoiceData.doctor.specialty;
-    document.getElementById('doctor-phone').textContent = invoiceData.doctor.phone;
-    
-    // Thông tin cuộc hẹn
-    document.getElementById('appointment-date').textContent = invoiceData.appointment.date;
-    document.getElementById('appointment-status').textContent = invoiceData.appointment.status;
-    
-    // Thông tin khung giờ
-    document.getElementById('time-slot').textContent = 
-      `${formatTime(invoiceData.timeSlot.startDate)} - ${formatTime(invoiceData.timeSlot.endDate).split(" ")[0]}`;
-    document.getElementById('time-slot-status').textContent = invoiceData.timeSlot.status;
-    
-    // Điền thông tin dịch vụ vào bảng
-    const serviceTable = document.getElementById('service-table');
-    const row = serviceTable.insertRow();
-    row.insertCell(0).textContent = "1";
-    row.insertCell(1).textContent = invoiceData.service.name;
-    row.insertCell(2).textContent = "1";
-    row.insertCell(3).textContent = invoiceData.service.price.toLocaleString('vi-VN');
-    row.insertCell(4).textContent = invoiceData.service.price.toLocaleString('vi-VN');
-    
-    // Điền thông tin tổng
-    document.getElementById('total-amount').textContent = invoiceData.total.toLocaleString('vi-VN');
-    document.getElementById('paid-amount').textContent = invoiceData.total.toLocaleString('vi-VN');
-    document.getElementById('remaining-amount').textContent = "0";
-    document.getElementById('invoice-status').textContent = invoiceData.status;
-    document.getElementById('invoice-note').textContent = invoiceData.note;
+  document.addEventListener('DOMContentLoaded', () => {
+    updateInvoiceUI(data);
   });
-</script>
+ 
+</script> -->
 <body>
   <div class="invoice">
     <h2>Bệnh viện đa khoa YOUMED</h2>
@@ -243,14 +180,12 @@
         <p><strong>Họ tên:</strong> <span id="patient-name">Nguyễn Văn A</span></p>
         <p><strong>Mã:</strong> <span id="patient-id">PT123</span></p>
         <p><strong>Điện thoại:</strong> <span id="patient-phone">0123 456 789</span></p>
-        <p><strong>Địa chỉ:</strong> <span id="patient-address">123 Đường ABC, Hà Nội</span></p>
       </div>
       
       <div class="info-section">
         <div class="info-section-title">THÔNG TIN BÁC SĨ</div>
         <p><strong>Bác sĩ:</strong> <span id="doctor-name">BS. Trần Văn B</span></p>
-        <p><strong>Chuyên khoa:</strong> <span id="doctor-specialty">Nội tổng quát</span></p>
-        <p><strong>Điện thoại:</strong> <span id="doctor-phone">0987 654 321</span></p>
+        <p><strong>Số Điện thoại:</strong> <span id="doctor-phone">0987 654 321</span></p>
       </div>
     </div>
     
@@ -266,7 +201,6 @@
         <div class="time-slot">
           <div class="time-slot-title">Khung giờ đặt hẹn:</div>
           <p id="time-slot">08:00 - 08:30 ngày 24/04/2025</p>
-          <p><strong>Trạng thái:</strong> <span id="time-slot-status">Đã đặt</span></p>
         </div>
       </div>
     </div>
@@ -326,5 +260,6 @@
   </div>
   
   <button class="print-btn" onclick="downloadPDF()">Xuất PDF</button>
+  <script src="invoice_detail.js"></script>
 </body>
 </html>
