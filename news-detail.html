@@ -4,27 +4,66 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Thuốc Lomexin 1000 mg là gì? - YouMed</title>
+    <title>YouMed - Tin Y tế</title>
     <link rel="website icon" type="png" href="hospital-logo.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="header mx-auto">
         <div class="flex items-center justify-between">
+            <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
             <a href="index.html">
-                <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
+                <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg"
+                    alt="YouMed">
             </a>
         </div>
-        <nav class="nav">
-            <a href="#">Đặt khám</a>
-            <a href="#">Tư vấn trực tuyến</a>
-            <a href="#">Store</a>
-            <a href="#">Tin Y tế</a>
-            <a href="#">Dành cho nhân viên Y tế</a>
+        <nav class="flex items-center justify-between">
+            <div class="flex space-x-2 pr-4">
+                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt khám</a>
+                <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn
+                    trực tuyến</a>
+                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển dụng</a>
+                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tin Y tế</a>
+                <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
+            </div>
+            <div id="authSection">
+                <!-- Nút đăng nhập -->
+                <button id="loginBtn"
+                    class="p-2 border-2 border-blue-500 text-blue-500 text-sm font-semibold py-1.5 px-4 rounded-md hover:bg-blue-500 hover:text-white active:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition">
+                    Đăng nhập
+                </button>
+
+                <!-- Dropdown menu khi đã đăng nhập -->
+                <div id="userDropdown" class="hidden relative">
+                    <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
+                        <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar"
+                            class="w-8 h-8 rounded-full">
+                        <span id="userName" class="text-gray-800"></span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </button>
+
+                    <!-- Dropdown content -->
+                    <div id="userDropdownMenu"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                        <div class="py-1">
+                            <a href="admin.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hidden"
+                                id="adminPage">
+                                <i class="fas fa-home mr-2"></i>Trang quản trị
+                            </a>
+                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-user mr-2"></i>Thông tin cá nhân
+                            </a>
+                            <a href="#" onclick="logout()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Kết thúc dropdown menu -->
+            </div>
         </nav>
-        <button class="login-btn" onclick="window.location.href='auth.html'">Đăng nhập</button>
     </header>
 
     <!-- Breadcrumb -->
@@ -35,7 +74,7 @@
                 <span>/</span>
                 <a href="#" class="hover:text-blue-500">Tin Y tế</a>
                 <span>/</span>
-                <span class="text-gray-900">Thuốc Lomexin 1000 mg</span>
+                <span class="text-gray-900" id="news-title">...</span>
             </div>
         </div>
     </nav>
@@ -45,68 +84,21 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Article Content -->
             <div class="lg:col-span-2">
-                <h1 class="text-3xl font-bold mb-4">Thuốc Lomexin 1000 mg là gì? Công dụng, cách dùng và lưu ý khi dùng</h1>
+                <h1 class="text-3xl font-bold mb-4" id="article-title">...</h1>
                 
                 <div class="flex items-center text-sm text-gray-600 mb-6">
-                    <span>Tác giả: Dược sĩ Bùi Hoàng Ngọc Khánh</span>
+                    <span>Tác giả: <span id="article-author">...</span></span>
                     <span class="mx-2">•</span>
-                    <span>Cập nhật: 25/12/2024</span>
+                    <span>Cập nhật: <span id="article-date">...</span></span>
                 </div>
 
-                <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/lomexin-1000-370x210.jpg" 
-                     alt="Thuốc Lomexin" 
+                <img id="article-image" 
+                     src="" 
+                     alt="" 
                      class="w-full rounded-lg mb-6">
 
-                <div class="prose max-w-none">
-                    <div class="bg-blue-50 p-4 rounded-lg mb-6">
-                        <h2 class="text-xl font-semibold mb-3">Mục lục</h2>
-                        <ul class="list-decimal list-inside space-y-1">
-                            <li><a href="#section1" class="text-blue-600 hover:underline">Thuốc Lomexin 1000mg là gì?</a></li>
-                            <li><a href="#section2" class="text-blue-600 hover:underline">Thành phần của thuốc</a></li>
-                            <li><a href="#section3" class="text-blue-600 hover:underline">Công dụng của thuốc</a></li>
-                            <li><a href="#section4" class="text-blue-600 hover:underline">Liều dùng và cách dùng</a></li>
-                            <li><a href="#section5" class="text-blue-600 hover:underline">Lưu ý khi sử dụng</a></li>
-                        </ul>
-                    </div>
-
-                    <section id="section1">
-                        <h2 class="text-2xl font-bold mb-4">Thuốc Lomexin 1000mg là gì?</h2>
-                        <p class="mb-4">
-                            Lomexin 1000mg là thuốc điều trị nấm âm đạo, được sản xuất bởi công ty Recordati Industry (Ý). Thuốc có dạng viên đặt âm đạo màu trắng ngà, chứa hoạt chất Fenticonazole nitrate với hàm lượng 1000mg.
-                        </p>
-                    </section>
-
-                    <section id="section2">
-                        <h2 class="text-2xl font-bold mb-4">Thành phần của thuốc</h2>
-                        <ul class="list-disc list-inside mb-4">
-                            <li>Hoạt chất: Fenticonazole nitrate 1000mg</li>
-                            <li>Tá dược: Triglycerides chuỗi trung bình vừa đủ 1 viên</li>
-                        </ul>
-                    </section>
-
-                    <section id="section3">
-                        <h2 class="text-2xl font-bold mb-4">Công dụng của thuốc</h2>
-                        <p class="mb-4">
-                            Lomexin được chỉ định điều trị các bệnh nhiễm nấm âm đạo do Candida albicans và các loài Candida khác gây ra. Thuốc có tác dụng kháng nấm thông qua cơ chế ức chế tổng hợp ergosterol - thành phần quan trọng của màng tế bào nấm.
-                        </p>
-                    </section>
-
-                    <section id="section4">
-                        <h2 class="text-2xl font-bold mb-4">Liều dùng và cách dùng</h2>
-                        <p class="mb-4">
-                            Đặt 1 viên Lomexin 1000mg vào sâu trong âm đạo vào buổi tối trước khi đi ngủ. Thông thường chỉ cần dùng 1 liều duy nhất là đủ để điều trị. Trong trường hợp cần thiết, có thể đặt thêm 1 viên nữa sau 3 ngày.
-                        </p>
-                    </section>
-
-                    <section id="section5">
-                        <h2 class="text-2xl font-bold mb-4">Lưu ý khi sử dụng</h2>
-                        <ul class="list-disc list-inside mb-4">
-                            <li>Không sử dụng thuốc khi có tiền sử mẫn cảm với bất kỳ thành phần nào của thuốc</li>
-                            <li>Nên sử dụng thuốc vào buổi tối trước khi đi ngủ</li>
-                            <li>Không nên sử dụng thuốc trong thời kỳ kinh nguyệt</li>
-                            <li>Cần thông báo cho bác sĩ nếu đang mang thai hoặc cho con bú</li>
-                        </ul>
-                    </section>
+                <div class="prose max-w-none" id="article-content">
+                    <!-- Content will be loaded here -->
                 </div>
             </div>
 
@@ -114,29 +106,8 @@
             <div class="lg:col-span-1">
                 <div class="sticky top-4">
                     <h3 class="text-xl font-bold mb-4">Bài viết liên quan</h3>
-                    <div class="space-y-4">
-                        <a href="#" class="block group">
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                                <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/lomexin-200-370x210.jpg" 
-                                     alt="Thuốc Lomexin" 
-                                     class="w-full h-40 object-cover">
-                                <div class="p-4">
-                                    <h4 class="font-semibold group-hover:text-blue-600">Lomexin 200mg là thuốc gì? Công dụng, cách dùng và lưu ý khi dùng</h4>
-                                    <div class="text-sm text-gray-600 mt-2">24/12/2024</div>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#" class="block group">
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                                <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/nextg-cal-370x210.jpg" 
-                                     alt="Thuốc NextG Cal" 
-                                     class="w-full h-40 object-cover">
-                                <div class="p-4">
-                                    <h4 class="font-semibold group-hover:text-blue-600">Thuốc NextG Cal: Bổ sung canxi và điều trị loãng xương</h4>
-                                    <div class="text-sm text-gray-600 mt-2">20/04/2022</div>
-                                </div>
-                            </div>
-                        </a>
+                    <div class="space-y-4" id="related-articles">
+                        <!-- Related articles will be loaded here -->
                     </div>
                 </div>
             </div>
@@ -151,5 +122,7 @@
             </div>
         </div>
     </footer>
+
+    <script src="news-detail.js"></script>
 </body>
 </html> 

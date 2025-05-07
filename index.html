@@ -231,22 +231,9 @@
                 <p class="text-sm">Danh sách bác sĩ, bệnh viện, phòng khám theo chuyên khoa</p>
             </div>
             <div class="px-4 md:px-6">
-                <details class="group flex flex-row flex-wrap mt-10 [&amp;_summary::-webkit-details-marker]:hidden">
-                    <summary class="grid grid-cols-3 lg:grid-cols-6">
-                        <div class="col-span-1"><a href=""
-                                class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-yu rounded-xl transition">
-                                <div class="rounded-full mb-2 w-16 h-16"><img
-                                        src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Yhoccotruyen.png"
-                                        alt="Y học cổ truyền" height="64" width="64"
-                                        data-lazy-src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Yhoccotruyen.png"
-                                        data-ll-status="loaded" class="entered lazyloaded"><noscript><img loading="lazy"
-                                            src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Yhoccotruyen.png"
-                                            alt="Y học cổ truyền" height="64" width="64"></noscript></div>
-                                <h3>Y học cổ truyền</h3>
-                            </a>
-                        </div>
-                    </summary>
-                </details>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-10" id="specialties-grid">
+                    <!-- Specialties will be loaded here dynamically -->
+                </div>
             </div>
         </div>
     </section>
