@@ -200,25 +200,29 @@ function displayNews(news) {
     const newsContainer = document.querySelector('#medical-news .grid');
     if (!newsContainer) return;
 
+    // Thêm class để hiển thị một hàng và scroll ngang
+    newsContainer.className = 'flex overflow-x-auto gap-6 px-4 pb-4';
     newsContainer.innerHTML = ''; // Xóa nội dung cũ
 
     news.forEach(item => {
         const newsCard = `
-            <a href="news-detail.html?id=${item.id}" class="block group">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="${item.img}" 
-                         alt="${item.name}" 
-                         class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">${item.name}</h3>
-                        <div class="flex items-center text-sm text-gray-600">
-                            <span>${item.user.userName}</span>
-                            <span class="mx-2">•</span>
-                            <span>${item.createdAt}</span>
+            <div class="flex-none w-80">
+                <a href="news-detail.html?id=${item.id}" class="block group h-full">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden h-full flex flex-col">
+                        <img src="${item.img}" 
+                             alt="${item.name}" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-4 flex-grow">
+                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600 line-clamp-2">${item.name}</h3>
+                            <div class="flex items-center text-sm text-gray-600 mt-auto">
+                                <span>${item.user.userName}</span>
+                                <span class="mx-2">•</span>
+                                <span>${item.createdAt}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         `;
         newsContainer.innerHTML += newsCard;
     });
