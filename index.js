@@ -59,7 +59,100 @@ window.addEventListener('click', function(event) {
     }
 });
 
-// Kiểm tra trạng thái đăng nhập khi trang được tải
+// Fetch danh sách bác sĩ
+async function fetchDoctors() {
+    try {
+        const response = await fetch('http://localhost:5000/api/doctor');
+        const result = await response.json();
+        
+        if (result.statusCode === 200) {
+            const doctors = result.data.doctors.slice(0, 6); // Lấy 6 bác sĩ đầu tiên
+            displayDoctors(doctors);
+        } else {
+            console.error('Lỗi khi lấy danh sách bác sĩ:', result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi khi gọi API:', error);
+    }
+}
+
+// Hiển thị danh sách bác sĩ
+function displayDoctors(doctors) {
+    const doctorsContainer = document.querySelector('.mt-4.flex.overflow-x-auto.space-x-4.px-8');
+    doctorsContainer.innerHTML = ''; // Xóa nội dung cũ
+
+    doctors.forEach(doctor => {
+        const doctorCard = `
+            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <img alt="Portrait of ${doctor.userName}" class="rounded-full mx-auto" height="100"
+                    src="${doctor.img}"
+                    width="100" />
+                <div class="text-center mt-4">
+                    <h3 class="font-semibold">
+                        ${doctor.degree} ${doctor.userName}
+                    </h3>
+                    <p class="text-gray-500">
+                        ${doctor.specialtyName || 'Chuyên khoa'}
+                    </p>
+                    <p class="text-gray-500">
+                        ${doctor.description || 'Bác sĩ chuyên khoa'}
+                    </p>
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                        Đặt lịch khám
+                    </button>
+                </div>
+            </div>
+        `;
+        doctorsContainer.innerHTML += doctorCard;
+    });
+}
+
+// Fetch đội ngũ chuyên gia
+async function fetchExperts() {
+    try {
+        const response = await fetch('http://localhost:5000/api/doctor');
+        const result = await response.json();
+        
+        if (result.statusCode === 200) {
+            const experts = result.data.doctors.slice(0, 6); // Lấy 6 chuyên gia đầu tiên
+            displayExperts(experts);
+        } else {
+            console.error('Lỗi khi lấy danh sách chuyên gia:', result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi khi gọi API:', error);
+    }
+}
+
+// Hiển thị đội ngũ chuyên gia
+function displayExperts(experts) {
+    const expertsContainer = document.querySelector('#expert-board .md\\:basis-2\\/3.gap-6.grid');
+    if (!expertsContainer) return;
+
+    expertsContainer.innerHTML = ''; // Xóa nội dung cũ
+
+    experts.forEach(expert => {
+        const expertCard = `
+            <a href="" class="col-span-1 group flex items-center gap-4">
+                <div class="relative rounded-full overflow-hidden w-24 h-24 bg-slate-200">
+                    <img width="96" height="96"
+                        src="${expert.img}"
+                        alt="${expert.degree} ${expert.userName}"
+                        class="entered lazyloaded">
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-medium group-hover:text-primary">${expert.degree} ${expert.userName}</h4>
+                    <p class="text-sm">${expert.specialtyName || 'Chuyên khoa'}</p>
+                </div>
+            </a>
+        `;
+        expertsContainer.innerHTML += expertCard;
+    });
+}
+
+// Gọi hàm fetchExperts khi trang được tải
 document.addEventListener('DOMContentLoaded', function() {
     checkLoginStatus();
+    fetchDoctors();
+    fetchExperts();
 }); 
