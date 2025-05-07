@@ -150,33 +150,51 @@ function displayExperts(experts) {
     });
 }
 
-// Function to fetch and display specialties
+let showAllSpecialties = false;
+let specialtiesData = [];
+
 async function loadSpecialties() {
     try {
-        const response = await fetch('http://localhost:5000/api/specialty');
+        const response = await fetch('http://localhost:5000/api/specialty?page=1&limit=1999');
         const result = await response.json();
         
         if (!result.isError && result.data.specialty) {
-            const specialtiesGrid = document.getElementById('specialties-grid');
-            specialtiesGrid.innerHTML = result.data.specialty.map(specialty => `
-                <div class="col-span-1">
-                    <a href="#" class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-lg transition-shadow duration-300 rounded-xl transition">
-                        <div class="rounded-full mb-2 w-16 h-16">
-                            <img src="${specialty.url}" 
-                                 alt="${specialty.name}" 
-                                 height="64" 
-                                 width="64"
-                                 class="w-full h-full object-cover">
-                        </div>
-                        <h3>${specialty.name}</h3>
-                    </a>
-                </div>
-            `).join('');
+            specialtiesData = result.data.specialty;
+            renderSpecialties();
         }
     } catch (error) {
         console.error('Error loading specialties:', error);
     }
 }
+
+function renderSpecialties() {
+    const specialtiesGrid = document.getElementById('specialties-grid');
+    const toShow = showAllSpecialties ? specialtiesData : specialtiesData.slice(0, 6);
+    specialtiesGrid.innerHTML = toShow.map(specialty => `
+        <div class="col-span-1">
+            <a href="#" class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-lg transition-shadow duration-300 rounded-xl transition">
+                <div class="rounded-full mb-2 w-16 h-16">
+                    <img src="${specialty.url}" 
+                         alt="${specialty.name}" 
+                         height="64" 
+                         width="64"
+                         class="w-full h-full object-cover">
+                </div>
+                <h3>${specialty.name}</h3>
+            </a>
+        </div>
+    `).join('');
+    // Đổi text nút
+    document.getElementById('toggle-specialties-btn').textContent = showAllSpecialties ? 'Thu gọn' : 'Xem thêm';
+}
+
+document.getElementById('toggle-specialties-btn').onclick = function() {
+    showAllSpecialties = !showAllSpecialties;
+    renderSpecialties();
+};
+
+// Gọi loadSpecialties khi trang load
+loadSpecialties();
 
 // Fetch tin tức y tế
 async function fetchNews() {
