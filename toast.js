@@ -41,6 +41,7 @@ function showToast(type, title, message = '') {
         const container = document.createElement('div');
         container.id = 'toastContainer';
         container.className = 'fixed top-4 right-4 z-50';
+        container.style.zIndex = '9999';
         document.body.appendChild(container);
     }
 
