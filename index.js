@@ -150,9 +150,85 @@ function displayExperts(experts) {
     });
 }
 
+// Function to fetch and display specialties
+async function loadSpecialties() {
+    try {
+        const response = await fetch('http://localhost:5000/api/specialty');
+        const result = await response.json();
+        
+        if (!result.isError && result.data.specialty) {
+            const specialtiesGrid = document.getElementById('specialties-grid');
+            specialtiesGrid.innerHTML = result.data.specialty.map(specialty => `
+                <div class="col-span-1">
+                    <a href="#" class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-yu rounded-xl transition">
+                        <div class="rounded-full mb-2 w-16 h-16">
+                            <img src="${specialty.url}" 
+                                 alt="${specialty.name}" 
+                                 height="64" 
+                                 width="64"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <h3>${specialty.name}</h3>
+                    </a>
+                </div>
+            `).join('');
+        }
+    } catch (error) {
+        console.error('Error loading specialties:', error);
+    }
+}
+
+// Fetch tin tức y tế
+async function fetchNews() {
+    try {
+        const response = await fetch('http://localhost:5000/api/news');
+        const result = await response.json();
+        
+        if (result.statusCode === 200) {
+            const news = result.data.news;
+            displayNews(news);
+        } else {
+            console.error('Lỗi khi lấy danh sách tin tức:', result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi khi gọi API tin tức:', error);
+    }
+}
+
+// Hiển thị tin tức y tế
+function displayNews(news) {
+    const newsContainer = document.querySelector('#medical-news .grid');
+    if (!newsContainer) return;
+
+    newsContainer.innerHTML = ''; // Xóa nội dung cũ
+
+    news.forEach(item => {
+        const newsCard = `
+            <a href="news-detail.html?id=${item.id}" class="block group">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="${item.img}" 
+                         alt="${item.name}" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">${item.name}</h3>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <span>${item.user.userName}</span>
+                            <span class="mx-2">•</span>
+                            <span>${item.createdAt}</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        `;
+        newsContainer.innerHTML += newsCard;
+    });
+}
+
 // Gọi hàm fetchExperts khi trang được tải
 document.addEventListener('DOMContentLoaded', function() {
     checkLoginStatus();
     fetchDoctors();
     fetchExperts();
+    loadSpecialties();
+    fetchNews();
 }); 
