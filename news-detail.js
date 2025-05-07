@@ -131,9 +131,9 @@ async function fetchRelatedNews() {
         if (result.statusCode === 200 && !result.isError) {
             const currentNewsId = getNewsId();
             // Filter out current news and get up to 2 related news
-            const relatedNews = result.data.news
-                .filter(news => news.id !== currentNewsId)
-                .slice(0, 2);
+            const relatedNews = shuffleArray(
+                result.data.news.filter(news => news.id !== currentNewsId)
+            ).slice(0, 2);
             
             displayRelatedNews(relatedNews);
         }
@@ -159,4 +159,12 @@ function displayRelatedNews(news) {
             </div>
         </a>
     `).join('');
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 } 

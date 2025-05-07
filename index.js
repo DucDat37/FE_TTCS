@@ -83,12 +83,12 @@ function displayDoctors(doctors) {
 
     doctors.forEach(doctor => {
         const doctorCard = `
-            <div class="bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+            <div class="group bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64 hover:shadow-lg transition-shadow duration-300">
                 <img alt="Portrait of ${doctor.userName}" class="rounded-full mx-auto" height="100"
                     src="${doctor.img}"
                     width="100" />
                 <div class="text-center mt-4">
-                    <h3 class="font-semibold">
+                    <h3 class="font-semibold group-hover:text-blue-600 group-hover:underline">
                         ${doctor.degree} ${doctor.userName}
                     </h3>
                     <p class="text-gray-500">
@@ -97,7 +97,7 @@ function displayDoctors(doctors) {
                     <p class="text-gray-500">
                         ${doctor.description || 'Bác sĩ chuyên khoa'}
                     </p>
-                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full">
+                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full group-hover:text-blue-600">
                         Đặt lịch khám
                     </button>
                 </div>
@@ -160,7 +160,7 @@ async function loadSpecialties() {
             const specialtiesGrid = document.getElementById('specialties-grid');
             specialtiesGrid.innerHTML = result.data.specialty.map(specialty => `
                 <div class="col-span-1">
-                    <a href="#" class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-yu rounded-xl transition">
+                    <a href="#" class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-lg transition-shadow duration-300 rounded-xl transition">
                         <div class="rounded-full mb-2 w-16 h-16">
                             <img src="${specialty.url}" 
                                  alt="${specialty.name}" 
