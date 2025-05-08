@@ -25,7 +25,7 @@ const sidebarItems = [
         icon: 'fas fa-hospital',
         text: 'Quản lý lịch hẹn'
     },
-        {
+    {
         text: 'Xác nhận lịch hẹn',
         icon: 'fas fa-clipboard-check',
         href: 'appointment.html'
@@ -34,6 +34,11 @@ const sidebarItems = [
         text: 'Quản lý hồ sơ bệnh án',
         icon: 'fas fa-file-medical',
         href: 'record.html'
+    },
+    {
+        href: 'invoice.html',
+        icon: 'fas fa-file-invoice-dollar',
+        text: 'Quản lý hóa đơn'
     },
     {
         href: 'news.html',
@@ -60,11 +65,6 @@ const sidebarItems = [
         icon: 'fas fa-chart-bar',
         text: 'Thống kê'
     },
-    {
-        href: 'settings.html',
-        icon: 'fas fa-cog',
-        text: 'Cài đặt'
-    }
 ];
 
 // Function to render sidebar
