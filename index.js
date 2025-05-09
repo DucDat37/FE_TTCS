@@ -97,9 +97,11 @@ function displayDoctors(doctors) {
                     <p class="text-gray-500">
                         ${doctor.description || 'Bác sĩ chuyên khoa'}
                     </p>
-                    <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full group-hover:text-blue-600">
-                        Đặt lịch khám
-                    </button>
+                    <a href="booking-user.html?userId=${doctor.userId}&doctorId=${doctor.id}">
+                        <button class="mt-4 bg-gray-100 text-gray-700 px-4 py-2 rounded-full group-hover:text-blue-600">
+                            Đặt lịch khám
+                        </button>
+                    </a>
                 </div>
             </div>
         `;
