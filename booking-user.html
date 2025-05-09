@@ -19,9 +19,64 @@
             background: #2563eb;
             color: #fff;
         }
+        /* Toast styles */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9000;
+        }
+        .toast {
+            background: white;
+            border-radius: 8px;
+            padding: 16px 24px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            min-width: 300px;
+            transform: translateX(120%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast.success {
+            border-left: 4px solid #10B981;
+        }
+        .toast.error {
+            border-left: 4px solid #EF4444;
+        }
+        .toast-icon {
+            margin-right: 12px;
+        }
+        .toast-content {
+            flex: 1;
+        }
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .toast-message {
+            color: #6B7280;
+            font-size: 14px;
+        }
+        .toast-close {
+            background: none;
+            border: none;
+            color: #9CA3AF;
+            cursor: pointer;
+            padding: 4px;
+            margin-left: 12px;
+        }
+        .toast-close:hover {
+            color: #4B5563;
+        }
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
     <!-- Header -->
     <header class="header mx-auto mb-20">
         <div class="flex items-center justify-between">
@@ -98,6 +153,16 @@
                 </div>
             </div>
             <div id="selectedInfo" class="w-full mb-3"></div>
+            <div id="serviceSelection" class="w-full mb-3 hidden">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Chọn dịch vụ khám</label>
+                <select id="serviceSelect" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">-- Chọn dịch vụ --</option>
+                    <option value="general">Khám tổng quát</option>
+                    <option value="specialist">Khám chuyên khoa</option>
+                    <option value="emergency">Khám cấp cứu</option>
+                    <option value="consultation">Tư vấn sức khỏe</option>
+                </select>
+            </div>
             <button id="confirmBtn" class="w-full py-3 rounded-lg bg-gray-300 text-gray-500 font-semibold mb-3 cursor-not-allowed" disabled>Xác nhận đặt khám</button>
             <div class="text-xs text-gray-400 text-center">Bằng cách nhấn nút xác nhận, bạn đã đồng ý với các điều khoản và điều kiện đặt khám</div>
         </div>
