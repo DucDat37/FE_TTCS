@@ -145,7 +145,7 @@ document.getElementById('confirmBtn').onclick = async function() {
 
             const result = await response.json();
             if (result.statusCode === 201) {
-                showToast('Thành công', 'Đặt lịch khám thành công!');
+                showToast('Đặt khám thành công', 'Vui lòng kiểm tra email để xác nhận');
                 // Reset form sau khi đặt lịch thành công
                 selectedSlot = null;
                 serviceSelect.value = '';
