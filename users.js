@@ -175,23 +175,6 @@ function validateAddForm() {
         }
     }
     
-    // Validate password
-    const password = document.getElementById('addPassword').value;
-    if (!password) {
-        showAddError('password', 'Mật khẩu không được để trống');
-        isValid = false;
-    } else if (password.length < 6) {
-        showAddError('password', 'Mật khẩu phải có ít nhất 6 ký tự');
-        isValid = false;
-    }
-    
-    // Validate password confirmation
-    const confirmPassword = document.getElementById('addConfirmPassword').value;
-    if (password !== confirmPassword) {
-        showAddError('confirmPassword', 'Mật khẩu xác nhận không khớp');
-        isValid = false;
-    }
-    
     // Validate birthdate
     const birthdate = document.getElementById('addBirthdate').value;
     if (birthdate) {
@@ -261,7 +244,6 @@ async function submitAddForm() {
             userName: document.getElementById('addUsername').value,
             email: document.getElementById('addEmail').value,
             phone: document.getElementById('addPhone').value,
-            password: document.getElementById('addPassword').value,
             birthDate: formattedBirthDate,
             gender: document.getElementById('addGender').value === 'true',
             address: document.getElementById('addAddress').value,
