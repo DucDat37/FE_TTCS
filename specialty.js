@@ -150,12 +150,7 @@ function displaySpecialties(specialties) {
         const row = document.createElement('tr');
         
         // Format date
-        const createdDate = new Date(specialty.createdAt);
-        const formattedDate = createdDate.toLocaleDateString('vi-VN', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
+        const formattedDate = specialty.createdAt.slice(0, 10);
         
         row.innerHTML = `
             <td class="py-3 px-4 whitespace-nowrap">${index + 1}</td>
