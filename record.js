@@ -8,6 +8,11 @@ let doctorData = {};
 // Function to populate doctor select
 async function populateDoctorSelect() {
     try {
+        // Get current user data
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        const currentUserId = userData.id;
+        const isDoctor = userData.role === 'Doctor';
+
         const accessToken = localStorage.getItem('access_token');
         if (!accessToken) {
             throw new Error('Không tìm thấy token đăng nhập');
@@ -30,14 +35,19 @@ async function populateDoctorSelect() {
             throw new Error(result.message);
         }
 
+        // Filter doctors if user is Doctor
+        const doctors = isDoctor 
+            ? result.data.doctors.filter(doctor => doctor.userId === currentUserId)
+            : result.data.doctors;
+
         doctorData = {};
-        result.data.doctors.forEach(doctor => {
+        doctors.forEach(doctor => {
             doctorData[doctor.id] = doctor;
         });
 
         const filterDoctorSelect = document.getElementById('filterDoctor');
         filterDoctorSelect.innerHTML = '<option value="">Tất cả bác sĩ</option>';
-        result.data.doctors.forEach(doctor => {
+        doctors.forEach(doctor => {
             const option = document.createElement('option');
             option.value = doctor.id;
             option.textContent = `${doctor.userName} - ${doctor.degree}${doctor.specialtyName ? ` - ${doctor.specialtyName}` : ''}`;
@@ -192,7 +202,7 @@ function toggleLoading(show) {
 // Function to handle logout
 function handleLogout() {
     localStorage.removeItem('access_token');
-    window.location.href = 'login.html';
+    window.location.href = 'auth.html';
 }
 
 // Modal functions

@@ -206,6 +206,11 @@ function renderTableData(filteredData) {
 // Function to populate doctor selects
 async function populateDoctorSelects() {
     try {
+        // Get current user data
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        const currentUserId = userData.id;
+        const isDoctor = userData.role === 'Doctor';
+
         const accessToken = localStorage.getItem('access_token');
         if (!accessToken) {
             throw new Error('Không tìm thấy token đăng nhập');
@@ -228,8 +233,13 @@ async function populateDoctorSelects() {
             throw new Error(result.message);
         }
 
+        // If user is Doctor, filter to show only their record
+        const doctors = isDoctor 
+            ? result.data.doctors.filter(doctor => doctor.userId === currentUserId)
+            : result.data.doctors;
+
         doctorData = {};
-        result.data.doctors.forEach(doctor => {
+        doctors.forEach(doctor => {
             doctorData[doctor.id] = doctor;
         });
 
@@ -243,7 +253,7 @@ async function populateDoctorSelects() {
         // Populate filter doctor select
         const filterDoctorSelect = document.getElementById('filterDoctor');
         filterDoctorSelect.innerHTML = '<option value="">Tất cả bác sĩ</option>';
-        result.data.doctors.forEach((doctor, index) => {
+        doctors.forEach((doctor, index) => {
             filterDoctorSelect.appendChild(createOption(doctor));
             if (index === 0) {
                 filterDoctorSelect.value = doctor.id;
@@ -253,14 +263,14 @@ async function populateDoctorSelects() {
         // Populate add modal doctor select
         const doctorSelect = document.getElementById('doctorSelect');
         doctorSelect.innerHTML = '<option value="">Chọn bác sĩ</option>';
-        result.data.doctors.forEach(doctor => {
+        doctors.forEach(doctor => {
             doctorSelect.appendChild(createOption(doctor));
         });
 
         // Populate edit modal doctor select
         const editDoctorSelect = document.getElementById('editDoctorSelect');
         editDoctorSelect.innerHTML = '<option value="">Chọn bác sĩ</option>';
-        result.data.doctors.forEach(doctor => {
+        doctors.forEach(doctor => {
             editDoctorSelect.appendChild(createOption(doctor));
         });
 

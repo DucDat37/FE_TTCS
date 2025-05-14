@@ -201,7 +201,7 @@ async function handleLogin() {
             localStorage.setItem('user', JSON.stringify(responseData.data.user));
             
             // Kiểm tra vai trò người dùng
-            if (responseData.data.user.role === 'Admin') {
+            if (responseData.data.user.role === 'Admin' || responseData.data.user.role === 'Doctor') {
                 // Nếu là Admin, chuyển hướng đến trang quản trị
                 window.location.href = 'admin.html';
             } else {
@@ -390,4 +390,73 @@ async function handleRegister() {
 document.getElementById("sendOtpBtn").addEventListener("click", function(event) {
     event.preventDefault();
     handleRegister();
-}); 
+});
+
+// Function to check if token is expired
+function isTokenExpired(error) {
+    return error.statusCode === 401 || error.message?.toLowerCase().includes('token expired');
+}
+
+// Function to handle logout
+function handleLogout() {
+    // Clear local storage
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user');
+
+    // Redirect to login page
+    window.location.href = 'login.html';
+}
+
+// Function to handle API response
+async function handleApiResponse(response) {
+    const result = await response.json();
+    
+    if (result.isError) {
+        if (isTokenExpired(result)) {
+            handleLogout();
+            return null;
+        }
+        throw new Error(result.message);
+    }
+    
+    return result;
+}
+
+// Function to make authenticated API calls
+async function fetchWithAuth(url, options = {}) {
+    try {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            handleLogout();
+            return null;
+        }
+
+        const defaultHeaders = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
+
+        const response = await fetch(url, {
+            ...options,
+            headers: {
+                ...defaultHeaders,
+                ...options.headers
+            }
+        });
+
+        return await handleApiResponse(response);
+    } catch (error) {
+        console.error('API Error:', error);
+        if (error.status === 401) {
+            handleLogout();
+        }
+        throw error;
+    }
+}
+
+// Export functions for use in other files
+window.auth = {
+    fetchWithAuth,
+    handleLogout,
+    isTokenExpired
+}; 
