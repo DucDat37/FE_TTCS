@@ -645,23 +645,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Dropdown menu functionality
-function toggleDropdown() {
-    const dropdownMenu = document.getElementById('dropdownMenu');
-    dropdownMenu.classList.toggle('show');
-}
-
-// Close dropdown when clicking outside
-document.addEventListener('DOMContentLoaded', function() {
-    document.addEventListener('click', function(event) {
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const dropdownToggle = document.querySelector('.cursor-pointer');
-        
-        if (!dropdownToggle.contains(event.target) && dropdownMenu.classList.contains('show')) {
-            dropdownMenu.classList.remove('show');
-        }
-    });
-});
 
 // Fetch users data
 let currentPage = 1;

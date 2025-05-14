@@ -40,7 +40,7 @@ function createAvatarDropdown() {
             min-width: 160px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 4px;
-            z-index: 9000;
+            z-index: 9999;
             margin-top: 0.5rem;
         }
         .dropdown-menu.show {

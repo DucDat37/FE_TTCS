@@ -74,8 +74,21 @@ function renderSidebar() {
         // Get current page from URL
         const currentPage = window.location.pathname.split('/').pop() || 'admin.html';
         
+        // Get user role from localStorage
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        const userRole = userData.role;
+
+        // Filter menu items based on user role
+        const filteredItems = sidebarItems.filter(item => {
+            if (userRole === 'Doctor') {
+                // Hide specific menu items for Doctor role
+                return !['users.html', 'specialty.html', 'service.html'].includes(item.href);
+            }
+            return true;
+        });
+        
         // Generate navigation items
-        const navItems = sidebarItems.map(item => {
+        const navItems = filteredItems.map(item => {
             const isActive = item.href === currentPage;
             return `
                 <a href="${item.href}" class="nav-item ${isActive ? 'active' : ''}">

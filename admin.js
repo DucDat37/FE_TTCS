@@ -34,7 +34,7 @@ async function fetchDashboardStats() {
             initRevenueChart(result.data.chartInvoice);
         } else {
             console.error('Error fetching dashboard stats:', result.message);
-            if (result.statusCode === 401) {
+            if (result.statusCode === 403 || result.statusCode === 401) {
                 // Unauthorized, token expired or invalid
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('user');

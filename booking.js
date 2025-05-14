@@ -106,6 +106,11 @@ async function loadPatients() {
 // Load Doctors
 async function loadDoctors() {
     try {
+        // Get current user data
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        const currentUserId = userData.id;
+        const isDoctor = userData.role === 'Doctor';
+
         const response = await fetch('http://localhost:5000/api/doctor', {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('access_token')}`
@@ -125,7 +130,12 @@ async function loadDoctors() {
         const doctorSelect = document.getElementById('doctorSelect');
         doctorSelect.innerHTML = '<option value="">Chọn bác sĩ</option>';
         
-        result.data.doctors.forEach(doctor => {
+        // If user is Doctor, filter to show only their record
+        const doctors = isDoctor 
+            ? result.data.doctors.filter(doctor => doctor.userId === currentUserId)
+            : result.data.doctors;
+        
+        doctors.forEach(doctor => {
             const option = document.createElement('option');
             option.value = doctor.id;
             option.textContent = `${doctor.userName} - ${doctor.degree}${doctor.specialtyName ? ` - ${doctor.specialtyName}` : ''}`;
@@ -191,8 +201,36 @@ async function loadTimeSlots() {
                 timeSlotDiv.onclick = () => selectTimeSlot(timeSlot.id, timeSlotDiv);
             }
 
-            const startTime = new Date(timeSlot.startDate).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-            const endTime = new Date(timeSlot.endDate).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+            // Format time safely
+            const formatTime = (dateStr) => {
+                try {
+                    // Split the date string into parts
+                    const [datePart, timePart] = dateStr.split(' ');
+                    const [day, month, year] = datePart.split('/');
+                    const [hours, minutes] = timePart.split(':');
+                    
+                    // Create a new date object with the parsed values
+                    const date = new Date(year, month - 1, day, hours, minutes);
+                    
+                    // Check if the date is valid
+                    if (isNaN(date.getTime())) {
+                        return 'Invalid Time';
+                    }
+                    
+                    // Format the time
+                    return date.toLocaleTimeString('vi-VN', { 
+                        hour: '2-digit', 
+                        minute: '2-digit',
+                        hour12: false 
+                    });
+                } catch (error) {
+                    console.error('Error formatting time:', error);
+                    return 'Invalid Time';
+                }
+            };
+
+            const startTime = formatTime(timeSlot.startDate);
+            const endTime = formatTime(timeSlot.endDate);
             timeSlotDiv.textContent = `${startTime} - ${endTime}`;
             
             timeSlotsContainer.appendChild(timeSlotDiv);

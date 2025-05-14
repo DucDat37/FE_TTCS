@@ -12,7 +12,7 @@ function checkLoginStatus() {
         // Đã đăng nhập
         loginBtn.classList.add('hidden');
         userDropdown.classList.remove('hidden');
-        if(userData.role === 'Admin'){
+        if(userData.role === 'Admin' || userData.role === 'Doctor'){
             adminPage.classList.remove('hidden');
         }
 

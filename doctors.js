@@ -18,6 +18,12 @@ function renderDoctors(doctors) {
         updateTableInfo(0, 0, 0);
         return;
     }
+
+    // Get current user data
+    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+    const currentUserId = userData.id;
+    const isDoctor = userData.role === 'Doctor';
+
     // Phân trang trên mảng đã lọc
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, doctors.length);
@@ -30,6 +36,10 @@ function renderDoctors(doctors) {
             statusText = 'Đang làm việc';
             statusClass = 'bg-green-100 text-green-800';
         }
+
+        // Check if current user is doctor and if this is their record
+        const showActions = !isDoctor || (isDoctor && doctor.userId === currentUserId);
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td class="px-6 py-4 whitespace-nowrap">${i + 1}</td>
@@ -46,12 +56,14 @@ function renderDoctors(doctors) {
                 </span>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                <button onclick="openEditModal('${doctor.id}')" class="text-blue-500 hover:text-blue-700 mr-3">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button onclick="deleteDoctor('${doctor.id}')" class="text-red-500 hover:text-red-700">
-                    <i class="fas fa-trash"></i>
-                </button>
+                ${showActions ? `
+                    <button onclick="openEditModal('${doctor.id}')" class="text-blue-500 hover:text-blue-700 mr-3">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="deleteDoctor('${doctor.id}')" class="text-red-500 hover:text-red-700">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                ` : ''}
             </td>
         `;
         tbody.appendChild(tr);
