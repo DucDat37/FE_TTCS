@@ -11,7 +11,7 @@ function createAvatarDropdown() {
                 <span class="text-gray-700">User</span>
             </div>
             <div id="dropdownMenu" class="dropdown-menu">
-                <a href="" class="dropdown-item">
+                <a href="profile.html" class="dropdown-item">
                     <i class="fas fa-user mr-2"></i>Profile
                 </a>
                 <a href="index.html" class="dropdown-item">
@@ -40,7 +40,7 @@ function createAvatarDropdown() {
             min-width: 160px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border-radius: 4px;
-            z-index: 9000;
+            z-index: 9999;
             margin-top: 0.5rem;
         }
         .dropdown-menu.show {

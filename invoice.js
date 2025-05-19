@@ -142,6 +142,11 @@ async function loadInvoices() {
     if (!checkAuth()) return;
 
     try {
+        // Get current user data
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        const currentUserId = userData.id;
+        const isDoctor = userData.role === 'Doctor';
+
         const response = await fetch(`http://localhost:5000/api/invoice?page=1&limit=9999`, {
             headers: {
                 'Authorization': `Bearer ${getToken()}`
@@ -150,7 +155,10 @@ async function loadInvoices() {
         const data = await response.json();
         
         if (data?.statusCode === 200 && data?.data?.invoices) {
-            allInvoices = data.data.invoices;
+            // Nếu là Doctor, chỉ lấy các hóa đơn của chính họ
+            allInvoices = isDoctor 
+                ? data.data.invoices.filter(invoice => invoice.doctor.userId === currentUserId)
+                : data.data.invoices;
             updateDisplay();
         } else {
             showToast('error', 'Lỗi khi tải danh sách hóa đơn');

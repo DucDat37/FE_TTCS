@@ -40,37 +40,6 @@
         .nav-item.active {
             background-color: #357abd;
         }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 100%;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            border-radius: 4px;
-            z-index: 9999;
-            margin-top: 8px;
-            width: 320px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        .dropdown-menu.show {
-            display: block !important;
-        }
-        .dropdown-item {
-            padding: 8px 16px;
-            color: #333;
-            text-decoration: none;
-            display: block;
-        }
-        .dropdown-item:hover {
-            background-color: #f5f5f5;
-        }
-        .dropdown-divider {
-            height: 1px;
-            background-color: #e5e5e5;
-            margin: 4px 0;
-        }
         /* Notification Bell Styles */
         .notification-badge {
             display: none;
@@ -306,23 +275,7 @@
     <script src="avatarDropdown.js"></script>
     <script src="booking.js"></script>
     <script>
-        // Dropdown menu toggle
-        function toggleDropdown() {
-            document.getElementById('dropdownMenu').classList.toggle('show');
-        }
 
-        // Close the dropdown if clicked outside
-        window.onclick = function(event) {
-            if (!event.target.matches('#userAvatar') && !event.target.matches('#dropdownMenu')) {
-                var dropdowns = document.getElementsByClassName('dropdown-menu');
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
 
         // Handle logout
         function handleLogout() {

@@ -103,11 +103,11 @@
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-2xl font-bold text-gray-800">Thống kê tổng quan</h2>
             <div class="flex items-center space-x-4">
-                <select class="border rounded-lg px-4 py-2">
-                    <option>Hôm nay</option>
-                    <option>Tuần này</option>
-                    <option>Tháng này</option>
-                    <option>Năm nay</option>
+                <select id="timePeriodSelect" class="border rounded-lg px-4 py-2">
+                    <option value="today">Hôm nay</option>
+                    <option value="this_week">Tuần này</option>
+                    <option value="this_month">Tháng này</option>
+                    <option value="this_year">Năm nay</option>
                 </select>
                 <div class="flex items-center">
                     <div class="relative mr-4" id="notificationBell">
@@ -155,8 +155,8 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm text-gray-500">Tổng số người dùng</p>
-                        <p class="text-2xl font-bold" id="totalUsersCount"></p>
-                        <p class="text-sm text-green-500">+12% so với tháng trước</p>
+                        <p class="text-2xl font-bold" id="totalUsersCount">0</p>
+                        <p class="text-sm" id="totalUsersChange"></p>
                     </div>
                 </div>
             </div>
@@ -167,8 +167,8 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm text-gray-500">Lịch khám hôm nay</p>
-                        <p class="text-2xl font-bold" id="totalBookingsCount"></p>
-                        <p class="text-sm text-green-500">+8% so với hôm qua</p>
+                        <p class="text-2xl font-bold" id="bookingsCount">0</p>
+                        <p class="text-sm" id="bookingsChange"></p>
                     </div>
                 </div>
             </div>
@@ -178,21 +178,21 @@
                         <i class="fas fa-hospital text-2xl"></i>
                     </div>
                     <div class="ml-4">
-                        <p class="text-sm text-gray-500"> Bài viết mới</p>
-                        <p class="text-2xl font-bold">45</p>
-                        <p class="text-sm text-green-500">+2 so với tháng trước</p>
+                        <p class="text-sm text-gray-500">Bài viết mới</p>
+                        <p class="text-2xl font-bold" id="newsCount">0</p>
+                        <p class="text-sm" id="newsChange"></p>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-purple-100 text-purple-500">
-                        <i class="fas fa-pills text-2xl"></i>
+                        <i class="fas fa-address-book text-2xl"></i>
                     </div>
                     <div class="ml-4">
                         <p class="text-sm text-gray-500">Liên hệ mới</p>
-                        <p class="text-2xl font-bold">10</p>
-                        <p class="text-sm text-red-500">-7 so với tháng trước</p>
+                        <p class="text-2xl font-bold" id="contactsCount">0</p>
+                        <p class="text-sm" id="contactsChange"></p>
                     </div>
                 </div>
             </div>
@@ -237,9 +237,9 @@
                     <canvas id="specialtyDistributionChart"></canvas>
                 </div>
                 <div>
-                    <h4 class="text-lg font-semibold mb-3">Top 5 chuyên khoa được đặt khám nhiều nhất</h4>
+                    <h4 class="text-lg font-semibold mb-3">Danh sách chuyên khoa</h4>
                     <div class="space-y-4">
-                        <div id="topSpecialties" class="space-y-2">
+                        <div id="specialtiesList" class="space-y-2 max-h-[200px] overflow-y-auto pr-2">
                             <!-- Dữ liệu được load từ JavaScript -->
                         </div>
                     </div>
@@ -250,14 +250,14 @@
         <!-- Recent Activities -->
         <div class="bg-white rounded-lg shadow-md p-6">
             <h3 class="text-xl font-bold mb-4">Hoạt động gần đây</h3>
-            <div class="space-y-4">
+            <div class="space-y-4" id="recentActivities">
                 <div class="flex items-center p-4 bg-gray-50 rounded-lg">
                     <div class="p-2 rounded-full bg-blue-100 text-blue-500">
                         <i class="fas fa-user-plus"></i>
                     </div>
                     <div class="ml-4">
                         <p class="font-medium">Người dùng mới đăng ký</p>
-                        <p class="text-sm text-gray-500">2 phút trước</p>
+                        <p class="text-sm text-gray-500" id="recentUsersTime">Đang tải...</p>
                     </div>
                 </div>
                 <div class="flex items-center p-4 bg-gray-50 rounded-lg">
@@ -266,7 +266,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="font-medium">Lịch khám mới được đặt</p>
-                        <p class="text-sm text-gray-500">15 phút trước</p>
+                        <p class="text-sm text-gray-500" id="recentBookingsTime">Đang tải...</p>
                     </div>
                 </div>
                 <div class="flex items-center p-4 bg-gray-50 rounded-lg">
@@ -275,445 +275,23 @@
                     </div>
                     <div class="ml-4">
                         <p class="font-medium">Bài viết mới</p>
-                        <p class="text-sm text-gray-500">1 giờ trước</p>
+                        <p class="text-sm text-gray-500" id="recentNewsTime">Đang tải...</p>
+                    </div>
+                </div>
+                <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                    <div class="p-2 rounded-full bg-purple-100 text-purple-500">
+                        <i class="fas fa-address-book"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="font-medium">Liên hệ mới được gửi đến</p>
+                        <p class="text-sm text-gray-500" id="recentContactsTime">Đang tải...</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // Fetch total users count
-        async function fetchTotalUsers() {
-            try {
-                const accessToken = localStorage.getItem('access_token');
-                
-                if (!accessToken) {
-                    window.location.href = '/login.html';
-                    return;
-                }
-
-                const response = await fetch('http://localhost:5000/api/users', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (response.status === 401) {
-                    localStorage.removeItem('access_token');
-                    window.location.href = '/login.html';
-                    return;
-                }
-
-                const result = await response.json();
-                
-                console.log(result.data.total);
-                if (result.isError) {
-                    throw new Error(result.message);
-                }
-                
-                // Update the total users display using the total field from API
-                document.getElementById('totalUsersCount').textContent = result.data.total;
-            } catch (error) {
-                console.error('Error fetching total users:', error);
-                document.getElementById('totalUsersCount').textContent = 'Error';
-            }
-        }
-
-        // Fetch total bookings count
-        async function fetchTotalBookings() {
-            try {
-                const accessToken = localStorage.getItem('access_token');
-                
-                if (!accessToken) {
-                    window.location.href = '/login.html';
-                    return;
-                }
-
-                const response = await fetch('http://localhost:5000/api/booking', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (response.status === 401) {
-                    localStorage.removeItem('access_token');
-                    window.location.href = '/login.html';
-                    return;
-                }
-
-                const result = await response.json();
-                
-                if (result.isError) {
-                    throw new Error(result.message);
-                }
-                
-                // Update the total bookings display using the total field from API
-                document.getElementById('totalBookingsCount').textContent = result.data.total;
-            } catch (error) {
-                console.error('Error fetching total bookings:', error);
-                document.getElementById('totalBookingsCount').textContent = 'Error';
-            }
-        }
-        // // Fetch overview statistics
-        // async function fetchOverviewStats() {
-        //     try {
-        //         const accessToken = localStorage.getItem('access_token');
-
-        //         if (!accessToken) {
-        //             window.location.href = '/login.html';
-        //             return;
-        //         }
-
-        //         const response = await fetch('http://localhost:5000/api/statistic/overview', {
-        //             method: 'GET',
-        //             headers: {
-        //                 'Authorization': `Bearer ${accessToken}`,
-        //                 'Content-Type': 'application/json'
-        //             }
-        //         });
-
-        //         if (response.status === 401) {
-        //             localStorage.removeItem('access_token');
-        //             window.location.href = '/login.html';
-        //             return;
-        //         }
-
-        //         const result = await response.json();
-
-        //         if (result.isError) {
-        //             throw new Error(result.message);
-        //         }
-
-        //         // Update overview stats
-        //         document.getElementById('totalUsersCount').textContent = result.data.totalUsers.count;
-        //         document.getElementById('totalBookingsCount').textContent = result.data.todayBookings.count;
-        //         document.querySelector('.bg-yellow-100 + .ml-4 .text-2xl').textContent = result.data.newPosts.count;
-        //         document.querySelector('.bg-purple-100 + .ml-4 .text-2xl').textContent = result.data.newContacts.count;
-
-        //         // Update percentage changes
-        //         document.querySelector('.bg-blue-100 + .ml-4 .text-sm').textContent =
-        //             `${result.data.totalUsers.change > 0 ? '+' : ''}${result.data.totalUsers.change}% so với tháng trước`;
-        //         document.querySelector('.bg-green-100 + .ml-4 .text-sm').textContent =
-        //             `${result.data.todayBookings.change > 0 ? '+' : ''}${result.data.todayBookings.change}% so với hôm qua`;
-        //         document.querySelector('.bg-yellow-100 + .ml-4 .text-sm').textContent =
-        //             `+${result.data.newPosts.change} bài viết mới`;
-        //         document.querySelector('.bg-purple-100 + .ml-4 .text-sm').textContent =
-        //             `${result.data.newContacts.change > 0 ? '+' : ''}${result.data.newContacts.change}% so với tháng trước`;
-
-        //         return result.data;
-        //     } catch (error) {
-        //         console.error('Error fetching overview statistics:', error);
-        //         return null;
-        //     }
-        // }
-
-        // // Fetch recent activities
-        // async function fetchRecentActivities() {
-        //     try {
-        //         const accessToken = localStorage.getItem('access_token');
-
-        //         if (!accessToken) {
-        //             window.location.href = '/login.html';
-        //             return;
-        //         }
-
-        //         const response = await fetch('http://localhost:5000/api/statistic/recent-activities', {
-        //             method: 'GET',
-        //             headers: {
-        //                 'Authorization': `Bearer ${accessToken}`,
-        //                 'Content-Type': 'application/json'
-        //             }
-        //         });
-
-        //         if (response.status === 401) {
-        //             localStorage.removeItem('access_token');
-        //             window.location.href = '/login.html';
-        //             return;
-        //         }
-
-        //         const result = await response.json();
-
-        //         if (result.isError) {
-        //             throw new Error(result.message);
-        //         }
-        //         return result.data;
-        //     } catch (error) {
-        //         console.error('Error fetching recent activities:', error);
-        //         return null;
-        //     }
-        // }
-
-        // Fetch dashboard statistics
-        async function fetchDashboardStats() {
-            try {
-                const accessToken = localStorage.getItem('access_token');
-
-                if (!accessToken) {
-                    window.location.href = '/login.html';
-                    return;
-                }
-
-                const response = await fetch('http://localhost:5000/api/statistic/dashboard', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (response.status === 401) {
-                    localStorage.removeItem('access_token');
-                    window.location.href = '/login.html';
-                    return;
-                }
-
-                const result = await response.json();
-
-                if (result.isError) {
-                    throw new Error(result.message);
-                }
-
-                return result.data;
-            } catch (error) {
-                console.error('Error fetching dashboard statistics:', error);
-                return null;
-            }
-        }
-
-        // Fetch user statistics
-        async function fetchUserStats() {
-            try {
-                const accessToken = localStorage.getItem('access_token');
-
-                if (!accessToken) {
-                    window.location.href = '/login.html';
-                    return;
-                }
-
-                const response = await fetch('http://localhost:5000/api/statistic/user', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (response.status === 401) {
-                    localStorage.removeItem('access_token');
-                    window.location.href = '/login.html';
-                    return;
-                }
-
-                const result = await response.json();
-
-                if (result.isError) {
-                    throw new Error(result.message);
-                }
-
-                return result.data;
-            } catch (error) {
-                console.error('Error fetching user statistics:', error);
-                return null;
-            }
-        }
-
-        // Initialize charts with API data
-        async function initCharts() {
-            const dashboardStats = await fetchDashboardStats();
-            const userStats = await fetchUserStats();
-
-            if (!dashboardStats || !userStats) {
-                return;
-            }
-
-            // Appointments Chart
-            const appointmentsCtx = document.getElementById('appointmentsChart').getContext('2d');
-            new Chart(appointmentsCtx, {
-                type: 'line',
-                data: {
-                    labels: dashboardStats.chartAppointment.label,
-                    datasets: [{
-                        label: 'Số lượng lịch khám',
-                        data: dashboardStats.chartAppointment.data,
-                        borderColor: '#4a90e2',
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: Math.max(...dashboardStats.chartAppointment.data) > 0 ? null : 50,
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.1)',
-                                drawBorder: false,
-                                display: true
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: true,
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Users Chart
-            const usersCtx = document.getElementById('usersChart').getContext('2d');
-            new Chart(usersCtx, {
-                type: 'bar',
-                data: {
-                    labels: userStats.chart.label,
-                    datasets: [{
-                        label: 'Số lượng người dùng',
-                        data: userStats.chart.data,
-                        backgroundColor: '#4a90e2'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: Math.max(...userStats.chart.data) > 0 ? null : 10,
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1,
-                                precision: 0
-                            },
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.1)',
-                                drawBorder: false,
-                                display: true
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: true,
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Revenue Chart
-            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-            new Chart(revenueCtx, {
-                type: 'bar',
-                data: {
-                    labels: dashboardStats.chartInvoice.label,
-                    datasets: [{
-                        label: 'Doanh thu (triệu VNĐ)',
-                        data: dashboardStats.chartInvoice.data,
-                        backgroundColor: '#4a90e2'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: Math.max(...dashboardStats.chartInvoice.data) > 0 ? null : 500,
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.1)',
-                                drawBorder: false,
-                                display: true
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: true,
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Call fetch functions when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchOverviewStats();
-            fetchRecentActivities();
-            initCharts();
-        });
-
-        // Specialties Chart
-        const specialtiesCtx = document.getElementById('specialtiesChart').getContext('2d');
-        new Chart(specialtiesCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Nhi khoa', 'Tim mạch', 'Nội khoa', 'Tai mũi họng', 'Da liễu'],
-                datasets: [{
-                    data: [30, 25, 20, 15, 10],
-                    backgroundColor: [
-                        '#4a90e2',
-                        '#50c878',
-                        '#f59e0b',
-                        '#ef4444',
-                        '#8b5cf6'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right'
-                    }
-                }
-            }
-        });
-
-        // Add active class to clicked nav item
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function () {
-                document.querySelector('.nav-item.active').classList.remove('active');
-                this.classList.add('active');
-            });
-        });
-
-        // Dropdown menu functionality
-        function toggleDropdown() {
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            dropdownMenu.classList.toggle('show');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function (event) {
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            const dropdownToggle = document.querySelector('.cursor-pointer');
-
-            if (!dropdownToggle.contains(event.target) && dropdownMenu.classList.contains('show')) {
-                dropdownMenu.classList.remove('show');
-            }
-        });
-
-        // Hàm xử lý logout
-        function handleLogout() {
-            // Xóa token và thông tin người dùng
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('user');
-
-            // Chuyển hướng về trang chủ
-            window.location.href = 'index.html';
-        }
-    </script>
+    <script src="statistics.js"></script>
     <script src="toast.js"></script>
     <script src="notificationBell.js"></script>
     <script src="avatarDropdown.js"></script>
