@@ -123,7 +123,31 @@
                     <span class="absolute -top-2 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span>
                 </div>
                 <div class="avatar">
-                    <!-- Avatar dropdown will be inserted here -->
+                    <div id="userDropdown" class="relative">
+                        <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
+                            <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar"
+                                class="w-8 h-8 rounded-full">
+                            <span id="userName" class="text-gray-800"></span>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
+                        </button>
+
+                        <!-- Dropdown content -->
+                        <div id="userDropdownMenu"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                            <div class="py-1">
+                                <a href="index.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hidden"
+                                    id="adminPage">
+                                    <i class="fas fa-home mr-2"></i>Trang chủ
+                                </a>
+                                <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-user mr-2"></i>Thông tin cá nhân
+                                </a>
+                                <a href="#" onclick="logout()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

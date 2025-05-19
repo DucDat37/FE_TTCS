@@ -30,7 +30,7 @@ function checkLoginStatus() {
     updateUserInfoInHeader(userData);
     
     // Kiểm tra quyền truy cập trang admin
-    if (userData.roleName === "Admin") {
+    if (userData.role === 'Admin') {
         document.getElementById('adminPage').classList.remove('hidden');
     }
 }
