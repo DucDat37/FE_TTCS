@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Xử lý sự kiện click vào nút đăng nhập
 loginBtn.addEventListener('click', () => {
-    window.location.href = 'login.html';
+    window.location.href = 'auth.html';
 });
 
 // Hàm toggle dropdown menu

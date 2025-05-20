@@ -27,15 +27,29 @@ function renderSlots() {
     slotGrid.innerHTML = '';
     
     slotList.forEach((slot, idx) => {
+        const timeSlot = timeSlots[idx];
+        const isBooked = !timeSlot.status; // Nếu status là false thì đã được đặt
+        
         const btn = document.createElement('button');
-        btn.className = `border rounded-lg py-3 text-center font-semibold transition-all ${selectedSlot === idx ? 'slot-active' : ''} hover:bg-blue-50`;
+        btn.className = `border rounded-lg py-3 text-center font-semibold transition-all ${
+            selectedSlot === idx ? 'slot-active' : ''
+        } ${
+            isBooked 
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                : 'hover:bg-blue-50'
+        }`;
         btn.textContent = slot;
-        btn.onclick = () => {
-            selectedSlot = idx;
-            renderSlots();
-            updateConfirmBtn();
-            updateSelectedInfo();
-        };
+        btn.disabled = isBooked;
+        
+        if (!isBooked) {
+            btn.onclick = () => {
+                selectedSlot = idx;
+                renderSlots();
+                updateConfirmBtn();
+                updateSelectedInfo();
+            };
+        }
+        
         slotGrid.appendChild(btn);
     });
     updateConfirmBtn();
@@ -127,6 +141,20 @@ document.getElementById('confirmBtn').onclick = async function() {
             return;
         }
 
+        // Thêm hiệu ứng loading
+        const confirmBtn = document.getElementById('confirmBtn');
+        const originalText = confirmBtn.innerHTML;
+        confirmBtn.innerHTML = `
+            <div class="flex items-center justify-center">
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Đang xử lý...
+            </div>
+        `;
+        confirmBtn.disabled = true;
+
         try {
             const selectedServiceId = serviceSelect.value;
             const selectedTimeSlot = timeSlots[selectedSlot];
@@ -144,6 +172,11 @@ document.getElementById('confirmBtn').onclick = async function() {
             });
 
             const result = await response.json();
+            
+            // Khôi phục lại nút xác nhận
+            confirmBtn.innerHTML = originalText;
+            confirmBtn.disabled = false;
+
             if (result.statusCode === 201) {
                 showToast('Đặt khám thành công', 'Vui lòng kiểm tra email để xác nhận');
                 // Reset form sau khi đặt lịch thành công
@@ -157,6 +190,9 @@ document.getElementById('confirmBtn').onclick = async function() {
             }
         } catch (error) {
             console.error('Lỗi khi đặt lịch:', error);
+            // Khôi phục lại nút xác nhận trong trường hợp lỗi
+            confirmBtn.innerHTML = originalText;
+            confirmBtn.disabled = false;
             showToast('Lỗi', 'Có lỗi xảy ra khi đặt lịch', 'error');
         }
     }
@@ -285,8 +321,11 @@ function displayDoctorInfo(doctor) {
         doctorInfo.innerHTML = `
             <img src="${doctor.img}" alt="${doctor.userName}" class="w-16 h-16 rounded-full object-cover border">
             <div>
-                <div class="font-bold text-base">${doctor.degree} ${doctor.userName}</div>
-                <div class="text-sm text-gray-500">${doctor.address}</div>
+                <div class="font-bold text-lg">${doctor.degree} ${doctor.userName}</div>
+                
+                <div class="text-sm text-black-600 font-semibold">Chuyên khoa: ${doctor.specialtyName}</div>
+                <div class="text-sm text-gray-600 mt-1">Chức vụ: ${doctor.description}</div>
+                <div class="text-sm text-gray-500">Nơi công tác: ${doctor.address}</div>
             </div>
         `;
     }

@@ -83,10 +83,12 @@ function displayDoctors(doctors) {
 
     doctors.forEach(doctor => {
         const doctorCard = `
-            <div class="group bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64 hover:shadow-lg transition-shadow duration-300">
-                <img alt="Portrait of ${doctor.userName}" class="rounded-full mx-auto" height="100"
-                    src="${doctor.img}"
-                    width="100" />
+            <div class="group bg-white rounded-lg shadow-md p-4 flex-shrink-0 w-64">
+                <div style="width: 120px; height: 120px; min-width: 120px;" class="flex-shrink-0 overflow-hidden rounded-full mx-auto">
+                    <img src="${doctor.img || 'https://via.placeholder.com/100'}" 
+                         alt="${doctor.userName}" 
+                         class="w-full h-full object-cover">
+                </div>
                 <div class="text-center mt-4">
                     <h3 class="font-semibold group-hover:text-blue-600 group-hover:underline">
                         ${doctor.degree} ${doctor.userName}
@@ -174,7 +176,7 @@ function renderSpecialties() {
     const toShow = showAllSpecialties ? specialtiesData : specialtiesData.slice(0, 6);
     specialtiesGrid.innerHTML = toShow.map(specialty => `
         <div class="col-span-1">
-            <a href="#" class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-lg transition-shadow duration-300 rounded-xl transition">
+            <a href="all-doctors.html?specialty=${encodeURIComponent(specialty.name)}" class="flex flex-col items-center p-4 font-medium text-center text-xs md:text-sm hover:shadow-lg transition-shadow duration-300 rounded-xl transition">
                 <div class="rounded-full mb-2 w-16 h-16">
                     <img src="${specialty.url}" 
                          alt="${specialty.name}" 
@@ -246,6 +248,18 @@ function displayNews(news) {
         `;
         newsContainer.innerHTML += newsCard;
     });
+}
+
+// Function to create specialty card
+function createSpecialtyCard(specialty) {
+    return `
+        <a href="all-doctors.html?specialtyId=${specialty.id}" class="block">
+            <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+                <img src="${specialty.url}" alt="${specialty.name}" class="w-full h-32 object-cover rounded-lg mb-4">
+                <h3 class="font-semibold text-center">${specialty.name}</h3>
+            </div>
+        </a>
+    `;
 }
 
 // Gọi hàm fetchExperts khi trang được tải
