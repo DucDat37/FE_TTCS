@@ -3,39 +3,31 @@ const API_BASE_URL = "http://localhost:5000/api";
 const USERS_API = `${API_BASE_URL}/users`;
 const UPLOAD_API = `${API_BASE_URL}/upload`;
 
-// Khi trang đã tải xong
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Kiểm tra trạng thái đăng nhập
     checkLoginStatus();
-    
-    // Tải thông tin người dùng
     loadUserProfile();
-    
-    // Thiết lập các sự kiện
     setupEventListeners();
 });
 
-// Kiểm tra trạng thái đăng nhập
+
 function checkLoginStatus() {
     const token = localStorage.getItem('access_token');
     const userData = getUserDataFromStorage();
     
     if (!token || !userData) {
-        // Chưa đăng nhập, chuyển hướng về trang đăng nhập
         window.location.href = 'index.html';
         return;
     }
     
-    // Hiển thị thông tin người dùng trên header
     updateUserInfoInHeader(userData);
-    
-    // Kiểm tra quyền truy cập trang admin
+
    if (userData.role === "Admin") {
         document.getElementById('adminPage').classList.remove('hidden');
     }
 }
 
-// Lấy thông tin người dùng từ localStorage
+
 function getUserDataFromStorage() {
     try {
         return JSON.parse(localStorage.getItem('user') || '{}');
@@ -45,7 +37,7 @@ function getUserDataFromStorage() {
     }
 }
 
-// Cập nhật thông tin người dùng trên header
+
 function updateUserInfoInHeader(userData) {
     const userNameElement = document.getElementById('userName');
     const userAvatarElement = document.getElementById('userAvatar');
@@ -84,7 +76,6 @@ async function loadUserProfile() {
         
         // Kiểm tra trạng thái phản hồi
         if (response.status === 401) {
-            // Token hết hạn
             localStorage.removeItem('access_token');
             localStorage.removeItem('user');
             window.location.href = 'index.html';
@@ -105,7 +96,6 @@ async function loadUserProfile() {
         console.error('Error loading user profile:', error);
         showToast('Đã xảy ra lỗi khi tải thông tin người dùng', 'error');
     } finally {
-        // Ẩn trạng thái loading
         document.getElementById('profileForm').classList.remove('opacity-50');
     }
 }
@@ -164,7 +154,6 @@ function formatDateForInput(dateString) {
         }
     }
     
-    // Thử chuyển đổi từ chuỗi date bất kỳ
     try {
         const date = new Date(dateString);
         if (!isNaN(date.getTime())) {
@@ -259,7 +248,7 @@ async function handleProfileUpdate(event) {
             birthDate: formattedBirthDate,
             gender,
             address,
-            img: avatarUrl || userData.img || '' // Sử dụng URL avatar mới nếu có
+            img: avatarUrl || userData.img || ''
         };
         
         // Hiển thị trạng thái loading
@@ -318,12 +307,11 @@ async function handleProfileUpdate(event) {
         console.error('Error updating profile:', error);
         showToast('Đã xảy ra lỗi khi cập nhật thông tin', 'error');
     } finally {
-        // Ẩn trạng thái loading
         event.target.classList.remove('opacity-50');
     }
 }
 
-// Xử lý đổi mật khẩu
+
 async function handlePasswordChange(event) {
     event.preventDefault();
     
@@ -336,12 +324,10 @@ async function handlePasswordChange(event) {
             return;
         }
         
-        // Lấy dữ liệu từ form
         const currentPassword = document.getElementById('currentPassword').value;
         const newPassword = document.getElementById('newPassword').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
         
-        // Validate dữ liệu
         if (!currentPassword) {
             showToast('Vui lòng nhập mật khẩu hiện tại', 'error');
             return;
@@ -362,13 +348,11 @@ async function handlePasswordChange(event) {
             return;
         }
         
-        // Chuẩn bị dữ liệu để gửi lên API
         const passwordData = {
             currentPassword,
             newPassword
         };
         
-        // Hiển thị trạng thái loading
         event.target.classList.add('opacity-50');
         
         // Gọi API đổi mật khẩu
@@ -405,7 +389,6 @@ async function handlePasswordChange(event) {
         console.error('Error changing password:', error);
         showToast('Đã xảy ra lỗi khi đổi mật khẩu', 'error');
     } finally {
-        // Ẩn trạng thái loading
         event.target.classList.remove('opacity-50');
     }
 }

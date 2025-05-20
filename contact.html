@@ -65,7 +65,7 @@
         </nav>
     </header>
 
-    <!-- Main Content (with padding-top to account for fixed header) -->
+    <!-- Main Content -->
     <main style="padding-top: 60px;">
         <!-- Page Title Section -->
         <section class="bg-blue-500 py-12 text-white">
@@ -366,7 +366,7 @@
 
     <script src="index.js"></script>
     <script>
-        // FAQ toggle functionality
+        
         document.addEventListener('DOMContentLoaded', function() {
             const faqButtons = document.querySelectorAll('.faq-item button, .border-gray-200 button');
             
@@ -388,7 +388,7 @@
                 });
             });
             
-            // Hide all FAQ content initially except the first one
+            
             const contents = document.querySelectorAll('.faq-item > div:nth-child(2), .border-gray-200 > div:nth-child(2)');
             contents.forEach((content, index) => {
                 if (index !== 0) {

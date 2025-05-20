@@ -1,10 +1,10 @@
-// Global variables
+// Biến toàn cục
 let currentPage = 1;
 const itemsPerPage = 8;
 let currentFilteredData = [];
 let searchTimeout = null;
 
-// Function to show/hide loading spinner
+// Hàm hiển thị/ẩn loading spinner
 function toggleLoading(show) {
     const spinner = document.getElementById('loadingSpinner');
     const table = document.querySelector('table');
@@ -17,7 +17,7 @@ function toggleLoading(show) {
     }
 }
 
-// Function to render pagination
+// Hàm render phân trang
 function renderPagination(totalItems) {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const paginationContainer = document.getElementById('pagination');
@@ -62,7 +62,7 @@ function renderPagination(totalItems) {
     paginationContainer.appendChild(nextButton);
 }
 
-// Function to get status class
+// Hàm lấy class trạng thái
 function getStatusClass(status) {
     switch (status) {
         case 'Chờ khám':
@@ -78,7 +78,7 @@ function getStatusClass(status) {
     }
 }
 
-// Function to render table data
+// Hàm render dữ liệu bảng
 function renderTableData(data) {
     const tableBody = document.getElementById('appointmentTableBody');
     tableBody.innerHTML = '';
@@ -120,7 +120,7 @@ function renderTableData(data) {
     document.getElementById('tableInfo').textContent = `Hiển thị ${data.length} kết quả`;
 }
 
-// Function to filter data based on search term and status
+// Hàm lọc dữ liệu dựa trên từ khóa tìm kiếm và trạng thái
 function filterData(data, searchTerm, statusFilter) {
     return data.filter(item => {
         const matchesSearch = searchTerm === '' || 
@@ -135,7 +135,7 @@ function filterData(data, searchTerm, statusFilter) {
     });
 }
 
-// Function to fetch appointments
+// Hàm lấy danh sách lịch hẹn
 async function fetchAppointments() {
     try {
         const statusFilter = document.getElementById('filterStatus').value;
@@ -179,14 +179,14 @@ async function fetchAppointments() {
     }
 }
 
-// Function to handle logout
+// Hàm xử lý đăng xuất
 function handleLogout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
     window.location.href = 'index.html';
 }
 
-// Modal functions
+// Các hàm modal
 function openUpdateStatusModal(id, currentStatus) {
     document.getElementById('updateAppointmentId').value = id;
     document.getElementById('updateStatusSelect').value = currentStatus;
@@ -197,7 +197,7 @@ function closeUpdateStatusModal() {
     document.getElementById('updateStatusModal').style.display = 'none';
 }
 
-// Handle form submit
+// Xử lý submit form
 document.getElementById('updateStatusForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const id = document.getElementById('updateAppointmentId').value;
@@ -241,7 +241,7 @@ document.getElementById('updateStatusForm').addEventListener('submit', async fun
     }
 });
 
-// Function to delete appointment
+// Hàm xóa lịch hẹn
 async function deleteAppointment(id) {
     if (!confirm('Bạn có chắc chắn muốn xóa lịch hẹn này?')) {
         return;
@@ -282,7 +282,7 @@ async function deleteAppointment(id) {
     }
 }
 
-// Initialize when DOM is loaded
+// Khởi tạo khi DOM được tải
 document.addEventListener('DOMContentLoaded', () => {
     fetchAppointments();
     
@@ -292,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchAppointments();
     });
 
-    // Add event listener for search input with debounce
     document.getElementById('searchInput').addEventListener('input', (e) => {
         if (searchTimeout) {
             clearTimeout(searchTimeout);
@@ -300,6 +299,6 @@ document.addEventListener('DOMContentLoaded', () => {
         searchTimeout = setTimeout(() => {
             currentPage = 1;
             fetchAppointments();
-        }, 300); // 300ms debounce
+        }, 300);
     });
 }); 

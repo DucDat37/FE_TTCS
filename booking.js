@@ -1,11 +1,11 @@
-// Global variables
+// Biến toàn cục
 let currentPage = 1;
 const limit = 8;
 let totalBookings = 0;
 let bookings = [];
-let allBookings = []; // Store all bookings for filtering
+let allBookings = []; 
 
-// Add Booking Modal Functions
+
 let selectedTimeSlotId = null;
 
 function openAddBookingModal() {
@@ -22,7 +22,7 @@ function closeAddBookingModal() {
     document.getElementById('timeSlotsContainer').innerHTML = '';
 }
 
-// Load Services
+// Tải danh sách dịch vụ
 async function loadServices() {
     try {
         const response = await fetch('http://localhost:5000/api/service', {
@@ -53,7 +53,7 @@ async function loadServices() {
     }
 }
 
-// Load Patients
+// Tải danh sách bệnh nhân
 async function loadPatients() {
     try {
         const response = await fetch('http://localhost:5000/api/users', {
@@ -103,7 +103,7 @@ async function loadPatients() {
     }
 }
 
-// Load Doctors
+// Tải danh sách bác sĩ
 async function loadDoctors() {
     try {
         // Get current user data
@@ -146,7 +146,7 @@ async function loadDoctors() {
     }
 }
 
-// Load Time Slots
+// Tải danh sách khung giờ khám
 async function loadTimeSlots() {
     const doctorId = document.getElementById('doctorSelect').value;
     const date = document.getElementById('dateSelect').value;
@@ -201,7 +201,7 @@ async function loadTimeSlots() {
                 timeSlotDiv.onclick = () => selectTimeSlot(timeSlot.id, timeSlotDiv);
             }
 
-            // Format time safely
+            // Định dạng thời gian an toàn
             const formatTime = (dateStr) => {
                 try {
                     // Split the date string into parts
@@ -311,7 +311,7 @@ document.getElementById('addBookingBtn').addEventListener('click', openAddBookin
 document.getElementById('doctorSelect').addEventListener('change', loadTimeSlots);
 document.getElementById('dateSelect').addEventListener('change', loadTimeSlots);
 
-// Fetch bookings data
+// Lấy danh sách lịch hẹn
 async function fetchBookings(page = 1) {
     try {
         const response = await fetch(`http://localhost:5000/api/booking?page=${page}&limit=${limit}&sort=createdAt&order=DESC`, {
@@ -336,7 +336,7 @@ async function fetchBookings(page = 1) {
     }
 }
 
-// Update bookings table
+// Cập nhật bảng lịch hẹn
 function updateBookingsTable(bookings) {
     const tableBody = document.getElementById('bookingsTable');
     tableBody.innerHTML = '';
@@ -382,7 +382,7 @@ function updateBookingsTable(bookings) {
     });
 }
 
-// Update pagination
+// Cập nhật phân trang
 function updatePagination(total, currentPage) {
     const totalPages = Math.ceil(total / limit);
     const paginationContainer = document.getElementById('pagination');
@@ -459,7 +459,7 @@ function updatePagination(total, currentPage) {
     paginationContainer.appendChild(nextButton);
 }
 
-// Load bookings
+// Tải danh sách lịch hẹn
 async function loadBookings(page = 1) {
     currentPage = page;
     const data = await fetchBookings(page);
@@ -473,7 +473,7 @@ async function loadBookings(page = 1) {
     }
 }
 
-// Apply filters
+// Áp dụng bộ lọc
 function applyFilters() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();
     const statusFilter = document.getElementById('statusFilter').value;
@@ -502,7 +502,7 @@ function applyFilters() {
     document.getElementById('totalBookings').textContent = totalBookings;
 }
 
-// View booking details
+// Xem chi tiết lịch hẹn
 async function viewBooking(id) {
     try {
         const response = await fetch(`http://localhost:5000/api/booking/${id}`, {
@@ -567,12 +567,12 @@ async function viewBooking(id) {
     }
 }
 
-// Close detail modal
+// Đóng modal chi tiết lịch hẹn
 function closeDetailBookingModal() {
     document.getElementById('detailBookingModal').classList.add('hidden');
 }
 
-// Update booking status
+// Cập nhật trạng thái lịch hẹn
 async function updateBookingStatus(id, newStatus) {
     try {
         const response = await fetch('http://localhost:5000/api/booking/update-status', {
@@ -604,6 +604,19 @@ async function updateBookingStatus(id, newStatus) {
     }
 }
 
+// Hàm debounce
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // Search functionality
 document.getElementById('searchInput').addEventListener('input', debounce(function() {
     applyFilters();
@@ -618,19 +631,6 @@ document.getElementById('applyFilters').addEventListener('click', () => {
 document.getElementById('statusFilter').addEventListener('change', () => {
     applyFilters();
 });
-
-// Debounce function
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {

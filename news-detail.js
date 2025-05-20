@@ -70,13 +70,13 @@ window.addEventListener('click', function(event) {
     }
 });
 
-// Function to get news ID from URL
+
 function getNewsId() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('id');
 }
 
-// Function to fetch news detail
+
 async function fetchNewsDetail() {
     const newsId = getNewsId();
     if (!newsId) {
@@ -90,7 +90,6 @@ async function fetchNewsDetail() {
         
         if (result.statusCode === 200 && !result.isError) {
             displayNewsDetail(result.data);
-            // Fetch related news after displaying current news
             fetchRelatedNews();
         } else {
             console.error('Error fetching news:', result.message);
@@ -100,29 +99,20 @@ async function fetchNewsDetail() {
     }
 }
 
-// Function to display news detail
+
 function displayNewsDetail(news) {
-    // Update page title
     document.title = `${news.name} - YouMed`;
-    
-    // Update breadcrumb
     document.getElementById('news-title').textContent = news.name;
-    
-    // Update article content
     document.getElementById('article-title').textContent = news.name;
     document.getElementById('article-author').textContent = news.user.userName;
     document.getElementById('article-date').textContent = news.createdAt;
-    
-    // Update article image
     const articleImage = document.getElementById('article-image');
     articleImage.src = news.img;
     articleImage.alt = news.name;
-    
-    // Update article content
     document.getElementById('article-content').innerHTML = news.description;
 }
 
-// Function to fetch related news
+
 async function fetchRelatedNews() {
     try {
         const response = await fetch('http://localhost:5000/api/news');
@@ -142,7 +132,7 @@ async function fetchRelatedNews() {
     }
 }
 
-// Function to display related news
+
 function displayRelatedNews(news) {
     const relatedArticlesContainer = document.getElementById('related-articles');
     

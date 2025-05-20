@@ -1,13 +1,9 @@
-// Constants
 const API_URL = 'http://localhost:5000/api';
 const SPECIALTY_API = `${API_URL}/specialty`;
 
-// DOM Elements
 document.addEventListener('DOMContentLoaded', function() {
-    // Check for authentication
     checkAuthentication();
 
-    // Form submission
     const addSpecialtyForm = document.getElementById('addSpecialtyForm');
     if (addSpecialtyForm) {
         addSpecialtyForm.addEventListener('submit', handleAddSpecialty);
@@ -18,14 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
         editSpecialtyForm.addEventListener('submit', handleEditSpecialty);
     }
 
-    // Setup search and filter functionality
     setupFilters();
 
-    // Load specialties on page load
     loadSpecialties();
 });
 
-// Check if user is authenticated
 function checkAuthentication() {
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
@@ -35,7 +28,6 @@ function checkAuthentication() {
     return true;
 }
 
-// Get headers with authorization token
 function getAuthHeaders() {
     const accessToken = localStorage.getItem('access_token');
     return {
@@ -44,7 +36,6 @@ function getAuthHeaders() {
     };
 }
 
-// Handle unauthorized response
 function handleUnauthorizedResponse(response) {
     if (response.status === 401) {
         localStorage.removeItem('access_token');
@@ -65,12 +56,10 @@ function hideGlobalLoading() {
     if (loading) loading.style.display = 'none';
 }
 
-// Load all specialties
 async function loadSpecialties(page = 1, limit = 10, search = '', sort = 'createdAt', order = 'DESC') {
     if (!checkAuthentication()) return;
     try {
         showGlobalLoading();
-        // Build query parameters
         const queryParams = new URLSearchParams({
             page,
             limit,
@@ -89,12 +78,10 @@ async function loadSpecialties(page = 1, limit = 10, search = '', sort = 'create
         const result = await response.json();
         if (result.isError === false) {
             displaySpecialties(result.data.specialty || result.data);
-            // Update counters
             const currentDisplayed = result.data.specialty ? result.data.specialty.length : result.data.length;
             const totalSpecialties = result.data.total || currentDisplayed;
             document.getElementById('currentDisplayed').textContent = currentDisplayed;
             document.getElementById('totalSpecialties').textContent = totalSpecialties;
-            // Update pagination if available
             updatePagination(page, Math.ceil(totalSpecialties / limit), limit);
         } else {
             showNotification('Lỗi khi tải danh sách chuyên khoa', 'error');
@@ -107,7 +94,6 @@ async function loadSpecialties(page = 1, limit = 10, search = '', sort = 'create
     }
 }
 
-// Fetch specialty by ID
 async function fetchSpecialtyById(id) {
     if (!checkAuthentication()) return null;
     try {
@@ -132,7 +118,6 @@ async function fetchSpecialtyById(id) {
     }
 }
 
-// Display specialties in table
 function displaySpecialties(specialties) {
     const tableBody = document.getElementById('specialtiesTable');
     tableBody.innerHTML = '';
@@ -149,7 +134,6 @@ function displaySpecialties(specialties) {
     specialties.forEach((specialty, index) => {
         const row = document.createElement('tr');
         
-        // Format date
         const formattedDate = specialty.createdAt.slice(0, 10);
         
         row.innerHTML = `
@@ -176,18 +160,15 @@ function displaySpecialties(specialties) {
     });
 }
 
-// Handle add specialty form submission
 async function handleAddSpecialty(event) {
     event.preventDefault();
     if (!checkAuthentication()) return;
     const nameInput = document.getElementById('specialtyName');
     const fileInput = document.getElementById('specialtyImage');
-    // Validate inputs
     if (!nameInput.value.trim()) {
         showNotification('Vui lòng nhập tên chuyên khoa', 'error');
         return;
     }
-    // Create form data
     const formData = new FormData();
     formData.append('name', nameInput.value.trim());
     if (fileInput.files.length > 0) {
@@ -206,12 +187,9 @@ async function handleAddSpecialty(event) {
         if (handleUnauthorizedResponse(response)) return;
         const result = await response.json();
         if (result.isError === false) {
-            // Show success message
             showNotification('Thêm chuyên khoa thành công', 'success');
-            // Reset form
             nameInput.value = '';
             fileInput.value = '';
-            // Reload specialties list
             loadSpecialties();
         } else {
             showNotification(result.message || 'Lỗi khi thêm chuyên khoa', 'error');
@@ -224,17 +202,14 @@ async function handleAddSpecialty(event) {
     }
 }
 
-// Open edit modal with specialty details
 async function openEditModal(id, name) {
     if (!checkAuthentication()) return;
     
-    // Show the modal
     const modal = document.getElementById('editSpecialtyModal');
     if (modal) {
         modal.classList.remove('hidden');
     }
     
-    // Set initial values
     const idInput = document.getElementById('editSpecialtyId');
     const nameInput = document.getElementById('editSpecialtyName');
     const currentImageContainer = document.getElementById('currentImageContainer');
@@ -242,10 +217,8 @@ async function openEditModal(id, name) {
     if (idInput) idInput.value = id;
     if (nameInput) nameInput.value = name;
     
-    // Fetch specialty details to get the image URL
     const specialty = await fetchSpecialtyById(id);
     
-    // Display current image if it exists
     if (specialty && specialty.url && currentImageContainer) {
         currentImageContainer.innerHTML = `
             <div class="mb-3">
@@ -260,18 +233,15 @@ async function openEditModal(id, name) {
     }
 }
 
-// Close edit modal
 function closeEditModal() {
     const modal = document.getElementById('editSpecialtyModal');
     if (modal) {
         modal.classList.add('hidden');
     }
     
-    // Reset form
     const form = document.getElementById('editSpecialtyForm');
     if (form) form.reset();
     
-    // Hide current image
     const currentImageContainer = document.getElementById('currentImageContainer');
     if (currentImageContainer) {
         currentImageContainer.innerHTML = '';
@@ -279,7 +249,6 @@ function closeEditModal() {
     }
 }
 
-// Open delete confirmation modal
 function openDeleteModal(id) {
     const modal = document.getElementById('deleteSpecialtyModal');
     const confirmBtn = document.getElementById('confirmDelete');
@@ -293,7 +262,6 @@ function openDeleteModal(id) {
     }
 }
 
-// Close delete confirmation modal
 function closeDeleteModal() {
     const modal = document.getElementById('deleteSpecialtyModal');
     if (modal) {
@@ -301,22 +269,18 @@ function closeDeleteModal() {
     }
 }
 
-// Handle edit specialty form submission
 async function handleEditSpecialty(event) {
     event.preventDefault();
     if (!checkAuthentication()) return;
     const idInput = document.getElementById('editSpecialtyId');
     const nameInput = document.getElementById('editSpecialtyName');
     const fileInput = document.getElementById('editSpecialtyImage');
-    // Validate inputs
     if (!nameInput.value.trim()) {
         showNotification('Vui lòng nhập tên chuyên khoa', 'error');
         return;
     }
-    // Create form data
     const formData = new FormData();
     formData.append('name', nameInput.value.trim());
-    // Add ID parameter
     const id = idInput.value;
     if (fileInput.files.length > 0) {
         formData.append('file', fileInput.files[0]);
@@ -334,11 +298,8 @@ async function handleEditSpecialty(event) {
         if (handleUnauthorizedResponse(response)) return;
         const result = await response.json();
         if (result.isError === false) {
-            // Show success message
             showNotification('Cập nhật chuyên khoa thành công', 'success');
-            // Close modal
             closeEditModal();
-            // Reload specialties list
             loadSpecialties();
         } else {
             showNotification(result.message || 'Lỗi khi cập nhật chuyên khoa', 'error');
@@ -351,7 +312,6 @@ async function handleEditSpecialty(event) {
     }
 }
 
-// Handle delete specialty
 async function handleDeleteSpecialty(id) {
     if (!checkAuthentication()) return;
     try {
@@ -366,11 +326,8 @@ async function handleDeleteSpecialty(id) {
         if (handleUnauthorizedResponse(response)) return;
         const result = await response.json();
         if (result.isError === false) {
-            // Show success message
             showNotification('Xóa chuyên khoa thành công', 'success');
-            // Reload specialties list
             loadSpecialties();
-            // Close modal
             closeDeleteModal();
         } else {
             showNotification(result.message || 'Lỗi khi xóa chuyên khoa', 'error');
@@ -383,13 +340,10 @@ async function handleDeleteSpecialty(id) {
     }
 }
 
-// Display notification message
 function showNotification(message, type = 'info') {
-    // Create toast element
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     
-    // Set icon based on notification type
     let icon = 'fa-info-circle';
     if (type === 'success') {
         icon = 'fa-check-circle';
@@ -397,7 +351,6 @@ function showNotification(message, type = 'info') {
         icon = 'fa-exclamation-circle';
     }
     
-    // Set toast content
     toast.innerHTML = `
         <div class="toast-icon">
             <i class="fas ${icon}"></i>
@@ -410,16 +363,13 @@ function showNotification(message, type = 'info') {
         </div>
     `;
     
-    // Add toast to container
     const container = document.getElementById('toastContainer');
     container.appendChild(toast);
     
-    // Show toast with animation
     setTimeout(() => {
         toast.classList.add('show');
     }, 10);
     
-    // Automatically remove toast after 5 seconds
     setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => {
@@ -428,7 +378,6 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-// Connect delete confirmation button
 document.addEventListener('DOMContentLoaded', function() {
     const confirmDeleteBtn = document.getElementById('confirmDelete');
     if (confirmDeleteBtn) {
@@ -441,15 +390,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Update pagination controls
 function updatePagination(currentPage, totalPages, limit) {
     const paginationContainer = document.querySelector('.flex.space-x-1');
     if (!paginationContainer) return;
     
-    // Clear existing pagination
     paginationContainer.innerHTML = '';
     
-    // Previous button
     const prevButton = document.createElement('button');
     prevButton.className = `px-3 py-1 bg-gray-200 text-gray-600 rounded-md hover:bg-gray-300 ${currentPage <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`;
     prevButton.textContent = 'Previous';
@@ -458,7 +404,6 @@ function updatePagination(currentPage, totalPages, limit) {
     }
     paginationContainer.appendChild(prevButton);
     
-    // Page buttons
     const startPage = Math.max(1, currentPage - 2);
     const endPage = Math.min(totalPages, startPage + 4);
     
@@ -470,7 +415,6 @@ function updatePagination(currentPage, totalPages, limit) {
         paginationContainer.appendChild(pageButton);
     }
     
-    // Next button
     const nextButton = document.createElement('button');
     nextButton.className = `px-3 py-1 bg-gray-200 text-gray-600 rounded-md hover:bg-gray-300 ${currentPage >= totalPages ? 'opacity-50 cursor-not-allowed' : ''}`;
     nextButton.textContent = 'Next';
@@ -480,14 +424,12 @@ function updatePagination(currentPage, totalPages, limit) {
     paginationContainer.appendChild(nextButton);
 }
 
-// Setup search and filter event listeners
 function setupFilters() {
     const searchInput = document.getElementById('searchInput');
     const sortField = document.getElementById('sortField');
     const sortOrder = document.getElementById('sortOrder');
     const applyFilters = document.getElementById('applyFilters');
 
-    // Apply filters button click
     if (applyFilters) {
         applyFilters.addEventListener('click', function() {
             const search = searchInput.value.trim();
@@ -497,7 +439,6 @@ function setupFilters() {
         });
     }
 
-    // Search on enter key press
     if (searchInput) {
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -508,4 +449,4 @@ function setupFilters() {
             }
         });
     }
-} 
+}

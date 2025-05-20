@@ -231,7 +231,6 @@
             </div>
             <div class="px-4 md:px-6">
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-10" id="specialties-grid">
-                    <!-- Specialties will be loaded here dynamically -->
                 </div>
                 <div class="flex justify-center mt-4">
                     <button id="toggle-specialties-btn" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Xem thêm</button>
@@ -248,91 +247,13 @@
                 <p class="text-gray-600">Chính thống - Minh bạch - Trung lập</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 px-4">
-                <!-- News Item 1 -->
-                <a href="news-detail.html" class="block group">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/lomexin-1000-370x210.jpg"
-                            alt="Thuốc Lomexin" class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">Thuốc Lomexin 1000 mg là
-                                gì? Công dụng, cách dùng và lưu ý khi dùng</h3>
-                            <div class="flex items-center text-sm text-gray-600">
-                                <span>Dược sĩ Bùi Hoàng Ngọc Khánh</span>
-                                <span class="mx-2">•</span>
-                                <span>25/12/2024</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+            <!-- Category Tabs -->
+            <div class="flex justify-center mb-8">
+                <div id="news-tabs" class="flex space-x-2 overflow-x-auto px-4 py-2">
+                </div>
+            </div>
 
-                <!-- News Item 2 -->
-                <a href="news-detail.html" class="block group">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/lomexin-200-370x210.jpg"
-                            alt="Thuốc Lomexin" class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">Lomexin 200mg là thuốc gì?
-                                Công dụng, cách dùng và lưu ý khi dùng</h3>
-                            <div class="flex items-center text-sm text-gray-600">
-                                <span>Dược sĩ Bùi Hoàng Ngọc Khánh</span>
-                                <span class="mx-2">•</span>
-                                <span>24/12/2024</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- News Item 3 -->
-                <a href="news-detail.html" class="block group">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/nextg-cal-370x210.jpg"
-                            alt="Thuốc NextG Cal" class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">Thuốc NextG Cal: Bổ sung
-                                canxi và điều trị loãng xương</h3>
-                            <div class="flex items-center text-sm text-gray-600">
-                                <span>Dược sĩ Trần Văn Thy</span>
-                                <span class="mx-2">•</span>
-                                <span>20/04/2022</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- News Item 4 -->
-                <a href="news-detail.html" class="block group">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/velaxin-370x210.jpg"
-                            alt="Thuốc Velaxin" class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">Thuốc Velaxin là thuốc gì?
-                                Công dụng, cách dùng và lưu ý khi sử dụng</h3>
-                            <div class="flex items-center text-sm text-gray-600">
-                                <span>Dược sĩ Trần Thị Thùy Linh</span>
-                                <span class="mx-2">•</span>
-                                <span>29/05/2024</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- News Item 5 -->
-                <a href="news-detail.html" class="block group">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://cdn.youmed.vn/tin-tuc/wp-content/uploads/2023/12/klamentin-370x210.jpg"
-                            alt="Thuốc Klamentin" class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600">Klamentin là thuốc gì? Công
-                                dụng và cách dùng hiệu quả</h3>
-                            <div class="flex items-center text-sm text-gray-600">
-                                <span>Dược sĩ Bùi Hoàng Ngọc Khánh</span>
-                                <span class="mx-2">•</span>
-                                <span>24/05/2024</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 px-4" id="news-grid">
             </div>
         </div>
     </section>

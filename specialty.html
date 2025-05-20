@@ -277,14 +277,14 @@
                         </tr>
                     </thead>
                     <tbody id="specialtiesTable" class="divide-y divide-gray-200">
-                        <!-- Data will be loaded here -->
+                        <!-- Data -->
                     </tbody>
                 </table>
             </div>
             <div class="flex justify-between items-center mt-4">
                 <div class="text-sm text-gray-500">Hiển thị <span id="currentDisplayed">0</span> / <span id="totalSpecialties">0</span> chuyên khoa</div>
                 <div class="flex space-x-1">
-                    <!-- Pagination will be generated here -->
+                    <!-- Pagination  -->
                 </div>
             </div>
         </div>
@@ -305,7 +305,7 @@
                     <label for="editSpecialtyName" class="block text-sm font-medium text-gray-700 mb-1">Tên chuyên khoa</label>
                     <input type="text" id="editSpecialtyName" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                 </div>
-                <!-- Container for current image -->
+
                 <div id="currentImageContainer" class="hidden"></div>
                 <div>
                     <label for="editSpecialtyImage" class="block text-sm font-medium text-gray-700 mb-1">Hình ảnh</label>
@@ -353,12 +353,9 @@
     <script src="avatarDropdown.js"></script>
     <script src="specialty.js"></script>
     <script>
-        // Dropdown menu toggle
         function toggleDropdown() {
             document.getElementById('dropdownMenu').classList.toggle('show');
         }
-
-        // Close the dropdown if clicked outside
         window.onclick = function(event) {
             if (!event.target.matches('#userAvatar') && !event.target.matches('#dropdownMenu')) {
                 var dropdowns = document.getElementsByClassName('dropdown-menu');
@@ -371,7 +368,6 @@
             }
         }
 
-        // Handle logout
         function handleLogout() {
             localStorage.removeItem('access_token');
             window.location.href = 'auth.html';

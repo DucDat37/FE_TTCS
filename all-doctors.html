@@ -27,13 +27,11 @@
                 <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
             </div>
             <div id="authSection">
-                <!-- Nút đăng nhập -->
                 <button id="loginBtn"
                     class="p-2 border-2 border-blue-500 text-blue-500 text-sm font-semibold py-1.5 px-4 rounded-md hover:bg-blue-500 hover:text-white active:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition">
                     Đăng nhập
                 </button>
 
-                <!-- Dropdown menu khi đã đăng nhập -->
                 <div id="userDropdown" class="hidden relative">
                     <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
                         <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar"
@@ -42,7 +40,6 @@
                         <i class="fas fa-chevron-down text-gray-500"></i>
                     </button>
 
-                    <!-- Dropdown content -->
                     <div id="userDropdownMenu"
                         class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                         <div class="py-1">
@@ -63,11 +60,19 @@
         </nav>
     </header>
 
+    <!-- Loading -->
+    <div id="globalLoading" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-4 rounded-lg shadow-lg flex items-center">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mr-3"></div>
+            <span>Đang tải...</span>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <div class="container mx-auto p-4 max-w-7xl">
         <div class="mb-8">
             <h1 class="text-2xl font-bold mb-4">Danh sách bác sĩ</h1>
-            <div class="flex gap-4 mb-6">
+            <div class="flex gap-4 mb-6 mt-10">
                 <div class="flex-1">
                     <input type="text" placeholder="Tìm kiếm bác sĩ..." class="w-full p-3 border rounded-lg">
                 </div>
@@ -91,7 +96,7 @@
 
         <!-- Doctor List -->
         <div id="doctorList" class="space-y-4">
-            <!-- Doctor rows will be dynamically inserted here -->
+            <!-- Doctor -->
         </div>
 
         <!-- Pagination -->
@@ -100,7 +105,7 @@
                 <i class="fas fa-chevron-left"></i>
             </button>
             <div id="pageNumbers" class="flex gap-2">
-                <!-- Page numbers will be dynamically inserted here -->
+                <!-- Page numbers -->
             </div>
             <button id="nextPage" class="px-4 py-2 border rounded-lg hover:bg-gray-100">
                 <i class="fas fa-chevron-right"></i>
