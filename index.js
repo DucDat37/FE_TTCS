@@ -68,8 +68,6 @@ async function fetchDoctors() {
         if (result.statusCode === 200) {
             const doctors = result.data.doctors.slice(0, 6); // Lấy 6 bác sĩ đầu tiên
             displayDoctors(doctors);
-        } else {
-            console.error('Lỗi khi lấy danh sách bác sĩ:', result.message);
         }
     } catch (error) {
         console.error('Lỗi khi gọi API:', error);
@@ -118,8 +116,6 @@ async function fetchExperts() {
         if (result.statusCode === 200) {
             const experts = result.data.doctors.slice(0, 6); // Lấy 6 chuyên gia đầu tiên
             displayExperts(experts);
-        } else {
-            console.error('Lỗi khi lấy danh sách chuyên gia:', result.message);
         }
     } catch (error) {
         console.error('Lỗi khi gọi API:', error);
@@ -165,7 +161,7 @@ async function loadSpecialties() {
             renderSpecialties();
         }
     } catch (error) {
-        console.error('Error loading specialties:', error);
+        console.error('Lỗi khi gọi API:', error);
     }
 }
 
@@ -198,6 +194,16 @@ document.getElementById('toggle-specialties-btn').onclick = function() {
 // Gọi loadSpecialties khi trang load
 loadSpecialties();
 
+const CATEGORY_TYPES = {
+    '0': { text: 'Tất cả', color: 'bg-gray-500' },
+    '1': { text: 'Thông báo', color: 'bg-blue-500' },
+    '2': { text: 'Tin tức', color: 'bg-green-500' },
+    '3': { text: 'Giải trí', color: 'bg-purple-500' }
+};
+
+let currentCategory = '0';
+let allNews = [];
+
 // Fetch tin tức y tế
 async function fetchNews() {
     try {
@@ -205,33 +211,76 @@ async function fetchNews() {
         const result = await response.json();
         
         if (result.statusCode === 200) {
-            const news = result.data.news;
-            displayNews(news);
-        } else {
-            console.error('Lỗi khi lấy danh sách tin tức:', result.message);
+            allNews = result.data.news;
+            displayNews(allNews);
+            createCategoryTabs();
         }
     } catch (error) {
         console.error('Lỗi khi gọi API tin tức:', error);
     }
 }
 
+// Create category tabs
+function createCategoryTabs() {
+    const tabsContainer = document.querySelector('#news-tabs');
+    if (!tabsContainer) return;
+
+    tabsContainer.innerHTML = '';
+
+    Object.entries(CATEGORY_TYPES).forEach(([type, { text, color }]) => {
+        const tab = document.createElement('button');
+        tab.className = `px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+            currentCategory === type 
+            ? `${color} text-white` 
+            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        }`;
+        tab.textContent = text;
+        tab.onclick = function() {
+            currentCategory = type;
+            createCategoryTabs();
+            displayNews(allNews);
+        };
+        tabsContainer.appendChild(tab);
+    });
+}
+
 // Hiển thị tin tức y tế
 function displayNews(news) {
-    const newsContainer = document.querySelector('#medical-news .grid');
+    const newsContainer = document.querySelector('#news-grid');
     if (!newsContainer) return;
+
+    // Filter news based on current category
+    const filteredNews = currentCategory === '0' 
+        ? news 
+        : news.filter(item => item.type === currentCategory);
 
     // Thêm class để hiển thị một hàng và scroll ngang
     newsContainer.className = 'flex overflow-x-auto gap-6 px-4 pb-4';
     newsContainer.innerHTML = ''; // Xóa nội dung cũ
 
-    news.forEach(item => {
+    if (filteredNews.length === 0) {
+        newsContainer.innerHTML = `
+            <div class="w-full text-center py-8 text-gray-500">
+                Không có tin tức nào trong danh mục này
+            </div>
+        `;
+        return;
+    }
+
+    filteredNews.forEach(item => {
+        const categoryInfo = CATEGORY_TYPES[item.type] || CATEGORY_TYPES['0'];
         const newsCard = `
             <div class="flex-none w-80">
                 <a href="news-detail.html?id=${item.id}" class="block group h-full">
                     <div class="bg-white rounded-lg shadow-md overflow-hidden h-full flex flex-col">
-                        <img src="${item.img}" 
-                             alt="${item.name}" 
-                             class="w-full h-48 object-cover">
+                        <div class="relative">
+                            <img src="${item.img}" 
+                                 alt="${item.name}" 
+                                 class="w-full h-48 object-cover">
+                            <span class="absolute top-2 right-2 ${categoryInfo.color} text-white text-xs px-2 py-1 rounded-full">
+                                ${categoryInfo.text}
+                            </span>
+                        </div>
                         <div class="p-4 flex-grow">
                             <h3 class="font-semibold text-lg mb-2 group-hover:text-blue-600 line-clamp-2">${item.name}</h3>
                             <div class="flex items-center text-sm text-gray-600 mt-auto">
