@@ -13,17 +13,18 @@
     <!-- Header -->
     <header class="header mx-auto">
         <div class="flex items-center justify-between">
+            <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
             <a href="index.html">
-                <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
+                <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg" alt="YouMed">
             </a>
         </div>
         <nav class="flex items-center justify-between">
-            <div class="flex space-x-2">
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt khám</a>
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn trực tuyến</a>
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Store</a>
+            <div class="flex space-x-2 pr-4">
+                <a href="all-doctors.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt khám</a>
+                <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn trực tuyến</a>
+                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển dụng</a>
                 <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tin Y tế</a>
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Dành cho nhân viên Y tế</a>
+                <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
             </div>
             <div id="authSection">
                 <!-- Nút đăng nhập -->
@@ -49,7 +50,7 @@
                                 id="adminPage">
                                 <i class="fas fa-home mr-2"></i>Trang quản trị
                             </a>
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                                 <i class="fas fa-user mr-2"></i>Thông tin cá nhân
                             </a>
                             <a href="#" onclick="logout()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
@@ -58,7 +59,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Kết thúc dropdown menu -->
             </div>
         </nav>
     </header>
@@ -69,15 +69,21 @@
             <h1 class="text-2xl font-bold mb-4">Danh sách bác sĩ</h1>
             <div class="flex gap-4 mb-6">
                 <div class="flex-1">
-                    <input type="text" placeholder="Tìm kiếm bác sĩ, chuyên khoa..." class="w-full p-3 border rounded-lg">
+                    <input type="text" placeholder="Tìm kiếm bác sĩ..." class="w-full p-3 border rounded-lg">
                 </div>
                 <div class="flex-1">
                     <select class="w-full p-3 border rounded-lg">
-                        <option value="">Chọn bệnh viện</option>
-                        <option value="1">Bệnh viện Nhi Đồng 2</option>
-                        <option value="2">Bệnh viện Chợ Rẫy</option>
-                        <option value="3">Bệnh viện Nhi Đồng Thành phố</option>
-                        <option value="4">Bệnh viện Ung Bướu TP. HCM</option>
+                        <option value="">Chọn chuyên khoa</option>
+                        <option value="nhi">Nhi khoa</option>
+                        <option value="tieu-hoa">Tiêu hóa</option>
+                        <option value="ung-buou">Ung bướu</option>
+                        <option value="noi">Nội khoa</option>
+                        <option value="ngoai">Ngoại khoa</option>
+                        <option value="san-phu">Sản phụ khoa</option>
+                        <option value="tam-than">Tâm thần</option>
+                        <option value="rang-ham-mat">Răng hàm mặt</option>
+                        <option value="mat">Mắt</option>
+                        <option value="tai-mui-hong">Tai mũi họng</option>
                     </select>
                 </div>
             </div>
@@ -273,199 +279,6 @@
         </div>
     </footer>
 
-    <script>
-        // Sample doctor data
-        const doctors = [
-            {
-                name: "BS. CK2 Lê Thị Minh Hồng",
-                specialty: "Nhi khoa",
-                hospital: "Bệnh viện Nhi Đồng 2",
-                image: "https://storage.googleapis.com/a1aa/image/MJJMum0CX_pl2Y4GHDIo2NouwH92CmCqwt49Q4RcTcQ.jpg"
-            },
-            {
-                name: "PGS. TS. BS Lâm Việt Trung",
-                specialty: "Tiêu hoá",
-                hospital: "Bệnh viện Chợ Rẫy",
-                image: "https://storage.googleapis.com/a1aa/image/j44YWK-FMO5BOHdvaSKXNK2Xbs6R0QAjkxyLEeGRnQ4.jpg"
-            },
-            {
-                name: "BS. CK2 Nguyễn Thị Thu Hà",
-                specialty: "Nhi khoa",
-                hospital: "Bệnh viện Nhi Đồng Thành phố",
-                image: "https://storage.googleapis.com/a1aa/image/LTCM0kxtPrgu25hG69rvkrg-70xzTv6YpLFJ23J3sKM.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            {
-                name: "BS. CK2 Võ Đức Hiếu",
-                specialty: "Ung bướu",
-                hospital: "Bệnh viện Ung Bướu TP. HCM",
-                image: "https://storage.googleapis.com/a1aa/image/BtnX0PgRKfyJ-pZroGPT1h9RYQKde3cv2GTf4cLZd1k.jpg"
-            },
-            // Add more doctors here...
-        ];
-
-        // Pagination settings
-        const doctorsPerPage = 10;
-        let currentPage = 1;
-        const totalPages = Math.ceil(doctors.length / doctorsPerPage);
-
-        // Function to create doctor row HTML
-        function createDoctorRow(doctor) {
-            return `
-                <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <img src="${doctor.image}" 
-                             alt="${doctor.name}" 
-                             class="w-16 h-16 rounded-full object-cover">
-                        <div>
-                            <h3 class="font-semibold text-lg">${doctor.name}</h3>
-                            <p class="text-gray-600">${doctor.specialty}</p>
-                            <p class="text-gray-600">${doctor.hospital}</p>
-                        </div>
-                    </div>
-                    <button class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition">
-                        Đặt lịch khám
-                    </button>
-                </div>
-            `;
-        }
-
-        // Function to update page numbers
-        function updatePageNumbers() {
-            const pageNumbers = document.getElementById('pageNumbers');
-            pageNumbers.innerHTML = '';
-            
-            for (let i = 1; i <= totalPages; i++) {
-                const button = document.createElement('button');
-                button.className = `px-4 py-2 border rounded-lg hover:bg-gray-100 ${i === currentPage ? 'bg-blue-500 text-white' : ''}`;
-                button.textContent = i;
-                button.onclick = () => goToPage(i);
-                pageNumbers.appendChild(button);
-            }
-        }
-
-        // Function to go to specific page
-        function goToPage(page) {
-            currentPage = page;
-            displayDoctors();
-            updatePageNumbers();
-        }
-
-        // Function to display doctors for current page
-        function displayDoctors() {
-            const doctorList = document.getElementById('doctorList');
-            const start = (currentPage - 1) * doctorsPerPage;
-            const end = start + doctorsPerPage;
-            const pageDoctors = doctors.slice(start, end);
-            
-            doctorList.innerHTML = pageDoctors.map(doctor => createDoctorRow(doctor)).join('');
-        }
-
-        // Event listeners for prev/next buttons
-        document.getElementById('prevPage').onclick = () => {
-            if (currentPage > 1) {
-                goToPage(currentPage - 1);
-            }
-        };
-
-        document.getElementById('nextPage').onclick = () => {
-            if (currentPage < totalPages) {
-                goToPage(currentPage + 1);
-            }
-        };
-
-        // Initial display
-        displayDoctors();
-        updatePageNumbers();
-    </script>
+    <script src="all-doctors.js"></script>
 </body>
 </html> 
