@@ -487,7 +487,6 @@ function clearErrors() {
         el.classList.add('hidden');
     });
 }
-
 async function submitEditForm() {
     try {
         const userId = document.getElementById('editUserId').value;

@@ -2,12 +2,24 @@
 let doctors = [];
 let specialties = [];
 let currentPage = 1;
-const doctorsPerPage = 10;
+const doctorsPerPage = 3;
 let totalPages = 0;
 let filteredDoctors = [];
 let specialtyNameFromUrl = null;
+let searchTerm = '';
 
-// Get URL parameters
+
+function showGlobalLoading() {
+    const loading = document.getElementById('globalLoading');
+    if (loading) loading.style.display = 'flex';
+}
+
+function hideGlobalLoading() {
+    const loading = document.getElementById('globalLoading');
+    if (loading) loading.style.display = 'none';
+}
+
+
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -15,9 +27,10 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
-// Fetch specialties data from API
+
 async function fetchSpecialties() {
     try {
+        showGlobalLoading();
         const response = await fetch('http://localhost:5000/api/specialty?page=1&limit=500');
         const result = await response.json();
         
@@ -25,7 +38,6 @@ async function fetchSpecialties() {
             specialties = result.data.specialty;
             populateSpecialtySelect();
             
-            // Check if specialty is in URL
             specialtyNameFromUrl = getUrlParameter('specialty');
             if (specialtyNameFromUrl) {
                 const specialty = specialties.find(s => s.name === specialtyNameFromUrl);
@@ -40,10 +52,12 @@ async function fetchSpecialties() {
         }
     } catch (error) {
         console.error('Error fetching specialties:', error);
+    } finally {
+        hideGlobalLoading();
     }
 }
 
-// Populate specialty select dropdown
+
 function populateSpecialtySelect() {
     const select = document.querySelector('select');
     select.innerHTML = '<option value="">Chọn chuyên khoa</option>';
@@ -55,20 +69,20 @@ function populateSpecialtySelect() {
         select.appendChild(option);
     });
 
-    // Add event listener for specialty filter
+
     select.addEventListener('change', filterDoctors);
 }
 
-// Fetch doctors data from API
+
 async function fetchDoctors() {
     try {
+        showGlobalLoading();
         const response = await fetch('http://localhost:5000/api/doctor?page=1&limit=5000');
         const result = await response.json();
         
         if (result.statusCode === 200 && !result.isError) {
             doctors = result.data.doctors;
             
-            // If we have a specialty from URL, filter doctors immediately
             if (specialtyNameFromUrl) {
                 const specialty = specialties.find(s => s.name === specialtyNameFromUrl);
                 if (specialty) {
@@ -88,17 +102,25 @@ async function fetchDoctors() {
         }
     } catch (error) {
         console.error('Error fetching doctors:', error);
+    } finally {
+        hideGlobalLoading();
     }
 }
 
-// Filter doctors by specialty
+
+function handleSearchInput(e) {
+    searchTerm = e.target.value.trim().toLowerCase();
+    filterDoctors();
+}
+
+
 function filterDoctors() {
     const specialtySelect = document.querySelector('select');
     const selectedSpecialtyId = specialtySelect.value;
     
+    // Lọc theo chuyên khoa
     if (selectedSpecialtyId) {
         filteredDoctors = doctors.filter(doctor => doctor.specialtyId === selectedSpecialtyId);
-        // Update URL with selected specialty
         const newUrl = new URL(window.location.href);
         const specialty = specialties.find(s => s.id === selectedSpecialtyId);
         if (specialty) {
@@ -107,19 +129,24 @@ function filterDoctors() {
         }
     } else {
         filteredDoctors = [...doctors];
-        // Remove specialty from URL
         const newUrl = new URL(window.location.href);
         newUrl.searchParams.delete('specialty');
         window.history.pushState({}, '', newUrl);
     }
-    
+
+    // Lọc theo tên bác sĩ
+    if (searchTerm) {
+        filteredDoctors = filteredDoctors.filter(doctor =>
+            doctor.userName && doctor.userName.toLowerCase().includes(searchTerm)
+        );
+    }
     currentPage = 1;
     totalPages = Math.ceil(filteredDoctors.length / doctorsPerPage);
     displayDoctors();
     updatePageNumbers();
 }
 
-// Kiểm tra trạng thái đăng nhập
+
 function checkLoginStatus() {
     const token = localStorage.getItem('access_token');
     const userData = JSON.parse(localStorage.getItem('user') || '{}');
@@ -131,14 +158,12 @@ function checkLoginStatus() {
     const adminPage = document.getElementById('adminPage');
     
     if (token) {
-        // Đã đăng nhập
         loginBtn.classList.add('hidden');
         userDropdown.classList.remove('hidden');
         if(userData.role === 'Admin' || userData.role === 'Doctor'){
             adminPage.classList.remove('hidden');
         }
 
-        // Cập nhật thông tin người dùng
         if (userData.img) {
             userAvatar.src = userData.img;
         }
@@ -146,32 +171,29 @@ function checkLoginStatus() {
             userName.textContent = userData.userName;
         }
     } else {
-        // Chưa đăng nhập
         loginBtn.classList.remove('hidden');
         userDropdown.classList.add('hidden');
         adminPage.classList.add('hidden');
-        
-        // Thêm sự kiện click vào nút đăng nhập
         loginBtn.onclick = function() {
             window.location.href = 'auth.html';
         };
     }
 }
 
-// Hiển thị hoặc ẩn dropdown menu
+
 function toggleDropdown() {
     const dropdownMenu = document.getElementById('userDropdownMenu');
     dropdownMenu.classList.toggle('hidden');
 }
 
-// Xử lý đăng xuất
+
 function logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
     window.location.reload();
 }
 
-// Function to create doctor row HTML
+
 function createDoctorRow(doctor) {
     return `
         <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-between">
@@ -195,7 +217,7 @@ function createDoctorRow(doctor) {
     `;
 }
 
-// Function to update page numbers
+
 function updatePageNumbers() {
     const pageNumbers = document.getElementById('pageNumbers');
     pageNumbers.innerHTML = '';
@@ -209,24 +231,34 @@ function updatePageNumbers() {
     }
 }
 
-// Function to go to specific page
+
 function goToPage(page) {
     currentPage = page;
     displayDoctors();
     updatePageNumbers();
 }
 
-// Function to display doctors for current page
+
 function displayDoctors() {
     const doctorList = document.getElementById('doctorList');
     const start = (currentPage - 1) * doctorsPerPage;
     const end = start + doctorsPerPage;
     const pageDoctors = filteredDoctors.slice(start, end);
-    
+
+    if (pageDoctors.length === 0) {
+        doctorList.innerHTML = `
+            <div class="flex flex-col items-center justify-center py-12">
+                <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" alt="No doctors" class="w-32 h-32 mb-4 opacity-70" />
+                <p class="text-lg text-gray-500 font-semibold">Không có bác sĩ nào trong chuyên khoa này</p>
+            </div>
+        `;
+        return;
+    }
+
     doctorList.innerHTML = pageDoctors.map(doctor => createDoctorRow(doctor)).join('');
 }
 
-// Event listeners for prev/next buttons
+
 document.getElementById('prevPage').onclick = () => {
     if (currentPage > 1) {
         goToPage(currentPage - 1);
@@ -239,9 +271,14 @@ document.getElementById('nextPage').onclick = () => {
     }
 };
 
-// Initialize page
-window.addEventListener('load', function() {
+
+document.addEventListener('DOMContentLoaded', function() {
     checkLoginStatus();
     fetchSpecialties();
     fetchDoctors();
+    // Gắn sự kiện cho ô search
+    const searchInput = document.querySelector('input[type="text"][placeholder*="bác sĩ"]');
+    if (searchInput) {
+        searchInput.addEventListener('input', handleSearchInput);
+    }
 }); 

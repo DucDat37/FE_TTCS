@@ -299,7 +299,7 @@ function displayNews(news) {
     });
 }
 
-// Function to create specialty card
+
 function createSpecialtyCard(specialty) {
     return `
         <a href="all-doctors.html?specialtyId=${specialty.id}" class="block">
@@ -311,7 +311,7 @@ function createSpecialtyCard(specialty) {
     `;
 }
 
-// Gọi hàm fetchExperts khi trang được tải
+
 document.addEventListener('DOMContentLoaded', function() {
     checkLoginStatus();
     fetchDoctors();

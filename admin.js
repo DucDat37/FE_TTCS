@@ -1,13 +1,10 @@
-// Khởi tạo các biểu đồ khi DOM đã sẵn sàng
-document.addEventListener('DOMContentLoaded', function() {
-    // Fetch dashboard statistics from API
-    fetchDashboardStats();
 
-    // Kiểm tra trạng thái đăng nhập và hiển thị thông tin người dùng
+document.addEventListener('DOMContentLoaded', function() {
+    fetchDashboardStats();
     checkLoginStatus();
 });
 
-// Fetch dashboard statistics from API
+
 async function fetchDashboardStats() {
     try {
         const token = localStorage.getItem('access_token');
@@ -26,10 +23,7 @@ async function fetchDashboardStats() {
         const result = await response.json();
         
         if (result.statusCode === 200 && !result.isError) {
-            // Update dashboard stats
             updateDashboardStats(result.data);
-            
-            // Initialize charts with API data
             initAppointmentsChart(result.data.chartAppointment);
             initRevenueChart(result.data.chartInvoice);
         } else {
@@ -71,15 +65,13 @@ function updateDashboardStats(data) {
     }
 }
 
-// Initialize Appointments Chart
+
 function initAppointmentsChart(chartData) {
-    // Check if all values are 0, if so set a max of 50
     const allZeros = chartData.data.every(val => val === 0);
     let chartMaxValue = undefined;
     
     if (allZeros) {
         chartMaxValue = 50;
-        // Convert data to integers
         chartData.data = chartData.data.map(val => Math.round(val));
     }
 
@@ -117,15 +109,13 @@ function initAppointmentsChart(chartData) {
     });
 }
 
-// Initialize Revenue Chart
+
 function initRevenueChart(chartData) {
-    // Check if all values are 0, if so set a max of 50
     const allZeros = chartData.data.every(val => val === 0);
     let chartMaxValue = undefined;
     
     if (allZeros) {
         chartMaxValue = 50;
-        // Convert data to integers
         chartData.data = chartData.data.map(val => Math.round(val));
     }
 
@@ -161,7 +151,7 @@ function initRevenueChart(chartData) {
     });
 }
 
-// Dropdown menu functionality
+
 function toggleDropdown(event) {
     if (event) {
         event.stopPropagation();
@@ -170,7 +160,7 @@ function toggleDropdown(event) {
     dropdownMenu.classList.toggle('show');
 }
 
-// Close dropdown when clicking outside
+
 document.addEventListener('click', function(event) {
     const dropdownMenu = document.getElementById('dropdownMenu');
     const dropdownToggle = document.querySelector('.cursor-pointer');
@@ -180,12 +170,12 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Prevent dropdown from closing when clicking inside it
+
 document.getElementById('dropdownMenu').addEventListener('click', function(event) {
     event.stopPropagation();
 });
 
-// Add active class to clicked nav item
+
 document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', function() {
         document.querySelector('.nav-item.active').classList.remove('active');
@@ -193,17 +183,14 @@ document.querySelectorAll('.nav-item').forEach(item => {
     });
 });
 
-// Hàm xử lý logout
+
 function handleLogout() {
-    // Xóa token và thông tin người dùng
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
-    
-    // Chuyển hướng về trang chủ
     window.location.href = 'index.html';
 }
 
-// Kiểm tra trạng thái đăng nhập
+
 function checkLoginStatus() {
     const token = localStorage.getItem('access_token');
     const userData = JSON.parse(localStorage.getItem('user') || '{}');
@@ -212,8 +199,6 @@ function checkLoginStatus() {
     const userNameElement = document.querySelector('.cursor-pointer span');
     
     if (token && userData) {
-        // Đã đăng nhập
-        // Cập nhật thông tin người dùng
         if (userData.img) {
             userAvatar.src = userData.img;
         }
@@ -225,7 +210,6 @@ function checkLoginStatus() {
             userNameElement.textContent = 'Admin';
         }
     } else {
-        // Chưa đăng nhập, chuyển hướng về trang đăng nhập
         window.location.href = 'auth.html';
     }
 } 

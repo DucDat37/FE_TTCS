@@ -11,12 +11,12 @@ let slotList = [
     '18:00 - 18:15', '18:15 - 18:30', '18:30 - 18:45', '18:45 - 19:00',
     '19:00 - 19:15', '19:15 - 19:30', '19:30 - 19:45', '19:45 - 20:00'
 ];
-let timeSlots = []; // Thêm mảng lưu thông tin khung giờ
+let timeSlots = [];
 let selectedDay = 3;
 let selectedSlot = null;
 let dayStartIdx = 0;
 const daysPerPage = 5;
-let services = []; // Thêm biến lưu trữ danh sách dịch vụ
+let services = [];
 
 /**
  * Hiển thị các khung giờ khám cho ngày đã chọn.
@@ -112,17 +112,14 @@ function showToast(title, message, type = 'success') {
     
     toastContainer.appendChild(toast);
     
-    // Thêm class show để hiển thị toast với animation
     setTimeout(() => toast.classList.add('show'), 100);
     
-    // Xử lý nút đóng
     const closeBtn = toast.querySelector('.toast-close');
     closeBtn.onclick = () => {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);
     };
     
-    // Tự động đóng sau 5 giây
     setTimeout(() => {
         if (toast.parentElement) {
             toast.classList.remove('show');

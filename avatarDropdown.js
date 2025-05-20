@@ -110,8 +110,6 @@ function updateUserInfo() {
     const userNameElement = document.querySelector('.cursor-pointer span');
     
     if (token && userData) {
-        // Đã đăng nhập
-        // Cập nhật thông tin người dùng
         if (userData.img) {
             userAvatar.src = userData.img;
         }
@@ -123,10 +121,8 @@ function updateUserInfo() {
             userNameElement.textContent = 'Admin';
         }
     } else {
-        // Chưa đăng nhập, chuyển hướng về trang đăng nhập
         window.location.href = 'auth.html';
     }
 }
 
-// Khởi tạo khi DOM đã sẵn sàng
 document.addEventListener('DOMContentLoaded', createAvatarDropdown); 

@@ -209,7 +209,7 @@ async function fetchAndUpdateStatistics() {
     }
 }
 
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function() {
     fetchDoctors();
     fetchSpecialties();
     fetchAndUpdateStatistics();
@@ -221,7 +221,7 @@ window.onload = function() {
     if (specialtySelect) {
         specialtySelect.addEventListener('change', handleFilter);
     }
-};
+});
 
 // === EDIT DOCTOR ===
 

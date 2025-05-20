@@ -1,11 +1,10 @@
-// Global variables
+// Biến toàn cục
 let currentPage = 1;
 const itemsPerPage = 12;
 let totalRecords = 0;
 let allRecords = [];
 let doctorData = {};
 
-// Function to populate doctor select
 async function populateDoctorSelect() {
     try {
         // Get current user data
@@ -61,7 +60,7 @@ async function populateDoctorSelect() {
     }
 }
 
-// Function to fetch records
+// Hàm lấy danh sách hồ sơ bệnh án
 async function fetchRecords() {
     try {
         toggleLoading(true);
@@ -108,7 +107,7 @@ async function fetchRecords() {
     }
 }
 
-// Function to render table data
+// Hàm render dữ liệu bảng
 function renderTableData(data) {
     const tableBody = document.getElementById('recordTableBody');
     tableBody.innerHTML = '';
@@ -148,7 +147,7 @@ function renderTableData(data) {
     document.getElementById('tableInfo').textContent = `Hiển thị ${data.length} kết quả`;
 }
 
-// Function to render pagination
+// Hàm render phân trang
 function renderPagination() {
     const totalPages = Math.ceil(totalRecords / itemsPerPage);
     const paginationContainer = document.getElementById('pagination');
@@ -193,19 +192,19 @@ function renderPagination() {
     paginationContainer.appendChild(nextButton);
 }
 
-// Function to toggle loading spinner
+// Hàm hiển thị/ẩn loading spinner
 function toggleLoading(show) {
     const spinner = document.getElementById('loadingSpinner');
     spinner.style.display = show ? 'flex' : 'none';
 }
 
-// Function to handle logout
+// Hàm xử lý đăng xuất
 function handleLogout() {
     localStorage.removeItem('access_token');
     window.location.href = 'auth.html';
 }
 
-// Modal functions
+// Các hàm modal
 function openAddModal() {
     document.getElementById('addModal').style.display = 'block';
     fetchAppointmentsForSelect();
@@ -216,7 +215,7 @@ function closeAddModal() {
     document.getElementById('addRecordForm').reset();
 }
 
-// Function to fetch appointments for select
+// Hàm lấy danh sách lịch hẹn cho select
 async function fetchAppointmentsForSelect() {
     try {
         const accessToken = localStorage.getItem('access_token');
@@ -259,7 +258,6 @@ async function fetchAppointmentsForSelect() {
     }
 }
 
-// Function to add new record
 async function addRecord(e) {
     e.preventDefault();
     
@@ -327,21 +325,20 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
     renderTableData(filteredRecords);
 });
 
-// Initialize when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
     populateDoctorSelect();
     
-    // Add event listener for doctor filter
+
     document.getElementById('filterDoctor').addEventListener('change', () => {
         currentPage = 1;
         fetchRecords();
     });
 
-    // Add event listener for add record form
     document.getElementById('addRecordForm').addEventListener('submit', addRecord);
 });
 
-// Add update modal HTML to record.html
+
 document.addEventListener('DOMContentLoaded', () => {
     const modalHtml = `
         <div id="updateModal" class="modal">
@@ -380,11 +377,11 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.body.insertAdjacentHTML('beforeend', modalHtml);
     
-    // Add event listener for update form
+
     document.getElementById('updateRecordForm').addEventListener('submit', updateRecord);
 });
 
-// Function to open update modal
+
 async function openUpdateModal(recordId) {
     try {
         const accessToken = localStorage.getItem('access_token');
@@ -421,13 +418,13 @@ async function openUpdateModal(recordId) {
     }
 }
 
-// Function to close update modal
+
 function closeUpdateModal() {
     document.getElementById('updateModal').style.display = 'none';
     document.getElementById('updateRecordForm').reset();
 }
 
-// Function to update record
+
 async function updateRecord(e) {
     e.preventDefault();
     
@@ -480,7 +477,6 @@ async function updateRecord(e) {
     }
 }
 
-// Add delete confirmation modal HTML
 document.addEventListener('DOMContentLoaded', () => {
     const modalHtml = `
         <div id="deleteModal" class="modal">
@@ -510,19 +506,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let recordToDelete = null;
 
-// Function to open delete confirmation modal
+
 function confirmDelete(recordId) {
     recordToDelete = recordId;
     document.getElementById('deleteModal').style.display = 'block';
 }
 
-// Function to close delete confirmation modal
+
 function closeDeleteModal() {
     document.getElementById('deleteModal').style.display = 'none';
     recordToDelete = null;
 }
 
-// Function to delete record
+
 async function deleteRecord() {
     if (!recordToDelete) return;
     

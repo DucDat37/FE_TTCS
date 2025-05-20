@@ -1,4 +1,3 @@
-// Sidebar data structure
 const sidebarItems = [
     {
         href: 'admin.html',
@@ -67,27 +66,21 @@ const sidebarItems = [
     },
 ];
 
-// Function to render sidebar
 function renderSidebar() {
     const sidebar = document.querySelector('.sidebar');
     if (sidebar) {
-        // Get current page from URL
         const currentPage = window.location.pathname.split('/').pop() || 'admin.html';
         
-        // Get user role from localStorage
         const userData = JSON.parse(localStorage.getItem('user') || '{}');
         const userRole = userData.role;
 
-        // Filter menu items based on user role
         const filteredItems = sidebarItems.filter(item => {
             if (userRole === 'Doctor') {
-                // Hide specific menu items for Doctor role
                 return !['users.html', 'specialty.html', 'service.html'].includes(item.href);
             }
             return true;
         });
         
-        // Generate navigation items
         const navItems = filteredItems.map(item => {
             const isActive = item.href === currentPage;
             return `
@@ -97,7 +90,6 @@ function renderSidebar() {
             `;
         }).join('');
 
-        // Set sidebar content
         sidebar.innerHTML = `
             <div class="flex items-center mb-8">
                 <img src="hospital-logo.png" alt="YouMed Logo" class="h-10 w-10 mr-3">
@@ -110,7 +102,6 @@ function renderSidebar() {
     }
 }
 
-// Add required styles
 function addSidebarStyles() {
     const style = document.createElement('style');
     style.textContent = `
@@ -148,8 +139,7 @@ function addSidebarStyles() {
     document.head.appendChild(style);
 }
 
-// Initialize sidebar when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     addSidebarStyles();
     renderSidebar();
-}); 
+});

@@ -1,19 +1,14 @@
-// Initialize CKEditor for the description field
 let editor;
 let accessToken = '';
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Get access token from localStorage
     accessToken = localStorage.getItem('access_token');
-    
-    // Check if user is authenticated
     if (!accessToken) {
         alert('Bạn cần đăng nhập để sử dụng chức năng này!');
         window.location.href = 'auth.html';
         return;
     }
 
-    // Initialize CKEditor
     ClassicEditor
         .create(document.querySelector('#description'))
         .then(newEditor => {
@@ -23,17 +18,14 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('CKEditor initialization failed:', error);
         });
 
-    // Load existing services when page loads
     loadServices();
 
-    // Set up form submission handler
     document.getElementById('serviceForm').addEventListener('submit', function(e) {
         e.preventDefault();
         addService();
     });
 });
 
-// Function to get Authorization header
 function getAuthHeader() {
     return {
         'Content-Type': 'application/json',
@@ -41,11 +33,9 @@ function getAuthHeader() {
     };
 }
 
-// Function to handle API errors
 function handleApiError(error) {
     console.error('API Error:', error);
     
-    // Check if it's an authentication error
     if (error.status === 401 || error.message?.includes('access_token') || error.message?.includes('authorization')) {
         alert('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!');
         localStorage.removeItem('access_token');
@@ -55,35 +45,30 @@ function handleApiError(error) {
     }
 }
 
-// Function to add a new service
 async function addService() {
     try {
         const name = document.getElementById('name').value;
         const price = document.getElementById('price').value;
         const description = editor.getData();
 
-        // Validate inputs
         if (!name || !price) {
             alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
             return;
         }
 
-        // Prepare data to send to API
         const serviceData = {
             name: name,
             price: Number(price),
-            description: description // HTML content from CKEditor
+            description: description
         };
 
         console.log('Sending data to API:', serviceData);
         console.log('Description length:', description.length, 'characters');
         console.log('Description:', description);
-        // For debugging - show what's being sent
         const jsonData = JSON.stringify(serviceData);
         console.log('JSON data length:', jsonData.length, 'characters');
         console.log('Using token:', accessToken);
 
-        // Call API to add service - using fetch with proper content type
         const response = await fetch('http://localhost:5000/api/service/add', {
             method: 'POST',
             headers: {
@@ -97,7 +82,6 @@ async function addService() {
         const responseText = await response.text();
         console.log('Response text:', responseText);
         
-        // Convert text back to JSON if possible
         let result;
         try {
             result = JSON.parse(responseText);
@@ -120,14 +104,11 @@ async function addService() {
         }
 
         if (result.isError === false) {
-            // Reset form
             document.getElementById('serviceForm').reset();
             editor.setData('');
             
-            // Show success message
             alert('Tạo mới dịch vụ thành công!');
             
-            // Reload services list
             loadServices();
         } else {
             alert(`Lỗi: ${result.message}`);
@@ -138,7 +119,6 @@ async function addService() {
     }
 }
 
-// Function to load all services
 async function loadServices() {
     try {
         const response = await fetch('http://localhost:5000/api/service', {
@@ -160,7 +140,6 @@ async function loadServices() {
         console.log('API Response:', result);
 
         if (result.isError === false) {
-            // Cấu trúc dữ liệu mới: result.data.services chứa mảng dịch vụ
             if (result.data && result.data.services) {
                 displayServices(result.data.services);
             } else {
@@ -177,7 +156,6 @@ async function loadServices() {
     }
 }
 
-// Function to display services in the table
 function displayServices(services) {
     const serviceList = document.getElementById('serviceList');
     serviceList.innerHTML = '';
@@ -186,7 +164,6 @@ function displayServices(services) {
         services.forEach(service => {
             const row = document.createElement('tr');
             
-            // Format price as raw number with đ symbol at the end
             const formattedPrice = service.price + ' đ';
             
             row.innerHTML = `
@@ -209,16 +186,13 @@ function displayServices(services) {
             serviceList.appendChild(row);
         });
 
-        // Add event listeners for action buttons
         addServiceActionListeners();
     } else {
         serviceList.innerHTML = '<tr><td colspan="4" class="py-4 text-center border-b border-gray-200">Không có dịch vụ nào</td></tr>';
     }
 }
 
-// Function to add event listeners for service action buttons
 function addServiceActionListeners() {
-    // View service details
     document.querySelectorAll('.view-service').forEach(button => {
         button.addEventListener('click', async function() {
             const serviceId = this.getAttribute('data-id');
@@ -226,7 +200,6 @@ function addServiceActionListeners() {
         });
     });
 
-    // Edit service
     document.querySelectorAll('.edit-service').forEach(button => {
         button.addEventListener('click', async function() {
             const serviceId = this.getAttribute('data-id');
@@ -234,7 +207,6 @@ function addServiceActionListeners() {
         });
     });
 
-    // Delete service
     document.querySelectorAll('.delete-service').forEach(button => {
         button.addEventListener('click', async function() {
             const serviceId = this.getAttribute('data-id');
@@ -245,7 +217,6 @@ function addServiceActionListeners() {
     });
 }
 
-// Function to view service details
 async function viewServiceDetails(serviceId) {
     try {
         const response = await fetch(`http://localhost:5000/api/service/${serviceId}`, {
@@ -268,10 +239,8 @@ async function viewServiceDetails(serviceId) {
         if (result.isError === false) {
             const service = result.data;
             
-            // Format price as raw number with đ symbol at the end
             const formattedPrice = service.price + ' đ';
             
-            // Display service details in modal
             document.getElementById('serviceModalTitle').textContent = service.name;
             document.getElementById('serviceDetail').innerHTML = `
                 <h4 class="text-lg font-semibold mb-3">Thông tin dịch vụ</h4>
@@ -282,7 +251,6 @@ async function viewServiceDetails(serviceId) {
                 <div class="p-3 bg-gray-100 rounded">${service.description}</div>
             `;
             
-            // Show modal
             document.getElementById('serviceDetailModal').classList.remove('hidden');
         } else {
             alert(`Lỗi: ${result.message}`);
@@ -293,7 +261,6 @@ async function viewServiceDetails(serviceId) {
     }
 }
 
-// Function to load service data for editing
 async function loadServiceForEdit(serviceId) {
     try {
         const response = await fetch(`http://localhost:5000/api/service/${serviceId}`, {
@@ -316,26 +283,21 @@ async function loadServiceForEdit(serviceId) {
         if (result.isError === false) {
             const service = result.data;
             
-            // Fill form with service data
             document.getElementById('name').value = service.name;
             document.getElementById('price').value = service.price;
             editor.setData(service.description);
             
-            // Change form submit button text
             const submitButton = document.querySelector('#serviceForm button[type="submit"]');
             submitButton.textContent = 'Cập nhật dịch vụ';
             
-            // Add service ID to form as a data attribute
             document.getElementById('serviceForm').setAttribute('data-id', service.id);
             
-            // Change form submission handler to update service
             document.getElementById('serviceForm').removeEventListener('submit', addService);
             document.getElementById('serviceForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 updateService(service.id);
             });
             
-            // Scroll to form
             document.querySelector('.text-xl.font-bold').scrollIntoView({ behavior: 'smooth' });
         } else {
             alert(`Lỗi: ${result.message}`);
@@ -346,30 +308,26 @@ async function loadServiceForEdit(serviceId) {
     }
 }
 
-// Function to update a service
 async function updateService(serviceId) {
     try {
         const name = document.getElementById('name').value;
         const price = document.getElementById('price').value;
         const description = editor.getData();
 
-        // Validate inputs
         if (!name || !price) {
             alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
             return;
         }
 
-        // Prepare data to send to API
         const serviceData = {
             name: name,
             price: Number(price),
-            description: description // HTML content from CKEditor
+            description: description
         };
 
         console.log('Updating service:', serviceData);
         console.log('Description length:', description.length, 'characters');
 
-        // Call API to update service
         const response = await fetch(`http://localhost:5000/api/service/update/${serviceId}`, {
             method: 'PUT',
             headers: {
@@ -395,11 +353,9 @@ async function updateService(serviceId) {
         const result = await response.json();
 
         if (result.isError === false) {
-            // Reset form
             document.getElementById('serviceForm').reset();
             editor.setData('');
             
-            // Reset form button and event listener
             const submitButton = document.querySelector('#serviceForm button[type="submit"]');
             submitButton.textContent = 'Lưu dịch vụ';
             
@@ -410,10 +366,8 @@ async function updateService(serviceId) {
                 addService();
             });
             
-            // Show success message
             alert('Cập nhật dịch vụ thành công!');
             
-            // Reload services list
             loadServices();
         } else {
             alert(`Lỗi: ${result.message}`);
@@ -424,7 +378,6 @@ async function updateService(serviceId) {
     }
 }
 
-// Function to delete a service
 async function deleteService(serviceId) {
     try {
         const response = await fetch(`http://localhost:5000/api/service/delete/${serviceId}`, {
@@ -454,4 +407,4 @@ async function deleteService(serviceId) {
         console.error('Error deleting service:', error);
         alert('Đã xảy ra lỗi khi xóa dịch vụ. Vui lòng thử lại sau!');
     }
-} 
+}

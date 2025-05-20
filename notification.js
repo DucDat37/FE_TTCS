@@ -4,10 +4,10 @@ let itemsPerPage = 5;
 let totalItems = 0;
 let sortOrder = 'desc';
 let userData = {};
-let allNotifications = []; // Store all notifications for filtering
+let allNotifications = [];
 let currentNotificationId = null;
 
-// Function to show/hide loading spinner
+
 function toggleLoading(show) {
     const spinner = document.getElementById('loadingSpinner');
     const list = document.getElementById('notificationsList');
@@ -20,7 +20,7 @@ function toggleLoading(show) {
     }
 }
 
-// Function to render pagination
+
 function renderPagination() {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const paginationContainer = document.getElementById('pagination');
@@ -108,7 +108,7 @@ function renderPagination() {
     paginationContainer.appendChild(nextButton);
 }
 
-// Function to render notifications
+
 function renderNotifications(notifications) {
     const container = document.getElementById('notificationsList');
     container.innerHTML = '';
@@ -156,7 +156,7 @@ function renderNotifications(notifications) {
     renderPagination();
 }
 
-// Function to populate user filter select
+
 async function populateUserFilter() {
     try {
         const accessToken = localStorage.getItem('access_token');
@@ -193,7 +193,7 @@ async function populateUserFilter() {
             usersByRole[user.roleName].push(user);
         });
 
-        // Add users to select box grouped by role
+        
         Object.keys(usersByRole).forEach(roleName => {
             const optgroup = document.createElement('optgroup');
             optgroup.label = roleName;
@@ -215,7 +215,7 @@ async function populateUserFilter() {
     }
 }
 
-// Function to filter notifications
+
 function filterNotifications() {
     const selectedUserId = document.getElementById('userFilter').value;
     let filteredNotifications = [...allNotifications];
@@ -226,7 +226,6 @@ function filterNotifications() {
         );
     }
 
-    // Sort notifications
     filteredNotifications.sort((a, b) => {
         const dateA = new Date(a.createdAt);
         const dateB = new Date(b.createdAt);
@@ -236,7 +235,7 @@ function filterNotifications() {
     renderNotifications(filteredNotifications);
 }
 
-// Function to fetch notifications
+
 async function fetchNotifications() {
     try {
         toggleLoading(true);
@@ -271,7 +270,6 @@ async function fetchNotifications() {
         allNotifications = result.data.notifications;
         totalItems = result.data.total;
         
-        // Render notifications directly from API response
         renderNotifications(allNotifications);
         renderPagination();
 
@@ -283,14 +281,14 @@ async function fetchNotifications() {
     }
 }
 
-// Function to handle logout
+
 function handleLogout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
     window.location.href = 'index.html';
 }
 
-// Function to populate user select
+
 async function populateUserSelect() {
     try {
         const accessToken = localStorage.getItem('access_token');
@@ -328,7 +326,7 @@ async function populateUserSelect() {
             usersByRole[user.roleName].push(user);
         });
 
-        // Add users to select box grouped by role
+        
         Object.keys(usersByRole).forEach(roleName => {
             const optgroup = document.createElement('optgroup');
             optgroup.label = roleName;
@@ -350,7 +348,7 @@ async function populateUserSelect() {
     }
 }
 
-// Function to open add modal
+
 function openAddModal() {
     const modal = document.getElementById('addModal');
     if (modal) {
@@ -359,17 +357,16 @@ function openAddModal() {
     }
 }
 
-// Function to close add modal
+
 function closeAddModal() {
     const modal = document.getElementById('addModal');
     if (modal) {
         modal.style.display = 'none';
-        // Reset form
         document.getElementById('addNotificationForm').reset();
     }
 }
 
-// Function to create new notification
+
 async function createNotification(formData) {
     try {
         const accessToken = localStorage.getItem('access_token');
@@ -407,7 +404,7 @@ async function createNotification(formData) {
     }
 }
 
-// Function to view notification details
+
 async function viewNotification(id) {
     try {
         toggleLoading(true);
@@ -435,16 +432,15 @@ async function viewNotification(id) {
 
         const notification = result.data;
 
-        // Update modal content
         document.getElementById('detailUser').textContent = notification.userName || 'Không xác định';
         document.getElementById('detailTitle').textContent = notification.title;
         document.getElementById('detailContent').textContent = notification.content;
         document.getElementById('detailCreatedAt').textContent = notification.createdAt;
 
-        // Store current notification ID for delete operation
+
         currentNotificationId = id;
 
-        // Show modal
+
         document.getElementById('detailModal').style.display = 'block';
 
     } catch (error) {
@@ -455,20 +451,20 @@ async function viewNotification(id) {
     }
 }
 
-// Function to close detail modal
+
 function closeDetailModal() {
     document.getElementById('detailModal').style.display = 'none';
     currentNotificationId = null;
 }
 
-// Function to confirm delete
+
 function confirmDelete(id) {
     if (confirm('Bạn có chắc chắn muốn xóa thông báo này?')) {
         deleteNotification(id);
     }
 }
 
-// Function to delete notification
+
 async function deleteNotification(id = currentNotificationId) {
     if (!id) return;
 
@@ -509,20 +505,19 @@ async function deleteNotification(id = currentNotificationId) {
     }
 }
 
-// Initialize when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchNotifications();
     populateUserFilter();
     populateUserSelect();
 
-    // Check if there's a notification ID in the URL
+
     const urlParams = new URLSearchParams(window.location.search);
     const notificationId = urlParams.get('id');
     if (notificationId) {
         viewNotification(notificationId);
     }
 
-    // Add event listeners for filters
     document.getElementById('userFilter').addEventListener('change', function() {
         currentPage = 1;
         filterNotifications();
@@ -540,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
         filterNotifications();
     });
 
-    // Add form submission handler
+
     document.getElementById('addNotificationForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         

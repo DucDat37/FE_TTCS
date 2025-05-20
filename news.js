@@ -205,14 +205,14 @@ function handleSearch() {
 
 function handleCategoryFilter() {
     currentCategory = document.getElementById('categoryFilter').value;
-    currentPage = 1; // Reset to first page when filtering
+    currentPage = 1; 
     applyFilters();
     renderNews();
 }
 
 function handleAuthorFilter() {
     currentAuthor = document.getElementById('authorFilter').value;
-    currentPage = 1; // Reset to first page when filtering
+    currentPage = 1; 
     applyFilters();
     renderNews();
 }
@@ -221,13 +221,13 @@ function populateFilters() {
     const categoryFilter = document.getElementById('categoryFilter');
     const authorFilter = document.getElementById('authorFilter');
     
-    // Populate category filter
+
     categoryFilter.innerHTML = '<option value="">Tất cả thể loại</option>';
     Object.entries(CATEGORY_TYPES).forEach(([value, { text }]) => {
         categoryFilter.innerHTML += `<option value="${value}">${text}</option>`;
     });
     
-    // Populate author filter
+
     const authors = [...new Set(allNews.map(news => news.user.userName))];
     authorFilter.innerHTML = '<option value="">Tất cả tác giả</option>';
     authors.forEach(author => {
@@ -237,7 +237,7 @@ function populateFilters() {
     });
 }
 
-// Initialize CKEditor
+
 async function initCKEditor() {
     try {
         editor = await ClassicEditor
@@ -250,7 +250,7 @@ async function initCKEditor() {
     }
 }
 
-// Modal functions
+
 function openAddModal() {
     document.getElementById('addModal').style.display = 'block';
     document.getElementById('addNewsForm').reset();
@@ -266,7 +266,7 @@ function closeAddModal() {
     }
 }
 
-// Handle image preview
+
 document.getElementById('addImage').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -453,20 +453,20 @@ async function deleteNews(newsId) {
     }
 }
 
-// Initialize
+
 document.addEventListener('DOMContentLoaded', function() {
     checkLoginStatus();
-    fetchAuthors(); // Fetch authors first
+    fetchAuthors(); 
     fetchNews();
     
-    // Populate category filter
+
     const categoryFilter = document.getElementById('categoryFilter');
     categoryFilter.innerHTML = '<option value="">Tất cả thể loại</option>';
     Object.entries(CATEGORY_TYPES).forEach(([value, { text }]) => {
         categoryFilter.innerHTML += `<option value="${value}">${text}</option>`;
     });
     
-    // Add event listeners
+
     document.getElementById('searchInput').addEventListener('input', handleSearch);
     document.getElementById('categoryFilter').addEventListener('change', handleCategoryFilter);
     document.getElementById('authorFilter').addEventListener('change', handleAuthorFilter);

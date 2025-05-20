@@ -1,8 +1,8 @@
-// Global variables
+
 let notificationCount = 0;
 let recentNotifications = [];
 
-// Function to fetch notification count and recent notifications
+
 async function fetchNotificationData() {
     try {
         const accessToken = localStorage.getItem('access_token');
@@ -27,11 +27,9 @@ async function fetchNotificationData() {
             throw new Error(result.message);
         }
 
-        // Update notification count
         notificationCount = result.data.total;
         updateNotificationCount();
 
-        // Store recent notifications
         recentNotifications = result.data.notifications;
         updateNotificationDropdown();
 
@@ -41,7 +39,7 @@ async function fetchNotificationData() {
     }
 }
 
-// Function to update notification count badge
+
 function updateNotificationCount() {
     const badge = document.querySelector('.notification-badge');
     if (badge) {
@@ -50,7 +48,7 @@ function updateNotificationCount() {
     }
 }
 
-// Function to update notification dropdown
+
 function updateNotificationDropdown() {
     const dropdown = document.getElementById('notificationDropdown');
     if (!dropdown) return;
@@ -93,7 +91,7 @@ function updateNotificationDropdown() {
     dropdown.innerHTML = html;
 }
 
-// Function to toggle notification dropdown
+
 function toggleNotificationDropdown() {
     const dropdown = document.getElementById('notificationDropdown');
     if (dropdown) {
@@ -101,54 +99,50 @@ function toggleNotificationDropdown() {
     }
 }
 
-// Function to view notification from bell dropdown
+
 function viewNotificationFromBell(id) {
-    // Close dropdown
     const dropdown = document.getElementById('notificationDropdown');
     if (dropdown) {
         dropdown.classList.remove('show');
     }
 
-    // Redirect to notification page with the specific notification
     window.location.href = `notification.html?id=${id}`;
 }
 
-// Function to handle logout
+
 function handleLogout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
     window.location.href = 'index.html';
 }
 
-// Function to initialize notification bell
+
 function initializeNotificationBell() {
-    // Find the notification bell container
+
     const bellContainer = document.getElementById('notificationBell');
     if (!bellContainer) return;
 
-    // Add notification-badge class to the span
     const badge = bellContainer.querySelector('span');
     if (badge) {
         badge.classList.add('notification-badge');
     }
 
-    // Add click event and cursor-pointer to bell icon
     const bellIcon = bellContainer.querySelector('i.fa-bell');
     if (bellIcon) {
         bellIcon.onclick = function(e) {
-            e.stopPropagation(); // Prevent event bubbling
+            e.stopPropagation(); 
             toggleNotificationDropdown();
         };
         bellIcon.classList.add('cursor-pointer');
     }
 
-    // Create dropdown menu
+
     const dropdown = document.createElement('div');
     dropdown.id = 'notificationDropdown';
     dropdown.className = 'dropdown-menu w-80 max-h-[400px] overflow-y-auto';
     bellContainer.appendChild(dropdown);
 
-    // Add styles if not already present
+
     if (!document.getElementById('notificationBellStyles')) {
         const style = document.createElement('style');
         style.id = 'notificationBellStyles';
@@ -187,10 +181,8 @@ function initializeNotificationBell() {
         document.head.appendChild(style);
     }
 
-    // Initialize notification data
     fetchNotificationData();
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', function(event) {
         const dropdown = document.getElementById('notificationDropdown');
         const bell = bellContainer;
@@ -200,9 +192,8 @@ function initializeNotificationBell() {
         }
     });
 
-    // Refresh notification data every minute
     setInterval(fetchNotificationData, 60000);
 }
 
-// Initialize when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', initializeNotificationBell); 

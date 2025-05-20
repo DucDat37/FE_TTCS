@@ -503,13 +503,11 @@
 
 
     <script>
-        // Toggle dropdown menu
         function toggleDropdown() {
             const dropdownMenu = document.getElementById('userDropdownMenu');
             dropdownMenu.classList.toggle('hidden');
         }
 
-        // Simulate login status (this would normally be handled by your authentication system)
         document.addEventListener('DOMContentLoaded', function() {
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             const userRole = localStorage.getItem('userRole') || 'patient';
@@ -536,7 +534,6 @@
             });
         });
 
-        // Logout function
         function logout() {
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('userRole');
@@ -544,7 +541,6 @@
             window.location.reload();
         }
 
-        // Toggle FAQ sections
         document.querySelectorAll('.border-b button').forEach(button => {
             button.addEventListener('click', () => {
                 const content = button.nextElementSibling;
