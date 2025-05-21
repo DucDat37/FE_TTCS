@@ -1,16 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Tất cả bác sĩ - YouMed</title>
+    <title>Thông tin lịch hẹn - YouMed</title>
     <link rel="website icon" type="png" href="hospital-logo.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="index.css">
+    <style>
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-right: 240px;
+            padding: 20px;
+            padding-top: 120px; /* Adjusted to accommodate the header height */
+        }
+        .profile-header {
+            background-color: #4a90e2;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px 8px 0 0;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        .btn-primary {
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #3a7bc8;
+        }
+        .btn-secondary {
+            background-color: #718096;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #4a5568;
+        }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .toast {
+            background-color: white;
+            border-left: 4px solid;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            min-width: 300px;
+            max-width: 400px;
+            animation: slideIn 0.3s, fadeOut 0.5s 2.5s forwards;
+        }
+        .toast-success {
+            border-left-color: #48bb78;
+        }
+        .toast-error {
+            border-left-color: #f56565;
+        }
+        .toast-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        .toast-success .toast-icon {
+            color: #48bb78;
+        }
+        .toast-error .toast-icon {
+            color: #f56565;
+        }
+        .toast-content {
+            flex: 1;
+        }
+        .toast-close {
+            cursor: pointer;
+            font-size: 16px;
+            color: #a0aec0;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        /* Compact table styling */
+        .compact-table th,
+        .compact-table td {
+            padding: 8px 12px;
+            font-size: 0.875rem;
+        }
+        /* Blue background for table headers */
+        .compact-table th {
+            background-color: #4a90e2;
+            color: white;
+        }
+        /* Header styling */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f7fafc;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        .header .flex {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* Sidebar styling */
+        .sidebar {
+            position: fixed;
+            top: 120px; /* Align below header */
+            right: 20px;
+            width: 200px;
+            background-color: #f7fafc;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 16px;
+            z-index: 99; /* Below header but above content */
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar li {
+            margin-bottom: 8px;
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px 12px;
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .sidebar a:hover {
+            background-color: #4a90e2;
+            color: white;
+        }
+        .sidebar a i {
+            margin-right: 8px;
+        }
+        /* Responsive adjustment for smaller screens */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-right: 20px; /* Reset margin on small screens */
+            }
+        }
+    </style>
 </head>
-<body>
-    <!-- Header -->
+    <!--  Header --> 
     <header class="header mx-auto">
         <div class="flex items-center justify-between">
             <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
@@ -27,12 +211,8 @@
                 <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
             </div>
             <div id="authSection">
-                <button id="loginBtn"
-                    class="p-2 border-2 border-blue-500 text-blue-500 text-sm font-semibold py-1.5 px-4 rounded-md hover:bg-blue-500 hover:text-white active:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition">
-                    Đăng nhập
-                </button>
-
-                <div id="userDropdown" class="hidden relative">
+                <!-- Dropdown menu khi đã đăng nhập -->
+                <div id="userDropdown" class="relative">
                     <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
                         <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar"
                             class="w-8 h-8 rounded-full">
@@ -40,6 +220,7 @@
                         <i class="fas fa-chevron-down text-gray-500"></i>
                     </button>
 
+                    <!-- Dropdown content -->
                     <div id="userDropdownMenu"
                         class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                         <div class="py-1">
@@ -47,7 +228,7 @@
                                 id="adminPage">
                                 <i class="fas fa-home mr-2"></i>Trang quản trị
                             </a>
-                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 bg-gray-100">
                                 <i class="fas fa-user mr-2"></i>Thông tin cá nhân
                             </a>
                             <a href="user-booking.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 bg-gray-100">
@@ -62,63 +243,134 @@
                         </div>
                     </div>
                 </div>
+                <!-- Kết thúc dropdown menu -->
             </div>
         </nav>
     </header>
 
-    <!-- Loading -->
-    <div id="globalLoading" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white p-4 rounded-lg shadow-lg flex items-center">
-            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mr-3"></div>
-            <span>Đang tải...</span>
-        </div>
-    </div>
 
     <!-- Main Content -->
-    <div class="container mx-auto p-4 max-w-7xl">
-        <div class="mb-8">
-            <h1 class="text-2xl font-bold mb-4">Danh sách bác sĩ</h1>
-            <div class="flex gap-4 mb-6 mt-10">
-                <div class="flex-1">
-                    <input type="text" placeholder="Tìm kiếm bác sĩ..." class="w-full p-3 border rounded-lg">
-                </div>
-                <div class="flex-1">
-                    <select class="w-full p-3 border rounded-lg">
-                        <option value="">Chọn chuyên khoa</option>
-                        <option value="nhi">Nhi khoa</option>
-                        <option value="tieu-hoa">Tiêu hóa</option>
-                        <option value="ung-buou">Ung bướu</option>
-                        <option value="noi">Nội khoa</option>
-                        <option value="ngoai">Ngoại khoa</option>
-                        <option value="san-phu">Sản phụ khoa</option>
-                        <option value="tam-than">Tâm thần</option>
-                        <option value="rang-ham-mat">Răng hàm mặt</option>
-                        <option value="mat">Mắt</option>
-                        <option value="tai-mui-hong">Tai mũi họng</option>
-                    </select>
+    <div class="main-content">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Danh sách lịch hẹn</h3>
+                <div class="flex space-x-2">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm..." class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                    </div>
+                    <div class="relative">
+                        <select id="statusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="true">Đã xác nhận</option>
+                            <option value="false">Chờ xác nhận</option>
+                        </select>
+                    </div>
+                    <button id="applyFilters" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-filter mr-2"></i>Lọc
+                    </button>
                 </div>
             </div>
-        </div>
-
-        <!-- Doctor List -->
-        <div id="doctorList" class="space-y-4">
-            <!-- Doctor -->
-        </div>
-
-        <!-- Pagination -->
-        <div class="mt-8 flex justify-center gap-2">
-            <button id="prevPage" class="px-4 py-2 border rounded-lg hover:bg-gray-100">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <div id="pageNumbers" class="flex gap-2">
-                <!-- Page numbers -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mã</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bác sĩ</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bệnh nhân</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thời gian bắt đầu</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thời gian kết thúc</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dịch vụ</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTable" class="divide-y divide-gray-200">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
             </div>
-            <button id="nextPage" class="px-4 py-2 border rounded-lg hover:bg-gray-100">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+            <div class="flex justify-between items-center mt-4">
+                <div class="text-sm text-gray-500">Hiển thị <span id="currentDisplayed">0</span> / <span id="totalBookings">0</span> lịch hẹn</div>
+                <div class="flex space-x-1" id="pagination">
+                    <!-- Pagination will be generated here -->
+                </div>
+            </div>
         </div>
     </div>
+    <!-- Detail Booking Modal -->
+    <div id="detailBookingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
+        <div class="relative top-20 mx-auto p-5 border w-2/5 shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Chi tiết lịch hẹn</h3>
+                <button onclick="closeDetailBookingModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500">Mã lịch hẹn</label>
+                        <p id="detailCode" class="mt-1 text-gray-900"></p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500">Trạng thái</label>
+                        <p id="detailStatus" class="mt-1"></p>
+                    </div>
+                </div>
 
+                <div>
+                    <label class="block text-sm font-medium text-gray-500">Thông tin bệnh nhân</label>
+                    <div class="mt-1 p-3 bg-gray-50 rounded-md">
+                        <p id="detailPatientName" class="text-gray-900"></p>
+                        <p id="detailPatientEmail" class="text-gray-600 text-sm"></p>
+                        <p id="detailPatientPhone" class="text-gray-600 text-sm"></p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-500">Thời gian khám</label>
+                    <div class="mt-1 p-3 bg-gray-50 rounded-md">
+                        <p id="detailStartDate" class="text-gray-900"></p>
+                        <p id="detailEndDate" class="text-gray-600 text-sm"></p>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-500">Dịch vụ</label>
+                    <div class="mt-1 p-3 bg-gray-50 rounded-md">
+                        <p id="detailServiceName" class="text-gray-900"></p>
+                        <p id="detailServicePrice" class="text-gray-600 text-sm"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500">Ngày tạo</label>
+                        <p id="detailCreatedAt" class="mt-1 text-gray-900"></p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500">Cập nhật lần cuối</label>
+                        <p id="detailUpdatedAt" class="mt-1 text-gray-900"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul>
+            
+            <li><a href="profile.html"><i class="fas fa-user"></i>Thông tin cá nhân</a></li>
+            <li><a href="user-booking.html"><i class="fas fa-calendar-check"></i>Quản lý lịch hẹn</a></li>
+            <li><a href="user-record.html"><i class="fas fa-history"></i>Lịch sử khám bệnh </a></li>
+        </ul>
+    </div>
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="mb-60"></div>
+
+    <!-- Footer -->
     <footer data-wpr-lazyrender="1" class="relative site-footer bg-gray-50 py-3">
         <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4 md:pt-10">
             <div class="px-4 py-6 text-sm col-span-12 sm:col-span-6 lg:col-span-4 space-y-2">
@@ -178,7 +430,7 @@
                             href="">YouMed Store</a></li>
                     <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-77 hover:underline"><a
                             target="_blank" href="">Y360</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-497 hover:underline">
+                    <li class="menu-item menu-item-type-post_type menu-item-497 hover:underline">
                         <a href="">YouMed Clinic</a>
                     </li>
                 </ul>
@@ -289,7 +541,7 @@
             </p>
         </div>
     </footer>
+    <script src = "user-booking.js"></script>
 
-    <script src="all-doctors.js"></script>
 </body>
-</html> 
+</html>

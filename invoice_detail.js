@@ -10,7 +10,41 @@ function downloadPDF() {
   html2pdf().set(opt).from(element).save();
 }
 
+function toggleLoading(show) {
+  const loadingElement = document.getElementById('loading');
+  if (!loadingElement) return;
 
+  if (show) {
+    loadingElement.style.display = 'block';
+  } else {
+    loadingElement.style.display = 'none';
+  }
+}
+// Gọi fetchInvoiceDetail khi DOM sẵn sàng
+document.addEventListener('DOMContentLoaded', () => {
+  const invoiceId = new URLSearchParams(window.location.search).get('id'); // Lấy ID từ URL
+  console.log(invoiceId)
+  if (invoiceId) {
+    fetchInvoiceDetail(invoiceId);
+  }
+});
+function getAuthHeader() {
+  const token = localStorage.getItem('access_token');
+  return {
+    'Authorization': `Bearer ${token}`
+  };
+}
+function handleApiError(error) {
+    console.error('API Error:', error);
+    
+    if (error.status === 401 || error.message?.includes('access_token') || error.message?.includes('authorization')) {
+        alert('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!');
+        localStorage.removeItem('access_token');
+        window.location.href = 'auth.html';
+    } else {
+        alert('Đã xảy ra lỗi. Vui lòng thử lại sau!');
+    }
+}
 async function fetchInvoiceDetail(id) {
   try{
     toggleLoading(true);
@@ -19,21 +53,26 @@ async function fetchInvoiceDetail(id) {
           throw new Error('Không tìm thấy token đăng nhập');
       }
     const response = await fetch(`http://localhost:5000/api/invoice/${id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
-      }
+      method: 'GET',
+      headers: getAuthHeader()
     });
-    if (response.status === 401) {
-      handleLogout();
-      return;
-    }
+    if (!response.ok) {
+            if (response.status === 401) {
+                alert('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!');
+                localStorage.removeItem('access_token');
+                window.location.href = 'auth.html';
+                return;
+            }
+            throw new Error(`Server responded with status: ${response.status}`);
+        }
     const result = await response.json();
 
     if (result.isError) {
         throw new Error(result.message);
     }
+   
     const invoiceData = result.data;
-
+     console.log(invoiceData ); 
     // Cập nhật giao diện trực tiếp
     updateInvoiceUI(invoiceData);
   } catch (error) {
@@ -45,7 +84,7 @@ async function fetchInvoiceDetail(id) {
 }
 function updateInvoiceUI(invoiceData) {
   // Thông tin chung
-  document.getElementById('invoice-id').textContent = invoiceData.id;
+  document.getElementById('invoice-id').innerHTML = invoiceData.id;
   document.getElementById('invoice-date').textContent = invoiceData.createdAt;
   
   // Thông tin bệnh nhân
@@ -82,10 +121,4 @@ function updateInvoiceUI(invoiceData) {
   document.getElementById('invoice-status').textContent = invoiceData.status;
   document.getElementById('invoice-note').textContent = invoiceData.note;
 };
-// Gọi fetchInvoiceDetail khi DOM sẵn sàng
-document.addEventListener('DOMContentLoaded', () => {
-  const invoiceId = new URLSearchParams(window.location.search).get('id'); // Lấy ID từ URL
-  if (invoiceId) {
-    fetchInvoiceDetail(invoiceId);
-  }
-});
+
