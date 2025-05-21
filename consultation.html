@@ -12,18 +12,21 @@
 
 <body class="bg-gray-50">
     <!-- Header -->
-    <header class="header mx-auto">
+    <header class="header mx-auto py-4">
         <div class="flex items-center justify-between">
             <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
             <a href="index.html">
-				<img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg" alt="YouMed">
-			</a>
+                <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg"
+                    alt="YouMed">
+            </a>
         </div>
         <nav class="flex items-center justify-between">
             <div class="flex space-x-2 pr-4">
-                <a href="all-doctors.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt khám</a>
-                <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn trực tuyến</a>
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển dụng</a>
+                <a href="all-doctors.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt
+                    khám</a>
+                <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn
+                    trực tuyến</a>
+                <a href="recruitment.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển dụng</a>
                 <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tin Y tế</a>
                 <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
             </div>
@@ -66,171 +69,129 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="main-section">
-        <div>
-            <h1>Tư vấn trực tuyến</h1>
-            <p>Kết nối với các bác sĩ chuyên khoa để nhận tư vấn y tế từ xa<br>nhanh chóng và tiện lợi</p>
-            <div class="search-bar">
-                <input type="text" placeholder="Tìm kiếm theo triệu chứng hoặc chuyên khoa..." />
-                <i class="fas fa-search"></i>
+    <section id="top" class="bg-gradient-to-b md:bg-gradient-to-r from-[#00C6FB] to-[#0758D8] mt-20">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-12 text-white">
+            <div class="flex flex-col sm:items-start sm:justify-center py-8 px-4 xl:p-0 md:col-span-6 xl:col-span-8">
+                <h1 class="text-white text-2xl md:text-4xl font-bold">
+                    Tư vấn sức khoẻ online <br class="xl:hidden"><span class="hidden xl:inline-block">-</span>
+                    Chọn YouMed ngay! </h1>
+                <p class="sm:text-lg sm:mt-2">Chủ động video call với các bác sĩ mọi lúc, mọi nơi.</p>
+                <div class="flex my-6 p-2 rounded-full items-center bg-white/40">
+                    <div class="flex -space-x-1 pr-2">
+                        <img src="https://cdn.youmed.vn/photos/3e400fb3-0a41-4686-9a3a-8b01e488a367.png" alt=""
+                            class="inline-block h-6 w-6 sm:w-8 sm:h-8 rounded-full ring-2 ring-white">
+                        <img src="https://cdn.youmed.vn/photos/1bd8ca79-9e6d-46fb-9b64-3d2a7cc736f2.jpg" alt=""
+                            class="inline-block h-6 w-6 sm:w-8 sm:h-8 rounded-full ring-2 ring-white">
+                        <img src="https://cdn.youmed.vn/photos/10882d42-34b8-4632-b0ef-67f42706fa19.jpg" alt=""
+                            class="inline-block h-6 w-6 sm:w-8 sm:h-8 rounded-full ring-2 ring-white">
+                    </div>
+                    <div class="md:flex h-3 w-3 relative items-center justify-center hidden">
+                        <span
+                            class="motion-safe:animate-ping  absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </div>
+                    <p class="text-xs md:text-sm font-medium truncate pr-2">
+                        200+ bác sĩ YouMed sẵn sàng giúp bạn</p>
+                </div>
+
+            </div>
+            <div class="flex items-center justify-center md:col-span-6 xl:col-span-4">
+                <img fetchpriority="high" height="500" width="500"
+                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/main-tele.svg" alt="Telemedicine">
             </div>
         </div>
     </section>
-
     <!-- Main Content -->
     <div class="container mx-auto p-4 max-w-7xl">
-        <!-- Danh sách chuyên khoa -->
-        <div class="my-8">
-            <div class="flex justify-between items-center px-4 gap-4">
-                <div>
-                    <h2 class="text-lg md:text-xl font-bold mb-0">Chọn chuyên khoa</h2>
-                    <p class="hidden md:block text-sm">Lựa chọn bác sĩ chuyên khoa phù hợp với vấn đề sức khỏe của bạn</p>
-                </div>
+        <section id="sp" class="pt-11 md:pt-24">
+            <div class="mx-auto max-w-7xl px-4 text-center">
+                <h2 class="text-xl md:text-4xl font-bold">Hơn 20 chuyên khoa tư vấn</h2>
+                <p class="text-sm font-medium text-gray-500">
+                    Kết nối với các bác sĩ đầu ngành trong các chuyên khoa dễ dàng và tiện lợi</p>
             </div>
-            
-            <div class="mt-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 px-4">
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col items-center">
-                    <img src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/DaLieu.png" alt="Da liễu" class="w-16 h-16 rounded-full mb-2">
-                    <span class="text-center text-sm font-medium">Da liễu</span>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col items-center">
-                    <img src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Yhoccotruyen.png" alt="Y học cổ truyền" class="w-16 h-16 rounded-full mb-2">
-                    <span class="text-center text-sm font-medium">Y học cổ truyền</span>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col items-center">
-                    <img src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Tieuhoa.png" alt="Tiêu hóa" class="w-16 h-16 rounded-full mb-2">
-                    <span class="text-center text-sm font-medium">Tiêu hóa</span>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col items-center">
-                    <img src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Nhi.png" alt="Nhi khoa" class="w-16 h-16 rounded-full mb-2">
-                    <span class="text-center text-sm font-medium">Nhi khoa</span>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col items-center">
-                    <img src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Timmach.png" alt="Tim mạch" class="w-16 h-16 rounded-full mb-2">
-                    <span class="text-center text-sm font-medium">Tim mạch</span>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col items-center">
-                    <img src="https://cdn1.youmed.vn/tin-tuc/wp-content/uploads/2023/05/Tamthan.png" alt="Tâm thần" class="w-16 h-16 rounded-full mb-2">
-                    <span class="text-center text-sm font-medium">Tâm thần</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Bác sĩ tư vấn -->
-        <div class="my-12">
-            <div class="flex justify-between items-center px-4 gap-4 mb-6">
-                <div>
-                    <h2 class="text-lg md:text-xl font-bold mb-0">Bác sĩ tư vấn trực tuyến</h2>
-                    <p class="hidden md:block text-sm">Đội ngũ bác sĩ giàu kinh nghiệm, sẵn sàng tư vấn cho bạn</p>
-                </div>
-                <a href="#" class="bg-blue-500 text-white px-3 group hover:text-white hover:bg-blue-900 transition-colors text-white py-1.5 rounded-full flex items-center">
-                    <span class="font-semibold whitespace-nowrap text-sm">Xem tất cả</span>
-                    <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" class="ml-2">
-                        <g fill-rule="evenodd">
-                            <path stroke-width="2" stroke="currentColor" fill="none" d="M0 5h8" class="opacity-0 group-hover:opacity-100 transition-opacity"></path>
-                            <path stroke-width="2" stroke="currentColor" fill="none" d="M1 1l4 4-4 4" class="group-hover:translate-x-1 transition-transform"></path>
-                        </g>
-                    </svg>
-                </a>
-            </div>
-
-            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-                <!-- Bác sĩ 1 -->
-                <div class="bg-white rounded-lg shadow-md p-6 flex">
-                    <img src="https://storage.googleapis.com/a1aa/image/MJJMum0CX_pl2Y4GHDIo2NouwH92CmCqwt49Q4RcTcQ.jpg" alt="BS. CK2 Lê Thị Minh Hồng" class="w-20 h-20 rounded-full mr-4">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-semibold">BS. CK2 Lê Thị Minh Hồng</h3>
-                                <p class="text-gray-500 text-sm">Nhi khoa</p>
-                                <p class="text-gray-500 text-sm">Bệnh viện Nhi Đồng 2</p>
-                            </div>
-                            <div class="bg-green-100 px-2 py-1 rounded text-green-700 text-xs font-semibold">
-                                Đang trực tuyến
-                            </div>
+            <div id="specialties-wrapper" class="max-w-7xl mx-auto text-center relative overflow-hidden mt-8 lg:mt-12"
+                style="height: 216px;">
+                <div id="specialties" class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-8 transition-all"
+                    style="height: auto;">
+                    <div class="specialtie flex flex-col items-center">
+                        <div class="rounded-full mb-2 bg-primary/10">
+                            <img width="60" height="60"
+                                src="https://cdn.youmed.vn/wp-content/uploads/2022/03/polyclinic.svg" alt="">
                         </div>
-                        <div class="mt-3 flex justify-between items-center">
-                            <div>
-                                <p class="text-blue-500 font-semibold">200.000đ / 15 phút</p>
-                                <div class="flex items-center">
-                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
-                                    <span class="text-sm">4.9</span>
-                                    <span class="text-gray-400 text-xs ml-1">(123 lượt đánh giá)</span>
-                                </div>
-                            </div>
-                            <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                                Tư vấn ngay
-                            </button>
-                        </div>
+                        <p>Tổng quát</p>
                     </div>
-                </div>
-
-                <!-- Bác sĩ 2 -->
-                <div class="bg-white rounded-lg shadow-md p-6 flex">
-                    <img src="https://storage.googleapis.com/a1aa/image/j44YWK-FMO5BOHdvaSKXNK2Xbs6R0QAjkxyLEeGRnQ4.jpg" alt="PGS. TS. BS Lâm Việt Trung" class="w-20 h-20 rounded-full mr-4">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-semibold">PGS. TS. BS Lâm Việt Trung</h3>
-                                <p class="text-gray-500 text-sm">Tiêu hoá</p>
-                                <p class="text-gray-500 text-sm">Bệnh viện Chợ Rẫy</p>
-                            </div>
-                            <div class="bg-green-100 px-2 py-1 rounded text-green-700 text-xs font-semibold">
-                                Đang trực tuyến
-                            </div>
+                    <div class="specialtie flex flex-col items-center">
+                        <div class="rounded-full mb-2 bg-primary/10">
+                            <img width="60" height="60"
+                                src="https://cdn.youmed.vn/wp-content/uploads/2022/03/pediatrics.svg" alt="">
                         </div>
-                        <div class="mt-3 flex justify-between items-center">
-                            <div>
-                                <p class="text-blue-500 font-semibold">250.000đ / 15 phút</p>
-                                <div class="flex items-center">
-                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
-                                    <span class="text-sm">4.8</span>
-                                    <span class="text-gray-400 text-xs ml-1">(98 lượt đánh giá)</span>
-                                </div>
-                            </div>
-                            <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                                Tư vấn ngay
-                            </button>
-                        </div>
+                        <p>Nhi khoa</p>
                     </div>
-                </div>
-
-                <!-- Bác sĩ 3 -->
-                <div class="bg-white rounded-lg shadow-md p-6 flex">
-                    <img src="https://storage.googleapis.com/a1aa/image/LTCM0kxtPrgu25hG69rvkrg-70xzTv6YpLFJ23J3sKM.jpg" alt="BS. CK2 Nguyễn Thị Thu Hà" class="w-20 h-20 rounded-full mr-4">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-semibold">BS. CK2 Nguyễn Thị Thu Hà</h3>
-                                <p class="text-gray-500 text-sm">Nhi khoa</p>
-                                <p class="text-gray-500 text-sm">Bệnh viện Nhi Đồng Thành phố</p>
-                            </div>
-                            <div class="bg-gray-100 px-2 py-1 rounded text-gray-500 text-xs font-semibold">
-                                Không trực tuyến
-                            </div>
+                    <div class="specialtie flex flex-col items-center">
+                        <div class="rounded-full mb-2 bg-primary/10">
+                            <img width="60" height="60"
+                                src="https://cdn.youmed.vn/wp-content/uploads/2022/03/obstetrics.svg" alt="">
                         </div>
-                        <div class="mt-3 flex justify-between items-center">
-                            <div>
-                                <p class="text-blue-500 font-semibold">220.000đ / 15 phút</p>
-                                <div class="flex items-center">
-                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
-                                    <span class="text-sm">4.7</span>
-                                    <span class="text-gray-400 text-xs ml-1">(85 lượt đánh giá)</span>
-                                </div>
-                            </div>
-                            <button class="bg-gray-200 text-gray-600 px-4 py-2 rounded-full text-sm font-medium cursor-not-allowed">
-                                Đặt lịch
-                            </button>
+                        <p>Sản phụ khoa</p>
+                    </div>
+                    <div class="specialtie flex flex-col items-center">
+                        <div class="rounded-full mb-2 bg-primary/10">
+                            <img width="60" height="60"
+                                src="https://cdn.youmed.vn/wp-content/uploads/2022/03/psychiatric.svg" alt="">
                         </div>
+                        <p>Tâm lý</p>
+                    </div>
+                    <div class="specialtie flex flex-col items-center">
+                        <div class="rounded-full mb-2 bg-primary/10">
+                            <img width="60" height="60"
+                                src="https://cdn.youmed.vn/wp-content/uploads/2022/03/dermatology.svg" alt="">
+                        </div>
+                        <p>Da liễu</p>
+                    </div>
+                    <div class="specialtie flex flex-col items-center">
+                        <div class="rounded-full mb-2 bg-primary/10">
+                            <img width="60" height="60"
+                                src="https://cdn.youmed.vn/wp-content/uploads/2022/03/dental.svg" alt="">
+                        </div>
+                        <p>Răng - Hàm - Mặt</p>
+                    </div>
+                    <div class="specialtie flex flex-col items-center">
+                        <div class="rounded-full mb-2 bg-primary/10">
+                            <img width="60" height="60"
+                                src="https://cdn.youmed.vn/wp-content/uploads/2022/03/otorhinolaryngology.svg" alt="">
+                        </div>
+                        <p>Tai - Mũi - Họng</p>
+                    </div>
+                    <div class="specialtie flex flex-col items-center">
+                        <div class="rounded-full mb-2 bg-primary/10">
+                            <img width="60" height="60"
+                                src="https://cdn.youmed.vn/wp-content/uploads/2022/03/neurology.svg" alt="">
+                        </div>
+                        <p>Thần kinh</p>
+                    </div>
+                    <div class="specialtie flex flex-col items-center">
+                        <div class="rounded-full mb-2 bg-primary/10">
+                            <img width="60" height="60"
+                                src="https://cdn.youmed.vn/wp-content/uploads/2022/04/breath.svg" alt="">
+                        </div>
+                        <p>Hô hấp</p>
+                    </div>
+                    <div class="specialtie flex flex-col items-center">
+                        <div class="rounded-full mb-2 bg-primary/10">
+                            <img width="60" height="60"
+                                src="https://cdn.youmed.vn/wp-content/uploads/2022/03/gastroenterology.svg" alt="">
+                        </div>
+                        <p>Tiêu hóa</p>
                     </div>
                 </div>
             </div>
-        </div>
+
+        </section>
 
         <!-- Cách thức tư vấn -->
-        <div class="my-12 bg-white rounded-lg shadow-md p-8">
+        <div class="my-12 bg-white rounded-lg shadow-md p-8 mt-20">
             <h2 class="text-xl font-bold mb-6 text-center">Quy trình tư vấn trực tuyến</h2>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="flex flex-col items-center text-center">
                     <div class="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-3">
@@ -239,7 +200,7 @@
                     <h3 class="font-semibold mb-2">Đăng ký thông tin</h3>
                     <p class="text-gray-600 text-sm">Điền đầy đủ thông tin cá nhân và vấn đề sức khỏe của bạn</p>
                 </div>
-                
+
                 <div class="flex flex-col items-center text-center">
                     <div class="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-3">
                         <i class="fas fa-search text-blue-600 text-2xl"></i>
@@ -247,15 +208,7 @@
                     <h3 class="font-semibold mb-2">Chọn bác sĩ phù hợp</h3>
                     <p class="text-gray-600 text-sm">Lựa chọn bác sĩ theo chuyên khoa và thời gian phù hợp</p>
                 </div>
-                
-                <div class="flex flex-col items-center text-center">
-                    <div class="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-3">
-                        <i class="fas fa-credit-card text-blue-600 text-2xl"></i>
-                    </div>
-                    <h3 class="font-semibold mb-2">Thanh toán</h3>
-                    <p class="text-gray-600 text-sm">Thực hiện thanh toán an toàn qua các phương thức trực tuyến</p>
-                </div>
-                
+
                 <div class="flex flex-col items-center text-center">
                     <div class="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-3">
                         <i class="fas fa-video text-blue-600 text-2xl"></i>
@@ -263,71 +216,176 @@
                     <h3 class="font-semibold mb-2">Bắt đầu tư vấn</h3>
                     <p class="text-gray-600 text-sm">Kết nối video với bác sĩ và nhận tư vấn chuyên sâu</p>
                 </div>
+
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-blue-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-3">
+                        <i class="fas fa-credit-card text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">Nhận kết quả tư vấn</h3>
+                    <p class="text-gray-600 text-sm">Nhận kết quả tư vấn và hướng dẫn điều trị từ bác sĩ</p>
+                </div>
             </div>
         </div>
 
-        <!-- Câu hỏi thường gặp -->
-        <div class="my-12">
-            <h2 class="text-xl font-bold mb-6 px-4">Câu hỏi thường gặp</h2>
-            
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="border-b border-gray-200">
-                    <button class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 transition-colors flex justify-between items-center">
-                        <span class="font-medium">Tư vấn trực tuyến có đảm bảo quyền riêng tư không?</span>
-                        <i class="fas fa-chevron-down text-gray-500"></i>
-                    </button>
-                    <div class="p-4 bg-gray-50 text-gray-700 text-sm">
-                        Có, hệ thống tư vấn trực tuyến của chúng tôi được bảo mật hoàn toàn. Thông tin cá nhân và nội dung tư vấn của bạn chỉ được chia sẻ giữa bạn và bác sĩ tư vấn.
-                    </div>
-                </div>
-                
-                <div class="border-b border-gray-200">
-                    <button class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 transition-colors flex justify-between items-center">
-                        <span class="font-medium">Tôi có thể thanh toán bằng những phương thức nào?</span>
-                        <i class="fas fa-chevron-down text-gray-500"></i>
-                    </button>
-                    <div class="hidden p-4 bg-gray-50 text-gray-700 text-sm">
-                        Bạn có thể thanh toán thông qua thẻ tín dụng/ghi nợ, ví điện tử (MoMo, ZaloPay, VNPay) hoặc chuyển khoản ngân hàng.
-                    </div>
-                </div>
-                
-                <div class="border-b border-gray-200">
-                    <button class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 transition-colors flex justify-between items-center">
-                        <span class="font-medium">Tôi có thể hủy buổi tư vấn không?</span>
-                        <i class="fas fa-chevron-down text-gray-500"></i>
-                    </button>
-                    <div class="hidden p-4 bg-gray-50 text-gray-700 text-sm">
-                        Bạn có thể hủy buổi tư vấn trước 2 giờ so với thời gian đã đặt và nhận lại 100% số tiền đã thanh toán. Trường hợp hủy trong vòng 2 giờ trước buổi tư vấn, bạn sẽ bị tính phí 50% số tiền đã thanh toán.
-                    </div>
-                </div>
-                
-                <div>
-                    <button class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 transition-colors flex justify-between items-center">
-                        <span class="font-medium">Liệu tư vấn trực tuyến có thay thế hoàn toàn việc khám trực tiếp?</span>
-                        <i class="fas fa-chevron-down text-gray-500"></i>
-                    </button>
-                    <div class="hidden p-4 bg-gray-50 text-gray-700 text-sm">
-                        Tư vấn trực tuyến không thay thế hoàn toàn việc khám trực tiếp, nhưng có thể giúp giải đáp thắc mắc, đưa ra lời khuyên ban đầu và theo dõi sau điều trị. Trong trường hợp cần thiết, bác sĩ sẽ đề xuất bạn đến khám trực tiếp.
-                    </div>
-                </div>
+    </div>
+    <section class="bg-gray-50 py-11 md:pt-24">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-xl md:text-4xl font-bold">Tư vấn sức khoẻ online YouMed</h2>
+            <p class="text-sm font-medium text-gray-500">Tiện ích cho mọi nhà</p>
+        </div>
+        <div class="max-w-7xl mx-auto grid gap-4 md:grid-cols-3 p-4">
+            <div class="bg-white rounded-lg p-4 md:p-6 text-center">
+                <picture>
+                    <source type="image/webp"
+                        data-lazy-srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature1.webp"
+                        srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature1.webp">
+                    <source type="image/png"
+                        data-lazy-srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature1.png"
+                        srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature1.png">
+                    <img class="mx-auto entered lazyloaded" width="200" height="200"
+                        src="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature1.png"
+                        alt="Kết nối với bác sĩ chuyên khoa 24/7"
+                        data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature1.png"
+                        data-ll-status="loaded"><noscript><img class="mx-auto" width="200" height="200"
+                            src="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature1.png"
+                            alt="Kết nối với bác sĩ chuyên khoa 24/7"></noscript>
+                </picture>
+                <h3 class="font-bold mt-4">Kết nối với bác sĩ chuyên khoa 24/7</h3>
+                <p class="mt-4">
+                    Gọi ngay hoặc chủ động Đặt lịch tư vấn với các bác sĩ đầu ngành của YouMed.</p>
+            </div>
+            <div class="bg-white rounded-lg p-4 md:p-6 text-center">
+                <picture>
+                    <source type="image/webp"
+                        data-lazy-srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature2.webp"
+                        srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature2.webp">
+                    <source type="image/png"
+                        data-lazy-srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature2.png"
+                        srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature2.png">
+                    <img class="mx-auto entered lazyloaded" width="200" height="200"
+                        src="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature2.png"
+                        alt="Bảo mật thông tin"
+                        data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature2.png"
+                        data-ll-status="loaded"><noscript><img class="mx-auto" width="200" height="200"
+                            src="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature2.png"
+                            alt="Bảo mật thông tin"></noscript>
+                </picture>
+                <h3 class="font-bold mt-4">Bảo mật thông tin</h3>
+                <p class="mt-4">
+                    Tuân theo đạo luật HIPAA và ứng dụng công nghệ cao, YouMed cam kết bảo mật toàn bộ thông tin cuộc tư
+                    vấn của bạn với bác sĩ. </p>
+            </div>
+            <div class="bg-white rounded-lg p-4 md:p-6 text-center">
+                <picture>
+                    <source type="image/webp"
+                        data-lazy-srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature3.webp"
+                        srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature3.webp">
+                    <source type="image/png"
+                        data-lazy-srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature3.png"
+                        srcset="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature3.png">
+                    <img class="mx-auto entered lazyloaded" width="200" height="200"
+                        src="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature3.png"
+                        alt="Tiện lợi và Tiết kiệm"
+                        data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature3.png"
+                        data-ll-status="loaded"><noscript><img class="mx-auto" width="200" height="200"
+                            src="https://cdn.youmed.vn/wp-content/themes/youmed/images/TeleFeature3.png"
+                            alt="Tiện lợi và Tiết kiệm"></noscript>
+                </picture>
+                <h3 class="font-bold mt-4">Tiện lợi và Tiết kiệm</h3>
+                <p class="mt-4">
+                    Không tốn công di chuyển, không cần chờ khám. Kết nối với các bác sĩ đầu ngành chỉ với chiếc điện
+                    thoại của bạn. </p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Banner khuyến mãi -->
-    <div class="bg-blue-50 py-12">
-        <div class="container mx-auto px-4 max-w-7xl">
-            <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-8 flex flex-col md:flex-row items-center justify-between">
-                <div class="text-white mb-6 md:mb-0">
-                    <h3 class="text-2xl font-bold mb-2">Ưu đãi dành cho người dùng mới</h3>
-                    <p class="text-white text-opacity-90">Giảm 50% cho lần tư vấn đầu tiên</p>
+    <section id="faq">
+        <div class="section-wrapper">
+            <h2 class="text-xl md:text-4xl font-bold text-center">Câu hỏi thường gặp</h2>
+            <div class="max-w-3xl mx-auto my-8">
+                <div class="space-y-4">
+                    <!-- Câu hỏi 1 -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <button class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 transition-colors flex justify-between items-center">
+                            <span class="font-medium">Tư vấn trực tuyến có đảm bảo quyền riêng tư không?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="p-4 bg-gray-50 text-gray-700 text-sm hidden">
+                            Có, hệ thống tư vấn trực tuyến của chúng tôi được bảo mật hoàn toàn. Thông tin cá nhân và nội dung tư vấn của bạn chỉ được chia sẻ giữa bạn và bác sĩ tư vấn. Chúng tôi tuân thủ nghiêm ngặt các quy định về bảo mật thông tin y tế.
+                        </div>
+                    </div>
+
+                    <!-- Câu hỏi 2 -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <button class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 transition-colors flex justify-between items-center">
+                            <span class="font-medium">Tôi có thể thanh toán bằng những phương thức nào?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="p-4 bg-gray-50 text-gray-700 text-sm hidden">
+                            Bạn có thể thanh toán thông qua nhiều phương thức khác nhau:
+                            <ul class="list-disc ml-5 mt-2">
+                                <li>Thẻ tín dụng/ghi nợ (Visa, Mastercard)</li>
+                                <li>Ví điện tử (MoMo, ZaloPay, VNPay)</li>
+                                <li>Chuyển khoản ngân hàng</li>
+                                <li>Thanh toán qua cổng thanh toán VNPay</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Câu hỏi 3 -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <button class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 transition-colors flex justify-between items-center">
+                            <span class="font-medium">Tôi có thể hủy buổi tư vấn không?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="p-4 bg-gray-50 text-gray-700 text-sm hidden">
+                            Bạn có thể hủy buổi tư vấn theo các điều kiện sau:
+                            <ul class="list-disc ml-5 mt-2">
+                                <li>Hủy trước 2 giờ: Hoàn tiền 100%</li>
+                                <li>Hủy trong vòng 2 giờ: Hoàn tiền 50%</li>
+                                <li>Không tham gia buổi tư vấn: Không hoàn tiền</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Câu hỏi 4 -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <button class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 transition-colors flex justify-between items-center">
+                            <span class="font-medium">Tư vấn trực tuyến có thay thế được khám trực tiếp không?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="p-4 bg-gray-50 text-gray-700 text-sm hidden">
+                            Tư vấn trực tuyến không thay thế hoàn toàn việc khám trực tiếp, nhưng có thể giúp:
+                            <ul class="list-disc ml-5 mt-2">
+                                <li>Giải đáp thắc mắc về sức khỏe</li>
+                                <li>Đưa ra lời khuyên ban đầu</li>
+                                <li>Theo dõi sau điều trị</li>
+                                <li>Định hướng khám chuyên khoa phù hợp</li>
+                            </ul>
+                            Trong trường hợp cần thiết, bác sĩ sẽ đề xuất bạn đến khám trực tiếp.
+                        </div>
+                    </div>
+
+                    <!-- Câu hỏi 5 -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <button class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 transition-colors flex justify-between items-center">
+                            <span class="font-medium">Thời gian mỗi buổi tư vấn kéo dài bao lâu?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="p-4 bg-gray-50 text-gray-700 text-sm hidden">
+                            Mỗi buổi tư vấn thường kéo dài từ 15-30 phút, tùy thuộc vào:
+                            <ul class="list-disc ml-5 mt-2">
+                                <li>Mức độ phức tạp của vấn đề sức khỏe</li>
+                                <li>Số lượng câu hỏi và thắc mắc</li>
+                                <li>Thời gian bác sĩ cần để giải thích và tư vấn</li>
+                            </ul>
+                            Bạn có thể đặt thêm thời gian tư vấn nếu cần thiết.
+                        </div>
+                    </div>
                 </div>
-                <button class="bg-white text-blue-600 font-semibold px-6 py-3 rounded-full hover:bg-blue-50 transition-colors">
-                    Đăng ký ngay
-                </button>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Footer -->
     <footer data-wpr-lazyrender="1" class="relative site-footer bg-gray-50 py-3">
@@ -508,19 +566,19 @@
             dropdownMenu.classList.toggle('hidden');
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             const userRole = localStorage.getItem('userRole') || 'patient';
-            
+
             const loginBtn = document.getElementById('loginBtn');
             const userDropdown = document.getElementById('userDropdown');
             const adminPage = document.getElementById('adminPage');
-            
+
             if (isLoggedIn) {
                 loginBtn.classList.add('hidden');
                 userDropdown.classList.remove('hidden');
                 document.getElementById('userName').textContent = localStorage.getItem('userName') || 'Người dùng';
-                
+
                 if (userRole === 'admin') {
                     adminPage.classList.remove('hidden');
                 }
@@ -529,7 +587,7 @@
                 userDropdown.classList.add('hidden');
             }
 
-            loginBtn.addEventListener('click', function() {
+            loginBtn.addEventListener('click', function () {
                 window.location.href = 'auth.html';
             });
         });
@@ -545,7 +603,7 @@
             button.addEventListener('click', () => {
                 const content = button.nextElementSibling;
                 content.classList.toggle('hidden');
-                
+
                 const icon = button.querySelector('i');
                 if (content.classList.contains('hidden')) {
                     icon.classList.remove('fa-chevron-up');

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Tuyển dụng - YouMed</title>
+    <link rel="website icon" type="png" href="hospital-logo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="header mx-auto py-4">
+        <div class="flex items-center justify-between">
+            <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
+            <a href="index.html">
+                <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg"
+                    alt="YouMed">
+            </a>
+        </div>
+        <nav class="flex items-center justify-between">
+            <div class="flex space-x-2 pr-4">
+                <a href="all-doctors.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt
+                    khám</a>
+                <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn
+                    trực tuyến</a>
+                <a href="recruitment.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển dụng</a>
+                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tin Y tế</a>
+                <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
+            </div>
+            <div id="authSection">
+                <!-- Nút đăng nhập -->
+                <button id="loginBtn"
+                    class="p-2 border-2 border-blue-500 text-blue-500 text-sm font-semibold py-1.5 px-4 rounded-md hover:bg-blue-500 hover:text-white active:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition">
+                    Đăng nhập
+                </button>
+
+                <!-- Dropdown menu khi đã đăng nhập -->
+                <div id="userDropdown" class="hidden relative">
+                    <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
+                        <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar"
+                            class="w-8 h-8 rounded-full">
+                        <span id="userName" class="text-gray-800"></span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </button>
+
+                    <!-- Dropdown content -->
+                    <div id="userDropdownMenu"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                        <div class="py-1">
+                            <a href="admin.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hidden"
+                                id="adminPage">
+                                <i class="fas fa-home mr-2"></i>Trang quản trị
+                            </a>
+                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-user mr-2"></i>Thông tin cá nhân
+                            </a>
+                            <a href="#" onclick="logout()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-b md:bg-gradient-to-r from-[#00C6FB] to-[#0758D8] mt-20">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-12 text-white">
+            <div class="flex flex-col sm:items-start sm:justify-center py-8 px-4 xl:p-0 md:col-span-6 xl:col-span-8">
+                <h1 class="text-white text-2xl md:text-4xl font-bold">
+                    Cơ hội nghề nghiệp tại YouMed
+                </h1>
+                <p class="sm:text-lg sm:mt-2">Cùng chúng tôi xây dựng nền tảng y tế số hàng đầu Việt Nam</p>
+            </div>
+            <div class="flex items-center justify-center md:col-span-6 xl:col-span-4">
+                <img fetchpriority="high" height="500" width="500"
+                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/main-tele.svg" alt="Recruitment">
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-4 max-w-7xl">
+        <!-- Tại sao chọn YouMed -->
+        <section class="my-12">
+            <h2 class="text-2xl font-bold text-center mb-8">Tại sao chọn YouMed?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-blue-500 text-3xl mb-4">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Môi trường năng động</h3>
+                    <p class="text-gray-600">Cơ hội phát triển trong môi trường startup năng động, sáng tạo</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-blue-500 text-3xl mb-4">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Đào tạo chuyên sâu</h3>
+                    <p class="text-gray-600">Chương trình đào tạo bài bản, cập nhật xu hướng công nghệ mới</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-blue-500 text-3xl mb-4">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Phúc lợi hấp dẫn</h3>
+                    <p class="text-gray-600">Chế độ đãi ngộ cạnh tranh, phúc lợi toàn diện</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section id="quote" class="relative overflow-hidden bg-gradient-to-r from-[#00C6FB] to-[#0758D8] py-11 md:py-24">
+        <div class="absolute bg-center bg-cover inset-0" style="background-image:url('https://cdn.youmed.vn/wp-content/themes/youmed/images/hero-bg.svg');"></div>
+        <div class="relative max-w-4xl mx-auto px-6 md:flex md:items-center">
+          <svg class="flex-none mr-6" width="78" height="64" viewBox="0 0 78 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M44.2137 64V46.2901C44.2137 37.0076 45.313 29.3944 47.5115 23.4504C49.7914 17.5064 53.6183 12.458 58.9924 8.30534C64.3664 4.15267 70.4733 1.38422 77.313 0V14.1679C72.5089 16.9364 69.7812 20.6412 69.1298 25.2824H77.313V64H44.2137ZM0 64V46.2901C0 37.0076 1.09924 29.3944 3.29771 23.4504C5.57761 17.5064 9.40458 12.458 14.7786 8.30534C20.2341 4.15267 26.341 1.38422 33.0992 0V14.1679C28.2952 16.9364 25.5674 20.6412 24.916 25.2824H33.0992V64H0Z" fill="white"></path>
+          </svg>
+          <p class="text-white text-2xl mt-5 md:mt-0">
+            Chúng tôi xây dựng nền tảng y tế thông minh với sứ mệnh rút ngắn khoảng cách giữa Bệnh nhân, Bác sĩ và các Cơ sở y tế    </p>
+        </div>
+      </section>
+
+    <div class="container mx-auto p-4 max-w-7xl">
+
+        <section id="core-value" class="bg-gray-50">
+            <div class="section-wrapper">
+              <div class="text-center mb-4">
+                <h2 class="text-2xl md:text-4xl font-bold">Gia đình YouMed</h2>
+                <p class="font-medium text-gray-500">
+                  Trẻ - Giàu sức sống - Nhiều niềm vui      </p>
+              </div>
+              <div class="grid md:grid-cols-2 lg:gap-6 gap-4 my-8">
+                <div class="bg-white p-6 items-center gap-4 lg:gap-6 rounded-md shadow-sm md:flex md:flex-row-reverse">
+                  <img class="mx-auto px-6 lg:px-0 entered lazyloaded" width="160" height="160" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature1-1.jpg" alt="Đồng lòng" data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature1-1.jpg" data-ll-status="loaded"><noscript><img class="mx-auto px-6 lg:px-0" width="160" height="160" loading="lazy" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature1-1.jpg" alt="Đồng lòng"></noscript>
+                  <div>
+                    <h3 class="text-primary font-bold text-lg mb-2">
+                      Đồng lòng          </h3>
+                    <p class="text-sm text-justify">
+                      Từng thành viên trong YouMed luôn mong muốn hướng đến một tập thể gắn bó, đồng lòng, luôn sẵn sàng hỗ trợ nhau trong công việc, cuộc sống.          </p>
+                  </div>
+                </div>
+                <div class="bg-white p-6 items-center gap-4 lg:gap-6 rounded-md shadow-sm md:flex">
+                  <img class="mx-auto px-6 lg:px-0 entered lazyloaded" width="160" height="160" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature2-1.jpg" alt="Không ngại thử thách" data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature2-1.jpg" data-ll-status="loaded"><noscript><img class="mx-auto px-6 lg:px-0" width="160" height="160" loading="lazy" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature2-1.jpg" alt="Không ngại thử thách"></noscript>
+                  <div>
+                    <h3 class="text-primary font-bold text-lg mb-2">
+                      Không ngại thử thách          </h3>
+                    <p class="text-sm text-justify">
+                      Thử thách trong công việc là điều thường trực tại YouMed. Cùng với đó, YouMed không thể thiếu sự "chịu chơi", "chịu thử", "chịu sai" để cùng tiến bộ.          </p>
+                  </div>
+                </div>
+                <div class="bg-white p-6 items-center gap-4 lg:gap-6 rounded-md shadow-sm md:flex md:flex-row-reverse">
+                  <img class="mx-auto px-6 lg:px-0 entered lazyloaded" width="160" height="160" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature3-1.jpg" alt="Cởi mở" data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature3-1.jpg" data-ll-status="loaded"><noscript><img class="mx-auto px-6 lg:px-0" width="160" height="160" loading="lazy" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature3-1.jpg" alt="Cởi mở"></noscript>
+                  <div>
+                    <h3 class="text-primary font-bold text-lg mb-2">
+                      Cởi mở          </h3>
+                    <p class="text-sm text-justify">
+                      Môi trường làm việc tại YouMed cởi mở với sức trẻ, sự nhiệt huyết, tinh thần chia sẻ, học hỏi để cùng đạt những mục tiêu chung và mục tiêu phát triển bản thân của từng thành viên.          </p>
+                  </div>
+                </div>
+                <div class="bg-white p-6 items-center gap-4 lg:gap-6 rounded-md shadow-sm md:flex">
+                  <img class="mx-auto px-6 lg:px-0 entered lazyloaded" width="160" height="160" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature4-1.jpg" alt="Đóng góp" data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature4-1.jpg" data-ll-status="loaded"><noscript><img class="mx-auto px-6 lg:px-0" width="160" height="160" loading="lazy" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Feature4-1.jpg" alt="Đóng góp"></noscript>
+                  <div>
+                    <h3 class="text-primary font-bold text-lg mb-2">
+                      Đóng góp          </h3>
+                    <p class="text-sm text-justify">
+                      YouMed là tập thể với những thành viên yêu lĩnh vực công nghệ thông tin, y tế - chăm sóc sức khoẻ. Chúng mình làm việc hứng khởi mỗi ngày để tạo ra những giá trị mới cho người bệnh, nhân viên y tế và cơ sở y tế tại Việt Nam.          </p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col md:flex-row text-center md:justify-center items-center rounded p-4 bg-gradient-to-r from-[#00C6FB] to-[#0758D8]">
+                <img class="px-4 lg:px-0 entered lazyloaded" width="160" height="160" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Topic.png" alt="Mời bạn đến với YouMed nhé." data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Topic.png" data-ll-status="loaded"><noscript><img class="px-4 lg:px-0" width="160" height="160" loading="lazy" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/Topic.png" alt="Mời bạn đến với YouMed nhé."></noscript>
+                <p class="text-justify text-white max-w-md">
+                  Mỗi một thành viên là những mảnh ghép không thể thiếu trong đại gia đình YouMed. Bạn đã gặp chúng mình ở đây chắc chắn là do duyên. Mời bạn đến với YouMed nhé.      </p>
+              </div>
+            </div>
+          </section>
+    </div>
+
+    <!-- Job Opportunities Section -->
+    <section class="bg-gray-50 py-12">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="text-center mb-4">
+                <h2 class="text-2xl md:text-4xl font-bold">Cơ hội nghề nghiệp</h2>
+                <p class="font-medium text-gray-500">
+                  Chúng tôi đang tìm kiếm những người đồng hành ở các vị trí sau.</p>
+              </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Job Position 1 -->
+                <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">Frontend Developer</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-600"><i class="fas fa-map-marker-alt mr-2"></i>Hồ Chí Minh</p>
+                        <p class="text-gray-600"><i class="fas fa-briefcase mr-2"></i>Full-time</p>
+                        <div class="border-t pt-3">
+                            <h4 class="font-medium mb-2">Yêu cầu:</h4>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>2+ năm kinh nghiệm với React/Next.js</li>
+                                <li>Thành thạo HTML, CSS, JavaScript</li>
+                                <li>Hiểu biết về RESTful APIs</li>
+                                <li>Kinh nghiệm với Git và Agile</li>
+                            </ul>
+                        </div>
+                        <button class="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors">
+                            Ứng tuyển ngay
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Job Position 2 -->
+                <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">Backend Developer</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-600"><i class="fas fa-map-marker-alt mr-2"></i>Hồ Chí Minh</p>
+                        <p class="text-gray-600"><i class="fas fa-briefcase mr-2"></i>Full-time</p>
+                        <div class="border-t pt-3">
+                            <h4 class="font-medium mb-2">Yêu cầu:</h4>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>3+ năm kinh nghiệm với Node.js/Python</li>
+                                <li>Thành thạo về cơ sở dữ liệu SQL/NoSQL</li>
+                                <li>Kinh nghiệm với microservices</li>
+                                <li>Hiểu biết về cloud platforms (AWS/GCP)</li>
+                            </ul>
+                        </div>
+                        <button class="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors">
+                            Ứng tuyển ngay
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Job Position 3 -->
+                <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">Product Manager</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-600"><i class="fas fa-map-marker-alt mr-2"></i>Hồ Chí Minh</p>
+                        <p class="text-gray-600"><i class="fas fa-briefcase mr-2"></i>Full-time</p>
+                        <div class="border-t pt-3">
+                            <h4 class="font-medium mb-2">Yêu cầu:</h4>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>3+ năm kinh nghiệm quản lý sản phẩm</li>
+                                <li>Kỹ năng phân tích dữ liệu tốt</li>
+                                <li>Kinh nghiệm làm việc với Agile/Scrum</li>
+                                <li>Khả năng giao tiếp và lãnh đạo tốt</li>
+                            </ul>
+                        </div>
+                        <button class="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors">
+                            Ứng tuyển ngay
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Job Position 4 -->
+                <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">UI/UX Designer</h3>
+                    <div class="space-y-3">
+                        <p class="text-gray-600"><i class="fas fa-map-marker-alt mr-2"></i>Hồ Chí Minh</p>
+                        <p class="text-gray-600"><i class="fas fa-briefcase mr-2"></i>Full-time</p>
+                        <div class="border-t pt-3">
+                            <h4 class="font-medium mb-2">Yêu cầu:</h4>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>2+ năm kinh nghiệm thiết kế UI/UX</li>
+                                <li>Thành thạo Figma, Adobe XD</li>
+                                <li>Portfolio thể hiện các dự án đã thực hiện</li>
+                                <li>Hiểu biết về design systems</li>
+                            </ul>
+                        </div>
+                        <button class="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors">
+                            Ứng tuyển ngay
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer data-wpr-lazyrender="1" class="relative site-footer bg-gray-50 py-3">
+        <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4 md:pt-10">
+            <div class="px-4 py-6 text-sm col-span-12 sm:col-span-6 lg:col-span-4 space-y-2">
+                <p class="font-semibold">CÔNG TY TNHH YOUMED VIỆT NAM</p>
+                <p><strong>VPĐD:</strong> 3/1 Thành Thái, P.14, Q.10, TP. HCM</p>
+                <p>
+                    <strong>Hotline:</strong> <a href="tel:19002805" class="font-medium hover:underline">1900-2805</a>
+                    (8:00 - 17:30 từ T2 đến T7)
+                </p>
+                <p>
+                    Số ĐKKD 0315268642 do Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh cấp lần đầu
+                    ngày 14/09/2018.
+                </p>
+                <p>
+                    Chịu trách nhiệm nội dung:
+                    <a href="" class="hover:underline underline-offset-2 hover:text-primary font-medium">
+                        Dược sĩ Dương Anh Hoàng</a>.
+                </p>
+            </div>
+            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-2">
+                <label for="checkbox-about-us"
+                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                    Về YouMed <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="48" d="M112 184l144 144 144-144"></path>
+                    </svg>
+                </label>
+                <ul id="footer-1" class="list-none p-0 block text-sm space-y-2 transition-all">
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-84 hover:underline"><a
+                            href="">Giới thiệu về YouMed</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-85 hover:underline"><a
+                            href="">Ban điều hành</a></li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-86 hover:underline"><a
+                            href="">Nhân sự &amp; Tuyển dụng</a></li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-87 hover:underline"><a
+                            href="">Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
+                <label for="check-services"
+                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                    Dịch vụ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="48" d="M112 184l144 144 144-144"></path>
+                    </svg>
+                </label>
+                <ul id="footer-2" class="list-none p-0 block text-sm space-y-2 transition-all">
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-73 hover:underline"><a
+                            href="">Đặt khám Bác sĩ</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-74 hover:underline"><a
+                            href="">Đặt khám Bệnh viện</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-75 hover:underline"><a
+                            href="">Đặt khám Phòng Khám</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-76 hover:underline"><a
+                            href="">YouMed Store</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-77 hover:underline"><a
+                            target="_blank" href="">Y360</a></li>
+                    <li class="menu-item menu-item-type-post_type menu-item-497 hover:underline">
+                        <a href="">YouMed Clinic</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
+                <label for="check-more"
+                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                    Hỗ trợ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="48" d="M112 184l144 144 144-144"></path>
+                    </svg>
+                </label>
+                <ul id="footer-3" class="list-none p-0 block text-sm space-y-2 transition-all">
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-106 hover:underline">
+                        <a href="">Điều Khoản Sử Dụng</a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-105 hover:underline">
+                        <a href="">Chính Sách Bảo Mật</a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-104 hover:underline">
+                        <a href="">Chính
+                            sách giải quyết khiếu nại</a>
+                    </li>
+                    <li>Hỗ trợ khách hàng: <a href="mailto:cskh@youmed.vn" class="hover:underline">cskh@youmed.vn</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="px-4 py-6 md:py-0 text-sm col-span-12 md:col-span-4 space-y-2">
+                <div class="flex justify-center md:justify-start items-center text-sm font-semibold">
+                    Kết nối với chúng tôi </div>
+                <ul class="flex space-x-3 items-center justify-center md:justify-start">
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg" width="24"
+                                height="24" alt="Facebook">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg" width="24"
+                                height="24" alt="YouTube">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg" width="24"
+                                height="24" alt="Linkedin">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg" width="36"
+                                height="16" alt="Zalo">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-span-12 md:col-span-8 px-4 py-6 md:p-6">
+                <ul class="flex space-x-4 items-center justify-center md:justify-end">
+                    <li>
+                        <a href="" target="_blank" title="Đã đăng ký Bộ Công Thương">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/dadangky.svg" width="79"
+                                height="30" alt="Đã đăng ký Bộ Công Thương">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank" title="DMCA.com Protection Status. Click to verify.">
+                            <img src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
+                                width="60" height="30" alt="DMCA.com Protection Status. Click to verify.">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl text-xs text-center mx-auto md:border-t border-slate-100 py-6 px-4">
+            <p>
+                Các thông tin trên YouMed chỉ dành cho mục đích tham khảo, tra cứu và
+                không thay thế cho việc chẩn đoán hoặc điều trị y khoa.<br class="hidden lg:block">
+                Cần tuyệt đối tuân theo hướng dẫn của Bác sĩ và Nhân viên y tế.
+            </p>
+            <p class="mt-1">
+                Copyright © 2018 - 2025 Công ty TNHH YouMed Việt Nam.
+            </p>
+        </div>
+    </footer>
+
+    <script src="recruitment.js"></script>
+</body>
+
+</html>

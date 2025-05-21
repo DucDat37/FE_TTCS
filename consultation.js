@@ -49,3 +49,38 @@ function logout() {
     localStorage.removeItem('user');
     window.location.href = 'index.html';
 }
+
+// Xử lý FAQ accordion
+document.addEventListener('DOMContentLoaded', function() {
+    const faqButtons = document.querySelectorAll('#faq button');
+    
+    faqButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            // Đóng tất cả các câu hỏi khác
+            faqButtons.forEach(otherButton => {
+                if (otherButton !== button) {
+                    const otherContent = otherButton.nextElementSibling;
+                    const otherIcon = otherButton.querySelector('i');
+                    otherContent.classList.add('hidden');
+                    otherIcon.classList.remove('fa-chevron-up');
+                    otherIcon.classList.add('fa-chevron-down');
+                }
+            });
+            
+            // Toggle câu hỏi hiện tại
+            content.classList.toggle('hidden');
+            
+            // Toggle icon
+            if (content.classList.contains('hidden')) {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        });
+    });
+});
