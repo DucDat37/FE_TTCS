@@ -118,50 +118,7 @@
   </style>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script>
-  const data = {
-    "id": "ce519d00-000f-4191-b593-0896cb358488",
-    "appointmentId": "08bd22aa-89aa-47d3-a9f1-432b7de8ba01",
-    "total": 1000000,
-    "status": "Chưa thanh toán",
-    "note": "ads",
-    "createdAt": "01/05/2025 00:01:31",
-    "updatedAt": "01/05/2025 00:01:31",
-    "appointment": {
-      "id": "08bd22aa-89aa-47d3-a9f1-432b7de8ba01",
-      "date": "20/04/2025",
-      "status": "Đã khám xong"
-    },
-    "service": {
-      "id": "c64a6d79-a62d-4602-9719-203524b95d08",
-      "name": "Khám bệnh",
-      "price": 500000
-    },
-    "patient": {
-      "id": "401c33b4-02b7-4a77-b685-a9b687458557",
-      "userName": "Nguyễn Thị Liên",
-      "email": "nguyenchi13628003@gmail.com",
-      "phone": "01234567899"
-    },
-    "timeSlot": {
-      "id": "221c469c-d450-4bbe-92b1-14d11c05b656",
-      "startDate": "09/04/2025 10:00:00",
-      "endDate": "09/04/2025 10:30:00",
-      "status": null
-    },
-    "doctor": {
-      "id": "35cdcb73-65d7-42fb-a681-fe78a67ed32a",
-      "userName": "Doctor",
-      "email": "doctor@example.com",
-      "phone": "0987654321",
-      "address": "Hà Nội"
-    }
-  };
-  document.addEventListener('DOMContentLoaded', () => {
-    updateInvoiceUI(data);
-  });
- 
-</script>
+
 <body>
   <div class="invoice">
     <h2>Bệnh viện đa khoa YOUMED</h2>
@@ -261,5 +218,6 @@
   
   <button class="print-btn" onclick="downloadPDF()">Xuất PDF</button>
   <script src="invoice_detail.js"></script>
+  <script src="toast.js"></script>
 </body>
 </html>
