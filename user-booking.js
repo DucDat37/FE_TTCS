@@ -72,9 +72,66 @@ function updateBookingsTable(bookings) {
                     <i class="fas fa-eye"></i>
                 </button>
             </td>
+            <td class="py-3 px-4">
+                ${booking.status ? `
+                    <button id="cancelBtn-${booking.id}" onclick="showConfirmCancel('${booking.id}')" class="text-red-500 hover:text-red-700">
+                        <i class="fas fa-trash-alt"></i> Hủy hẹn
+                    </button>
+                    <button id="confirmCancelBtn-${booking.id}" class="text-green-500 hover:text-green-700 hidden ml-2">
+                        <i class="fas fa-check"></i> Xác nhận hủy
+                    </button>
+                ` : ''}
+            </td>
         `;
         tableBody.appendChild(row);
     });
+}
+function showConfirmCancel(bookingId) {
+    const cancelBtn = document.getElementById(`cancelBtn-${bookingId}`);
+    const confirmBtn = document.getElementById(`confirmCancelBtn-${bookingId}`);
+
+    // Vô hiệu hóa nút Hủy hẹn
+    cancelBtn.disabled = true;
+    cancelBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+    // Hiển thị nút Xác nhận hủy
+    confirmBtn.classList.remove('hidden');
+    showToast('Vui lòng nhấn nút để xác nhận', 'info');
+    // Gắn sự kiện cho nút Xác nhận hủy
+    confirmBtn.onclick = () => {
+        confirmBtn.classList.add('hidden');
+        cancelBtn.disabled = false;
+        cancelBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        cancelBooking(bookingId);
+    };
+
+    // Ẩn nút Xác nhận hủy sau 30 giây và kích hoạt lại nút Hủy hẹn
+    setTimeout(() => {
+        if (!confirmBtn.classList.contains('hidden')) {
+            confirmBtn.classList.add('hidden');
+            cancelBtn.disabled = false;
+            cancelBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    }, 30000); // 30 giây
+}
+async function cancelBooking(bookingId) {
+    try {
+        const response = await fetch(`http://localhost:5000/api/booking/cancel/${bookingId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+            },
+
+        });
+        const data = await response.json();
+        if (!response.ok || data.isError) {
+            throw new Error(data.message || 'Hủy lịch hẹn thất bại.');
+        }
+        showToast(data.message || 'Hủy lịch hẹn thành công.', 'success');
+        location.reload();
+    } catch (error) {
+        showToast(error.message, 'error');
+    }
 }
 
 // Update pagination
