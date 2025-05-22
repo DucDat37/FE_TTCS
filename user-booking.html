@@ -181,12 +181,10 @@
             margin: 0 auto;
         }
 
-        /* Sidebar styling */
         .sidebar {
             position: relative;
             top: 120px;
             margin: 0;
-            /* Tăng top để sidebar nằm dưới header (60px header + khoảng cách nhỏ) */
             align-self: flex-start;
             width: 200px;
             background-color: #f7fafc;
@@ -194,8 +192,6 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             padding: 16px;
             height: fit-content;
-
-            /* Below header but above content */
         }
 
         .sidebar ul {
@@ -231,6 +227,49 @@
             margin-right: 8px;
         }
 
+        .booking-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .booking-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 500;
+            background-color: #48bb78;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            animation: pulse 1.5s infinite;
+        }
+
+        .booking-btn:hover {
+            background-color: #38a169;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
         /* Thêm vào phần CSS hiện có */
         #detailBookingModal {
             z-index: 1000;
@@ -257,7 +296,7 @@
             }
 
             .main-content {
-                margin-right: 20px;
+                margin-right: 10px;
                 /* Reset margin on small screens */
             }
         }
@@ -371,6 +410,9 @@
                             <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Thao
                                 tác</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Hủy
+                                hẹn</th>
                         </tr>
                     </thead>
                     <tbody id="bookingsTable" class="divide-y divide-gray-200">
@@ -451,10 +493,14 @@
         <ul>
 
             <li><a href="profile.html"><i class="fas fa-user"></i>Thông tin cá nhân</a></li>
-            <li><a href="user-booking.html" class="active"><i class="fas fa-calendar-check"></i>Quản lý lịch hẹn</a>
+            <li><a href="user-booking.html" class="active"><i class="fas fa-calendar-alt"></i>Quản lý lịch hẹn</a>
             </li>
-            <li><a href="user-record.html"><i class="fas fa-history"></i>Lịch sử khám bệnh </a></li>
+            <li><a href="user-record.html"><i class="fas file-medical"></i>Lịch sử khám bệnh </a></li>
         </ul>
+        <!-- Nút Booking -->
+        <button onclick="window.location.href='all-doctors.html'" class="booking-btn mt-4 w-full">
+            <i class="fas fa-plus mr-2"></i>Đặt lịch ngay
+        </button>
     </div>
 </div>
 <!-- Toast Container -->
