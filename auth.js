@@ -337,6 +337,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Xử lý đăng ký
 async function handleRegister() {
+    const registerBtn = document.getElementById("sendOtpBtn");
+    const registerBtnText = document.getElementById("registerBtnText");
+    const registerLoading = document.getElementById("registerLoading");
+    
+    // Hiển thị trạng thái loading
+    registerBtn.disabled = true;
+    registerBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+    registerBtn.classList.add('bg-gray-400');
+    registerBtnText.textContent = "Đang xử lý...";
+    registerLoading.classList.remove("hidden");
+
     const userName = document.getElementById("userName").value;
     const email = document.getElementById("emailRegister").value;
     const phone = document.getElementById("registerPhone").value;
@@ -357,7 +368,6 @@ async function handleRegister() {
                 confirmPassword
             })
         });
-
 
         const data = await response.json();
 
@@ -383,6 +393,13 @@ async function handleRegister() {
     } catch (error) {
         console.error('Error:', error);
         toast.error('Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại sau.');
+    } finally {
+        // Ẩn trạng thái loading
+        registerBtn.disabled = false;
+        registerBtn.classList.remove('bg-gray-400');
+        registerBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
+        registerBtnText.textContent = "Đăng ký";
+        registerLoading.classList.add("hidden");
     }
 }
 
