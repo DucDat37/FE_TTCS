@@ -48,7 +48,6 @@ function toggleLoading(show) {
 // Gọi fetchInvoiceDetail khi DOM sẵn sàng
 document.addEventListener('DOMContentLoaded', () => {
   const invoiceId = new URLSearchParams(window.location.search).get('id'); // Lấy ID từ URL
-  console.log(invoiceId)
   if (invoiceId) {
     fetchInvoiceDetail(invoiceId);
   }
@@ -60,7 +59,7 @@ function getAuthHeader() {
   };
 }
 function handleApiError(error) {
-  console.error('API Error:', error);
+
 
   if (error.status === 401 || error.message?.includes('access_token') || error.message?.includes('authorization')) {
     alert('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!');
@@ -97,14 +96,12 @@ async function fetchInvoiceDetail(id) {
     }
 
     const invoiceData = result.data;
-    console.log(invoiceData);
     // Cập nhật giao diện trực tiếp
     updateInvoiceUI(invoiceData);
     isDataLoaded = true;
     // Hiển thị nút xuất PDF sau khi có dữ liệu
     document.querySelector('.print-btn').style.display = 'block';
   } catch (error) {
-    console.error('Error fetching invoice details:', error);
     toast.error('Không thể tải chi tiết hóa đơn. Vui lòng thử lại sau.');
   } finally {
     toggleLoading(false);

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header mx-auto">
@@ -21,10 +23,12 @@
         </div>
         <nav class="flex items-center justify-between">
             <div class="flex space-x-2 pr-4">
-                <a href="all-doctors.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt khám</a>
+                <a href="all-doctors.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt
+                    khám</a>
                 <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn
                     trực tuyến</a>
-                <a href="recruitment.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển dụng</a>
+                <a href="recruitment.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển
+                    dụng</a>
                 <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tin Y tế</a>
                 <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
             </div>
@@ -54,6 +58,12 @@
                             </a>
                             <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                                 <i class="fas fa-user mr-2"></i>Thông tin cá nhân
+                            </a>
+                            <a href="user-booking.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-calendar-alt mr-2"></i>Xem lịch khám
+                            </a>
+                            <a href="user-record.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-file-medical mr-2"></i>Lịch sử khám bệnh
                             </a>
                             <a href="#" onclick="logout()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                                 <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
@@ -85,17 +95,14 @@
             <!-- Article Content -->
             <div class="lg:col-span-2">
                 <h1 class="text-3xl font-bold mb-4" id="article-title">...</h1>
-                
+
                 <div class="flex items-center text-sm text-gray-600 mb-6">
                     <span>Tác giả: <span id="article-author">...</span></span>
                     <span class="mx-2">•</span>
                     <span>Cập nhật: <span id="article-date">...</span></span>
                 </div>
 
-                <img id="article-image" 
-                     src="" 
-                     alt="" 
-                     class="w-full rounded-lg mb-6">
+                <img id="article-image" src="" alt="" class="w-full rounded-lg mb-6">
 
                 <div class="prose max-w-none" id="article-content">
                     <!-- Content  -->
@@ -115,14 +122,177 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-50 py-8">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center text-gray-600">
-                <p>© 2024 YouMed. Tất cả quyền được bảo lưu.</p>
+    <footer data-wpr-lazyrender="1" class="relative site-footer bg-gray-50 py-3">
+        <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4 md:pt-10">
+            <div class="px-4 py-6 text-sm col-span-12 sm:col-span-6 lg:col-span-4 space-y-2">
+                <p class="font-semibold">CÔNG TY TNHH YOUMED VIỆT NAM</p>
+                <p><strong>VPĐD:</strong> 3/1 Thành Thái, P.14, Q.10, TP. HCM</p>
+                <p>
+                    <strong>Hotline:</strong> <a href="tel:19002805" class="font-medium hover:underline">1900-2805</a>
+                    (8:00 - 17:30 từ T2 đến T7)
+                </p>
+                <p>
+                    Số ĐKKD 0315268642 do Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh cấp lần đầu
+                    ngày 14/09/2018.
+                </p>
+                <p>
+                    Chịu trách nhiệm nội dung:
+                    <a href="" class="hover:underline underline-offset-2 hover:text-primary font-medium">
+                        Dược sĩ Dương Anh Hoàng</a>.
+                </p>
             </div>
+            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-2">
+                <label for="checkbox-about-us"
+                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                    Về YouMed <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="48" d="M112 184l144 144 144-144"></path>
+                    </svg>
+                </label>
+                <ul id="footer-1" class="list-none p-0 block text-sm space-y-2 transition-all">
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-84 hover:underline"><a
+                            href="">Giới thiệu về YouMed</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-85 hover:underline"><a
+                            href="">Ban điều hành</a></li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-86 hover:underline"><a
+                            href="">Nhân sự & Tuyển dụng</a></li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-87 hover:underline"><a
+                            href="">Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
+                <label for="check-services"
+                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                    Dịch vụ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="48" d="M112 184l144 144 144-144"></path>
+                    </svg>
+                </label>
+                <ul id="footer-2" class="list-none p-0 block text-sm space-y-2 transition-all">
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-73 hover:underline"><a
+                            href="">Đặt khám Bác sĩ</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-74 hover:underline"><a
+                            href="">Đặt khám Bệnh viện</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-75 hover:underline"><a
+                            href="">Đặt khám Phòng Khám</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-76 hover:underline"><a
+                            href="">YouMed Store</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-77 hover:underline"><a
+                            target="_blank" href="">Y360</a></li>
+                    <li class="menu-item menu-item-type-post_type menu-item-497 hover:underline">
+                        <a href="">YouMed Clinic</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
+                <label for="check-more"
+                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                    Hỗ trợ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="48" d="M112 184l144 144 144-144"></path>
+                    </svg>
+                </label>
+                <ul id="footer-3" class="list-none p-0 block text-sm space-y-2 transition-all">
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-106 hover:underline">
+                        <a href="">Điều Khoản Sử Dụng</a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-105 hover:underline">
+                        <a href="">Chính Sách Bảo Mật</a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-104 hover:underline">
+                        <a href="">Chính sách giải quyết khiếu nại</a>
+                    </li>
+                    <li>Hỗ trợ khách hàng: <a href="mailto:cskh@youmed.vn" class="hover:underline">cskh@youmed.vn</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="px-4 py-6 md:py-0 text-sm col-span-12 md:col-span-4 space-y-2">
+                <div class="flex justify-center md:justify-start items-center text-sm font-semibold">
+                    Kết nối với chúng tôi </div>
+                <ul class="flex space-x-3 items-center justify-center md:justify-start">
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg" width="24"
+                                height="24" alt="Facebook"
+                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg"
+                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
+                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg" width="24"
+                                    height="24" loading="lazy" alt="Facebook"></noscript>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg" width="24"
+                                height="24" alt="YouTube"
+                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg"
+                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
+                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg" width="24"
+                                    height="24" loading="lazy" alt="YouTube"></noscript>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg" width="24"
+                                height="24" alt="Linkedin"
+                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg"
+                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
+                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg" width="24"
+                                    height="24" loading="lazy" alt="Linkedin"></noscript>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg" width="36"
+                                height="16" alt="Zalo"
+                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg"
+                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
+                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg" width="36"
+                                    height="16" loading="lazy" alt="Zalo"></noscript>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-span-12 md:col-span-8 px-4 py-6 md:p-6">
+                <ul class="flex space-x-4 items-center justify-center md:justify-end">
+                    <li>
+                        <a href="" target="_blank" title="Đã đăng ký Bộ Công Thương">
+                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/dadangky.svg" width="79"
+                                height="30" alt="Đã đăng ký Bộ Công Thương"
+                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/dadangky.svg"
+                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img src="" width="79"
+                                    height="30" loading="lazy" alt="Đã đăng ký Bộ Công Thương" /></noscript>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" target="_blank" title="DMCA.com Protection Status. Click to verify.">
+                            <img src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
+                                width="60" height="30" alt="DMCA.com Protection Status. Click to verify."
+                                data-lazy-src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
+                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
+                                    src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
+                                    loading="lazy" width="60" height="30"
+                                    alt="DMCA.com Protection Status. Click to verify." /></noscript>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl text-xs text-center mx-auto md:border-t border-slate-100 py-6 px-4">
+            <p>
+                Các thông tin trên YouMed chỉ dành cho mục đích tham khảo, tra cứu và
+                không thay thế cho việc chẩn đoán hoặc điều trị y khoa.<br class="hidden lg:block">
+                Cần tuyệt đối tuân theo hướng dẫn của Bác sĩ và Nhân viên y tế.
+            </p>
+            <p class="mt-1">
+                Copyright © 2018 - 2025 Công ty TNHH YouMed Việt Nam.
+            </p>
         </div>
     </footer>
 
     <script src="news-detail.js"></script>
 </body>
-</html> 
+
+</html>
