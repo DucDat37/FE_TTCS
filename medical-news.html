@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Tất cả bác sĩ - YouMed</title>
+    <title>Tin Y tế - YouMed</title>
     <link rel="website icon" type="png" href="hospital-logo.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header mx-auto">
         <div class="flex items-center justify-between">
             <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
             <a href="index.html">
-                <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg" alt="YouMed">
+                <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg"
+                    alt="YouMed">
             </a>
         </div>
         <nav class="flex items-center justify-between">
@@ -27,11 +30,13 @@
                 <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
             </div>
             <div id="authSection">
+                <!-- Nút đăng nhập -->
                 <button id="loginBtn"
                     class="p-2 border-2 border-blue-500 text-blue-500 text-sm font-semibold py-1.5 px-4 rounded-md hover:bg-blue-500 hover:text-white active:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition">
                     Đăng nhập
                 </button>
 
+                <!-- Dropdown menu khi đã đăng nhập -->
                 <div id="userDropdown" class="hidden relative">
                     <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
                         <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar"
@@ -40,6 +45,7 @@
                         <i class="fas fa-chevron-down text-gray-500"></i>
                     </button>
 
+                    <!-- Dropdown content -->
                     <div id="userDropdownMenu"
                         class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
                         <div class="py-1">
@@ -62,63 +68,42 @@
                         </div>
                     </div>
                 </div>
+                <!-- Kết thúc dropdown menu -->
             </div>
         </nav>
     </header>
 
-    <!-- Loading -->
-    <div id="globalLoading" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white p-4 rounded-lg shadow-lg flex items-center">
-            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mr-3"></div>
-            <span>Đang tải...</span>
-        </div>
-    </div>
-
     <!-- Main Content -->
-    <div class="container mx-auto p-4 max-w-7xl">
-        <div class="mb-8">
-            <h1 class="text-2xl font-bold mb-4">Danh sách bác sĩ</h1>
-            <div class="flex gap-4 mb-6 mt-10">
-                <div class="flex-1">
-                    <input type="text" placeholder="Tìm kiếm bác sĩ..." class="w-full p-3 border rounded-lg">
-                </div>
-                <div class="flex-1">
-                    <select class="w-full p-3 border rounded-lg">
-                        <option value="">Chọn chuyên khoa</option>
-                        <option value="nhi">Nhi khoa</option>
-                        <option value="tieu-hoa">Tiêu hóa</option>
-                        <option value="ung-buou">Ung bướu</option>
-                        <option value="noi">Nội khoa</option>
-                        <option value="ngoai">Ngoại khoa</option>
-                        <option value="san-phu">Sản phụ khoa</option>
-                        <option value="tam-than">Tâm thần</option>
-                        <option value="rang-ham-mat">Răng hàm mặt</option>
-                        <option value="mat">Mắt</option>
-                        <option value="tai-mui-hong">Tai mũi họng</option>
-                    </select>
-                </div>
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Featured News -->
+        <section class="mb-12">
+            <h1 class="text-3xl font-bold mb-6">Tin Y tế nổi bật</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="featured-news">
+                <!-- Featured news will be loaded dynamically -->
             </div>
-        </div>
+        </section>
 
-        <!-- Doctor List -->
-        <div id="doctorList" class="space-y-4">
-            <!-- Doctor -->
-        </div>
-
-        <!-- Pagination -->
-        <div class="mt-8 flex justify-center gap-2">
-            <button id="prevPage" class="px-4 py-2 border rounded-lg hover:bg-gray-100">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <div id="pageNumbers" class="flex gap-2">
-                <!-- Page numbers -->
+        <!-- News Categories -->
+        <section class="mb-12">
+            <div class="flex space-x-4 mb-8 overflow-x-auto pb-2">
+                <!-- Category tabs will be loaded dynamically -->
             </div>
-            <button id="nextPage" class="px-4 py-2 border rounded-lg hover:bg-gray-100">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    </div>
 
+            <!-- News Grid -->
+            <div id="news-list">
+                <!-- News items will be loaded dynamically -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-8">
+                <button class="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
+                    Xem thêm tin tức
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
     <footer data-wpr-lazyrender="1" class="relative site-footer bg-gray-50 py-3">
         <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4 md:pt-10">
             <div class="px-4 py-6 text-sm col-span-12 sm:col-span-6 lg:col-span-4 space-y-2">
@@ -178,7 +163,7 @@
                             href="">YouMed Store</a></li>
                     <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-77 hover:underline"><a
                             target="_blank" href="">Y360</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-497 hover:underline">
+                    <li class="menu-item menu-item-type-post_type menu-item-497 hover:underline">
                         <a href="">YouMed Clinic</a>
                     </li>
                 </ul>
@@ -290,6 +275,20 @@
         </div>
     </footer>
 
-    <script src="all-doctors.js"></script>
+    <!-- Scripts -->
+    <script>
+        console.log('Initial script loaded');
+    </script>
+    <script src="medical-news.js"></script>
+    <script>
+        console.log('All scripts loaded');
+        // Kiểm tra trạng thái đăng nhập khi trang load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded');
+            checkLoginStatus();
+            fetchNews();
+        });
+    </script>
 </body>
+
 </html> 
