@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,19 +13,28 @@
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            margin-right: 240px;
             padding: 20px;
-            padding-top: 120px; /* Adjusted to accommodate the header height */
+            padding-top: 120px;
         }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
         .profile-header {
             background-color: #4a90e2;
             color: white;
             padding: 12px 16px;
             border-radius: 8px 8px 0 0;
         }
+
         .form-group {
             margin-bottom: 16px;
         }
+
         .form-control {
             width: 100%;
             padding: 10px;
@@ -32,11 +42,13 @@
             border-radius: 4px;
             transition: border-color 0.2s;
         }
+
         .form-control:focus {
             border-color: #4a90e2;
             outline: none;
             box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
         }
+
         .btn-primary {
             background-color: #4a90e2;
             color: white;
@@ -46,9 +58,11 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
+
         .btn-primary:hover {
             background-color: #3a7bc8;
         }
+
         .btn-secondary {
             background-color: #718096;
             color: white;
@@ -58,19 +72,22 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
+
         .btn-secondary:hover {
             background-color: #4a5568;
         }
+
         .toast-container {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 1000;
         }
+
         .toast {
             background-color: white;
             border-left: 4px solid;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             padding: 16px;
             margin-bottom: 16px;
             border-radius: 4px;
@@ -80,59 +97,73 @@
             max-width: 400px;
             animation: slideIn 0.3s, fadeOut 0.5s 2.5s forwards;
         }
+
         .toast-success {
             border-left-color: #48bb78;
         }
+
         .toast-error {
             border-left-color: #f56565;
         }
+
         .toast-icon {
             margin-right: 12px;
             font-size: 20px;
         }
+
         .toast-success .toast-icon {
             color: #48bb78;
         }
+
         .toast-error .toast-icon {
             color: #f56565;
         }
+
         .toast-content {
             flex: 1;
         }
+
         .toast-close {
             cursor: pointer;
             font-size: 16px;
             color: #a0aec0;
         }
+
         @keyframes slideIn {
             from {
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
             }
         }
+
         @keyframes fadeOut {
             from {
                 opacity: 1;
             }
+
             to {
                 opacity: 0;
             }
         }
+
         /* Compact table styling */
         .compact-table th,
         .compact-table td {
             padding: 8px 12px;
             font-size: 0.875rem;
         }
+
         /* Blue background for table headers */
         .compact-table th {
             background-color: #4a90e2;
             color: white;
         }
+
         /* Header styling */
         .header {
             position: fixed;
@@ -141,33 +172,42 @@
             width: 100%;
             background-color: #f7fafc;
             padding: 10px 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 100;
         }
+
         .header .flex {
             max-width: 1200px;
             margin: 0 auto;
         }
+
         /* Sidebar styling */
         .sidebar {
-            position: fixed;
-            top: 120px; /* Align below header */
-            right: 20px;
+            position: relative;
+            top: 120px;
+            margin: 0;
+            /* Tăng top để sidebar nằm dưới header (60px header + khoảng cách nhỏ) */
+            align-self: flex-start;
             width: 200px;
             background-color: #f7fafc;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             padding: 16px;
-            z-index: 99; /* Below header but above content */
+            height: fit-content;
+
+            /* Below header but above content */
         }
+
         .sidebar ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
+
         .sidebar li {
             margin-bottom: 8px;
         }
+
         .sidebar a {
             display: block;
             padding: 10px 12px;
@@ -176,79 +216,108 @@
             border-radius: 4px;
             transition: background-color 0.2s, color 0.2s;
         }
+
         .sidebar a:hover {
             background-color: #4a90e2;
             color: white;
         }
+
+        .sidebar a.active {
+            background-color: #4a90e2;
+            color: white;
+        }
+
         .sidebar a i {
             margin-right: 8px;
         }
+
+        /* Thêm vào phần CSS hiện có */
+        #detailBookingModal {
+            z-index: 1000;
+            /* Đảm bảo cao hơn header */
+        }
+
+        /* Khi modal hiển thị (không có class hidden) */
+        #detailBookingModal:not(.hidden) {
+            display: block;
+        }
+
+        /* Hiệu ứng cho header khi modal hiển thị */
+        #detailBookingModal:not(.hidden)~.header,
+        #detailBookingModal:not(.hidden)~* .header {
+            filter: blur(2px);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
         /* Responsive adjustment for smaller screens */
         @media (max-width: 768px) {
             .sidebar {
                 display: none;
             }
+
             .main-content {
-                margin-right: 20px; /* Reset margin on small screens */
+                margin-right: 20px;
+                /* Reset margin on small screens */
             }
         }
     </style>
 </head>
-    <!--  Header --> 
-    <header class="header mx-auto">
-        <div class="flex items-center justify-between">
-            <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
-            <a href="index.html">
-                <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg" alt="YouMed">
-            </a>
+<!--  Header -->
+<header class="header mx-auto">
+    <div class="flex items-center justify-between">
+        <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
+        <a href="index.html">
+            <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg"
+                alt="YouMed">
+        </a>
+    </div>
+    <nav class="flex items-center justify-between">
+        <div class="flex space-x-2 pr-4">
+            <a href="all-doctors.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt khám</a>
+            <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn trực
+                tuyến</a>
+            <a href="recruitment.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển dụng</a>
+            <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tin Y tế</a>
+            <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
         </div>
-        <nav class="flex items-center justify-between">
-            <div class="flex space-x-2 pr-4">
-                <a href="all-doctors.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt khám</a>
-                <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn trực tuyến</a>
-                <a href="recruitment.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển dụng</a>
-                <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tin Y tế</a>
-                <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
-            </div>
-            <div id="authSection">
-                <!-- Dropdown menu khi đã đăng nhập -->
-                <div id="userDropdown" class="relative">
-                    <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
-                        <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar"
-                            class="w-8 h-8 rounded-full">
-                        <span id="userName" class="text-gray-800"></span>
-                        <i class="fas fa-chevron-down text-gray-500"></i>
-                    </button>
+        <div id="authSection">
+            <!-- Dropdown menu khi đã đăng nhập -->
+            <div id="userDropdown" class="relative">
+                <button onclick="toggleDropdown()" class="flex items-center space-x-2 focus:outline-none">
+                    <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar" class="w-8 h-8 rounded-full">
+                    <span id="userName" class="text-gray-800"></span>
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </button>
 
-                    <!-- Dropdown content -->
-                    <div id="userDropdownMenu"
-                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-                        <div class="py-1">
-                            <a href="admin.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hidden"
-                                id="adminPage">
-                                <i class="fas fa-home mr-2"></i>Trang quản trị
-                            </a>
-                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 bg-gray-100">
-                                <i class="fas fa-user mr-2"></i>Thông tin cá nhân
-                            </a>
-                            <a href="user-booking.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <i class="fas fa-calendar-alt mr-2"></i>Xem lịch khám
-                            </a>
-                            <a href="user-record.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <i class="fas fa-file-medical mr-2"></i>Lịch sử khám bệnh
-                            </a>
-                            <a href="#" onclick="logout()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
-                            </a>
-                        </div>
+                <!-- Dropdown content -->
+                <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                    <div class="py-1">
+                        <a href="admin.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hidden"
+                            id="adminPage">
+                            <i class="fas fa-home mr-2"></i>Trang quản trị
+                        </a>
+                        <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 bg-gray-100">
+                            <i class="fas fa-user mr-2"></i>Thông tin cá nhân
+                        </a>
+                        <a href="user-booking.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-calendar-alt mr-2"></i>Xem lịch khám
+                        </a>
+                        <a href="user-record.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-file-medical mr-2"></i>Lịch sử khám bệnh
+                        </a>
+                        <a href="#" onclick="logout()" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                        </a>
                     </div>
                 </div>
-                <!-- Kết thúc dropdown menu -->
             </div>
-        </nav>
-    </header>
+            <!-- Kết thúc dropdown menu -->
+        </div>
+    </nav>
+</header>
 
-
+<div class="container">
     <!-- Main Content -->
     <div class="main-content">
         <div class="bg-white rounded-lg shadow-md p-6">
@@ -256,17 +325,20 @@
                 <h3 class="text-xl font-bold">Danh sách lịch hẹn</h3>
                 <div class="flex space-x-2">
                     <div class="relative">
-                        <input type="text" id="searchInput" placeholder="Tìm kiếm..." class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm..."
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
                     </div>
                     <div class="relative">
-                        <select id="statusFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <select id="statusFilter"
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Tất cả trạng thái</option>
                             <option value="true">Đã xác nhận</option>
                             <option value="false">Chờ xác nhận</option>
                         </select>
                     </div>
-                    <button id="applyFilters" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="applyFilters"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <i class="fas fa-filter mr-2"></i>Lọc
                     </button>
                 </div>
@@ -275,14 +347,30 @@
                 <table class="min-w-full bg-white">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mã</th>
-                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bác sĩ</th>
-                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bệnh nhân</th>
-                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thời gian bắt đầu</th>
-                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thời gian kết thúc</th>
-                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dịch vụ</th>
-                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trạng thái</th>
-                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thao tác</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Mã
+                            </th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Bác
+                                sĩ</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Bệnh
+                                nhân</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Thời
+                                gian bắt đầu</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Thời
+                                gian kết thúc</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Dịch
+                                vụ</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Trạng
+                                thái</th>
+                            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Thao
+                                tác</th>
                         </tr>
                     </thead>
                     <tbody id="bookingsTable" class="divide-y divide-gray-200">
@@ -291,7 +379,8 @@
                 </table>
             </div>
             <div class="flex justify-between items-center mt-4">
-                <div class="text-sm text-gray-500">Hiển thị <span id="currentDisplayed">0</span> / <span id="totalBookings">0</span> lịch hẹn</div>
+                <div class="text-sm text-gray-500">Hiển thị <span id="currentDisplayed">0</span> / <span
+                        id="totalBookings">0</span> lịch hẹn</div>
                 <div class="flex space-x-1" id="pagination">
                     <!-- Pagination will be generated here -->
                 </div>
@@ -360,188 +449,190 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <ul>
-            
+
             <li><a href="profile.html"><i class="fas fa-user"></i>Thông tin cá nhân</a></li>
-            <li><a href="user-booking.html"><i class="fas fa-calendar-check"></i>Quản lý lịch hẹn</a></li>
+            <li><a href="user-booking.html" class="active"><i class="fas fa-calendar-check"></i>Quản lý lịch hẹn</a>
+            </li>
             <li><a href="user-record.html"><i class="fas fa-history"></i>Lịch sử khám bệnh </a></li>
         </ul>
     </div>
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
-    <div class="mb-60"></div>
+</div>
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+<div class="mb-60"></div>
 
-    <!-- Footer -->
-    <footer data-wpr-lazyrender="1" class="relative site-footer bg-gray-50 py-3">
-        <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4 md:pt-10">
-            <div class="px-4 py-6 text-sm col-span-12 sm:col-span-6 lg:col-span-4 space-y-2">
-                <p class="font-semibold">CÔNG TY TNHH YOUMED VIỆT NAM</p>
-                <p><strong>VPĐD:</strong> 3/1 Thành Thái, P.14, Q.10, TP. HCM</p>
-                <p>
-                    <strong>Hotline:</strong> <a href="tel:19002805" class="font-medium hover:underline">1900-2805</a>
-                    (8:00 - 17:30 từ T2 đến T7)
-                </p>
-                <p>
-                    Số ĐKKD 0315268642 do Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh cấp lần đầu
-                    ngày 14/09/2018.
-                </p>
-                <p>
-                    Chịu trách nhiệm nội dung:
-                    <a href="" class="hover:underline underline-offset-2 hover:text-primary font-medium">
-                        Dược sĩ Dương Anh Hoàng</a>.
-                </p>
-            </div>
-            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-2">
-                <label for="checkbox-about-us"
-                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
-                    Về YouMed <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
-                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="48" d="M112 184l144 144 144-144"></path>
-                    </svg>
-                </label>
-                <ul id="footer-1" class="list-none p-0 block text-sm space-y-2 transition-all">
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-84 hover:underline"><a
-                            href="">Giới thiệu về YouMed</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-85 hover:underline"><a
-                            href="">Ban điều hành</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-86 hover:underline"><a
-                            href="">Nhân sự &amp; Tuyển dụng</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-87 hover:underline"><a
-                            href="">Liên hệ</a></li>
-                </ul>
-            </div>
-            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
-                <label for="check-services"
-                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
-                    Dịch vụ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
-                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="48" d="M112 184l144 144 144-144"></path>
-                    </svg>
-                </label>
-                <ul id="footer-2" class="list-none p-0 block text-sm space-y-2 transition-all">
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-73 hover:underline"><a
-                            href="">Đặt khám Bác sĩ</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-74 hover:underline"><a
-                            href="">Đặt khám Bệnh viện</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-75 hover:underline"><a
-                            href="">Đặt khám Phòng Khám</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-76 hover:underline"><a
-                            href="">YouMed Store</a></li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-77 hover:underline"><a
-                            target="_blank" href="">Y360</a></li>
-                    <li class="menu-item menu-item-type-post_type menu-item-497 hover:underline">
-                        <a href="">YouMed Clinic</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
-                <label for="check-more"
-                    class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
-                    Hỗ trợ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
-                        class="block md:hidden opacity-40" viewBox="0 0 512 512">
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="48" d="M112 184l144 144 144-144"></path>
-                    </svg>
-                </label>
-                <ul id="footer-3" class="list-none p-0 block text-sm space-y-2 transition-all">
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-106 hover:underline">
-                        <a href="">Điều Khoản Sử Dụng</a>
-                    </li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-105 hover:underline">
-                        <a href="">Chính Sách Bảo Mật</a>
-                    </li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-104 hover:underline">
-                        <a href="">Chính
-                            sách giải quyết khiếu nại</a>
-                    </li>
-                    <li>Hỗ trợ khách hàng: <a href="mailto:cskh@youmed.vn" class="hover:underline">cskh@youmed.vn</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="px-4 py-6 md:py-0 text-sm col-span-12 md:col-span-4 space-y-2">
-                <div class="flex justify-center md:justify-start items-center text-sm font-semibold">
-                    Kết nối với chúng tôi </div>
-                <ul class="flex space-x-3 items-center justify-center md:justify-start">
-                    <li>
-                        <a href="" target="_blank">
-                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg" width="24"
-                                height="24" alt="Facebook"
-                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
-                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg" width="24"
-                                    height="24" loading="lazy" alt="Facebook"></noscript>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank">
-                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg" width="24"
-                                height="24" alt="YouTube"
-                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
-                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg" width="24"
-                                    height="24" loading="lazy" alt="YouTube"></noscript>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank">
-                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg" width="24"
-                                height="24" alt="Linkedin"
-                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
-                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg" width="24"
-                                    height="24" loading="lazy" alt="Linkedin"></noscript>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank">
-                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg" width="36"
-                                height="16" alt="Zalo"
-                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
-                                    src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg" width="36"
-                                    height="16" loading="lazy" alt="Zalo"></noscript>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-span-12 md:col-span-8 px-4 py-6 md:p-6">
-                <ul class="flex space-x-4 items-center justify-center md:justify-end">
-                    <li>
-                        <a href="" target="_blank" title="Đã đăng ký Bộ Công Thương">
-                            <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/dadangky.svg" width="79"
-                                height="30" alt="Đã đăng ký Bộ Công Thương"
-                                data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/dadangky.svg"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img src="" width="79"
-                                    height="30" loading="lazy" alt="Đã đăng ký Bộ Công Thương" /></noscript>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" target="_blank" title="DMCA.com Protection Status. Click to verify.">
-                            <img src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
-                                width="60" height="30" alt="DMCA.com Protection Status. Click to verify."
-                                data-lazy-src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
-                                data-ll-status="loaded" class="entered lazyloaded"><noscript><img
-                                    src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
-                                    loading="lazy" width="60" height="30"
-                                    alt="DMCA.com Protection Status. Click to verify." /></noscript>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-7xl text-xs text-center mx-auto md:border-t border-slate-100 py-6 px-4">
+<!-- Footer -->
+<footer data-wpr-lazyrender="1" class="relative site-footer bg-gray-50 py-3">
+    <div class="max-w-7xl mx-auto grid grid-cols-12 gap-4 md:pt-10">
+        <div class="px-4 py-6 text-sm col-span-12 sm:col-span-6 lg:col-span-4 space-y-2">
+            <p class="font-semibold">CÔNG TY TNHH YOUMED VIỆT NAM</p>
+            <p><strong>VPĐD:</strong> 3/1 Thành Thái, P.14, Q.10, TP. HCM</p>
             <p>
-                Các thông tin trên YouMed chỉ dành cho mục đích tham khảo, tra cứu và
-                không thay thế cho việc chẩn đoán hoặc điều trị y khoa.<br class="hidden lg:block">
-                Cần tuyệt đối tuân theo hướng dẫn của Bác sĩ và Nhân viên y tế.
+                <strong>Hotline:</strong> <a href="tel:19002805" class="font-medium hover:underline">1900-2805</a>
+                (8:00 - 17:30 từ T2 đến T7)
             </p>
-            <p class="mt-1">
-                Copyright © 2018 - 2025 Công ty TNHH YouMed Việt Nam.
+            <p>
+                Số ĐKKD 0315268642 do Sở Kế hoạch và Đầu tư TP. Hồ Chí Minh cấp lần đầu
+                ngày 14/09/2018.
+            </p>
+            <p>
+                Chịu trách nhiệm nội dung:
+                <a href="" class="hover:underline underline-offset-2 hover:text-primary font-medium">
+                    Dược sĩ Dương Anh Hoàng</a>.
             </p>
         </div>
-    </footer>
-    <script src = "user-booking.js"></script>
+        <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-2">
+            <label for="checkbox-about-us"
+                class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                Về YouMed <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                    class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="48" d="M112 184l144 144 144-144"></path>
+                </svg>
+            </label>
+            <ul id="footer-1" class="list-none p-0 block text-sm space-y-2 transition-all">
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-84 hover:underline"><a
+                        href="">Giới thiệu về YouMed</a></li>
+                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-85 hover:underline"><a
+                        href="">Ban điều hành</a></li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-86 hover:underline"><a
+                        href="">Nhân sự &amp; Tuyển dụng</a></li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-87 hover:underline"><a
+                        href="">Liên hệ</a></li>
+            </ul>
+        </div>
+        <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
+            <label for="check-services"
+                class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                Dịch vụ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"
+                    class="block md:hidden opacity-40" viewBox="0 0 512 512">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="48" d="M112 184l144 144 144-144"></path>
+                </svg>
+            </label>
+            <ul id="footer-2" class="list-none p-0 block text-sm space-y-2 transition-all">
+                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-73 hover:underline"><a
+                        href="">Đặt khám Bác sĩ</a></li>
+                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-74 hover:underline"><a
+                        href="">Đặt khám Bệnh viện</a></li>
+                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-75 hover:underline"><a
+                        href="">Đặt khám Phòng Khám</a></li>
+                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-76 hover:underline"><a
+                        href="">YouMed Store</a></li>
+                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-77 hover:underline"><a
+                        target="_blank" href="">Y360</a></li>
+                <li class="menu-item menu-item-type-post_type menu-item-497 hover:underline">
+                    <a href="">YouMed Clinic</a>
+                </li>
+            </ul>
+        </div>
+        <div class="mx-4 lg:mx-0 border-b md:border-0 col-span-12 sm:col-span-6 lg:col-span-3">
+            <label for="check-more"
+                class="flex items-center justify-between cursor-pointer sm:cursor-auto py-6 text-sm font-semibold">
+                Hỗ trợ <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg" class="block md:hidden opacity-40"
+                    viewBox="0 0 512 512">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="48" d="M112 184l144 144 144-144"></path>
+                </svg>
+            </label>
+            <ul id="footer-3" class="list-none p-0 block text-sm space-y-2 transition-all">
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-106 hover:underline">
+                    <a href="">Điều Khoản Sử Dụng</a>
+                </li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-105 hover:underline">
+                    <a href="">Chính Sách Bảo Mật</a>
+                </li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-104 hover:underline">
+                    <a href="">Chính
+                        sách giải quyết khiếu nại</a>
+                </li>
+                <li>Hỗ trợ khách hàng: <a href="mailto:cskh@youmed.vn" class="hover:underline">cskh@youmed.vn</a>
+                </li>
+            </ul>
+        </div>
+        <div class="px-4 py-6 md:py-0 text-sm col-span-12 md:col-span-4 space-y-2">
+            <div class="flex justify-center md:justify-start items-center text-sm font-semibold">
+                Kết nối với chúng tôi </div>
+            <ul class="flex space-x-3 items-center justify-center md:justify-start">
+                <li>
+                    <a href="" target="_blank">
+                        <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg" width="24"
+                            height="24" alt="Facebook"
+                            data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg"
+                            data-ll-status="loaded" class="entered lazyloaded"><noscript><img
+                                src="https://cdn.youmed.vn/wp-content/themes/youmed/images/facebook.svg" width="24"
+                                height="24" loading="lazy" alt="Facebook"></noscript>
+                    </a>
+                </li>
+                <li>
+                    <a href="" target="_blank">
+                        <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg" width="24"
+                            height="24" alt="YouTube"
+                            data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg"
+                            data-ll-status="loaded" class="entered lazyloaded"><noscript><img
+                                src="https://cdn.youmed.vn/wp-content/themes/youmed/images/youtube.svg" width="24"
+                                height="24" loading="lazy" alt="YouTube"></noscript>
+                    </a>
+                </li>
+                <li>
+                    <a href="" target="_blank">
+                        <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg" width="24"
+                            height="24" alt="Linkedin"
+                            data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg"
+                            data-ll-status="loaded" class="entered lazyloaded"><noscript><img
+                                src="https://cdn.youmed.vn/wp-content/themes/youmed/images/linkedin.svg" width="24"
+                                height="24" loading="lazy" alt="Linkedin"></noscript>
+                    </a>
+                </li>
+                <li>
+                    <a href="" target="_blank">
+                        <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg" width="36" height="16"
+                            alt="Zalo" data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg"
+                            data-ll-status="loaded" class="entered lazyloaded"><noscript><img
+                                src="https://cdn.youmed.vn/wp-content/themes/youmed/images/zalo.svg" width="36"
+                                height="16" loading="lazy" alt="Zalo"></noscript>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-span-12 md:col-span-8 px-4 py-6 md:p-6">
+            <ul class="flex space-x-4 items-center justify-center md:justify-end">
+                <li>
+                    <a href="" target="_blank" title="Đã đăng ký Bộ Công Thương">
+                        <img src="https://cdn.youmed.vn/wp-content/themes/youmed/images/dadangky.svg" width="79"
+                            height="30" alt="Đã đăng ký Bộ Công Thương"
+                            data-lazy-src="https://cdn.youmed.vn/wp-content/themes/youmed/images/dadangky.svg"
+                            data-ll-status="loaded" class="entered lazyloaded"><noscript><img src="" width="79"
+                                height="30" loading="lazy" alt="Đã đăng ký Bộ Công Thương" /></noscript>
+                    </a>
+                </li>
+                <li>
+                    <a href="" target="_blank" title="DMCA.com Protection Status. Click to verify.">
+                        <img src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
+                            width="60" height="30" alt="DMCA.com Protection Status. Click to verify."
+                            data-lazy-src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
+                            data-ll-status="loaded" class="entered lazyloaded"><noscript><img
+                                src="https://images.dmca.com/Badges/dmca-badge-w250-2x1-04.png?ID=a74b3497-ddcd-4860-89c3-fce83c39f12a"
+                                loading="lazy" width="60" height="30"
+                                alt="DMCA.com Protection Status. Click to verify." /></noscript>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="max-w-7xl text-xs text-center mx-auto md:border-t border-slate-100 py-6 px-4">
+        <p>
+            Các thông tin trên YouMed chỉ dành cho mục đích tham khảo, tra cứu và
+            không thay thế cho việc chẩn đoán hoặc điều trị y khoa.<br class="hidden lg:block">
+            Cần tuyệt đối tuân theo hướng dẫn của Bác sĩ và Nhân viên y tế.
+        </p>
+        <p class="mt-1">
+            Copyright © 2018 - 2025 Công ty TNHH YouMed Việt Nam.
+        </p>
+    </div>
+</footer>
+<script src="user-booking.js"></script>
 
 </body>
+
 </html>

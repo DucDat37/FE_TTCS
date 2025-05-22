@@ -3,7 +3,7 @@ const API_BASE_URL = "http://localhost:5000/api";
 const USERS_API = `${API_BASE_URL}/users`;
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     checkLoginStatus();
     loadBookings();
 });
@@ -32,9 +32,9 @@ async function fetchBookings(page = 1) {
         if (data.isError) {
             throw new Error(data.message);
         }
-console.log(data)
+        console.log(data)
         return data.data;
-        
+
     } catch (error) {
         toast.error('Lỗi', error.message);
         return null;
@@ -56,16 +56,14 @@ function updateBookingsTable(bookings) {
             <td class="py-3 px-4">${booking.timeSlot.endDate}</td>
             <td class="py-3 px-4">${booking.service.name}</td>
             <td class="py-3 px-4">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    booking.status 
-                    ? 'bg-green-100 text-green-800' 
-                    : 'bg-yellow-100 text-yellow-800'
-                }">
-                    <span class="w-2 h-2 mr-1.5 rounded-full ${
-                        booking.status 
-                        ? 'bg-green-400' 
-                        : 'bg-yellow-400'
-                    }"></span>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${booking.status
+                ? 'bg-green-100 text-green-800'
+                : 'bg-yellow-100 text-yellow-800'
+            }">
+                    <span class="w-2 h-2 mr-1.5 rounded-full ${booking.status
+                ? 'bg-green-400'
+                : 'bg-yellow-400'
+            }"></span>
                     ${booking.status ? 'Đã xác nhận' : 'Chờ xác nhận'}
                 </span>
             </td>
@@ -100,7 +98,7 @@ function updatePagination(total, currentPage) {
     // Page numbers
     let startPage = Math.max(1, currentPage - 2);
     let endPage = Math.min(totalPages, startPage + 4);
-    
+
     if (endPage - startPage < 4) {
         startPage = Math.max(1, endPage - 4);
     }
@@ -179,14 +177,14 @@ function applyFilters() {
 
     // Apply status filter
     if (statusFilter !== '') {
-        filteredBookings = filteredBookings.filter(booking => 
+        filteredBookings = filteredBookings.filter(booking =>
             booking.status.toString() === statusFilter
         );
     }
 
     // Apply search filter
     if (searchTerm) {
-        filteredBookings = filteredBookings.filter(booking => 
+        filteredBookings = filteredBookings.filter(booking =>
             booking.code.toLowerCase().includes(searchTerm) ||
             booking.timeSlot.doctor.userName.toLowerCase().includes(searchTerm) ||
             booking.patient.userName.toLowerCase().includes(searchTerm) ||
@@ -222,22 +220,20 @@ async function viewBooking(id) {
 
         // Update modal content
         document.getElementById('detailCode').textContent = booking.code;
-        
+
         // Update status badge
         const statusElement = document.getElementById('detailStatus');
         statusElement.style.position = 'relative';  // hoặc 'absolute' nếu cần
         statusElement.style.zIndex = '10000';
         statusElement.innerHTML = `
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                booking.status 
-                ? 'bg-green-100 text-green-800' 
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${booking.status
+                ? 'bg-green-100 text-green-800'
                 : 'bg-yellow-100 text-yellow-800'
             }">
-                <span class="w-2 h-2 mr-1.5 rounded-full ${
-                    booking.status 
-                    ? 'bg-green-400' 
-                    : 'bg-yellow-400'
-                }"></span>
+                <span class="w-2 h-2 mr-1.5 rounded-full ${booking.status
+                ? 'bg-green-400'
+                : 'bg-yellow-400'
+            }"></span>
                 ${booking.status ? 'Đã xác nhận' : 'Chờ xác nhận'}
             </span>
         `;
@@ -261,6 +257,7 @@ async function viewBooking(id) {
 
         // Show modal
         document.getElementById('detailBookingModal').classList.remove('hidden');
+
     } catch (error) {
         toast.error('Lỗi', error.message);
     }
@@ -272,7 +269,7 @@ function closeDetailBookingModal() {
 }
 
 // Search functionality
-document.getElementById('searchInput').addEventListener('input', debounce(function() {
+document.getElementById('searchInput').addEventListener('input', debounce(function () {
     applyFilters();
 }, 300));
 
@@ -299,7 +296,7 @@ function debounce(func, wait) {
 }
 
 // Search functionality
-document.getElementById('searchInput').addEventListener('input', debounce(function() {
+document.getElementById('searchInput').addEventListener('input', debounce(function () {
     applyFilters();
 }, 300));
 
@@ -317,14 +314,14 @@ document.getElementById('statusFilter').addEventListener('change', () => {
 function checkLoginStatus() {
     const token = localStorage.getItem('access_token');
     const userData = getUserDataFromStorage();
-    
+
     if (!token || !userData) {
         window.location.href = 'index.html';
         return;
     }
     updateUserInfoInHeader(userData);
 
-   if (userData.role === "Admin") {
+    if (userData.role === "Admin") {
         document.getElementById('adminPage').classList.remove('hidden');
     }
 }
@@ -343,11 +340,11 @@ function getUserDataFromStorage() {
 function updateUserInfoInHeader(userData) {
     const userNameElement = document.getElementById('userName');
     const userAvatarElement = document.getElementById('userAvatar');
-    
+
     if (userNameElement && userData.userName) {
         userNameElement.textContent = userData.userName;
     }
-    
+
     if (userAvatarElement && userData.img) {
         userAvatarElement.src = userData.img;
     }
@@ -357,11 +354,11 @@ function updateUserInfoInHeader(userData) {
 // Hiển thị thông báo
 function showToast(message, type = 'success') {
     const toastContainer = document.getElementById('toastContainer');
-    
+
     // Tạo toast
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    
+
     // Xác định icon theo loại thông báo
     let icon = '';
     switch (type) {
@@ -374,7 +371,7 @@ function showToast(message, type = 'success') {
         default:
             icon = 'fas fa-info-circle';
     }
-    
+
     // Tạo nội dung toast
     toast.innerHTML = `
         <span class="toast-icon">
@@ -385,10 +382,10 @@ function showToast(message, type = 'success') {
             <i class="fas fa-times"></i>
         </span>
     `;
-    
+
     // Thêm toast vào container
     toastContainer.appendChild(toast);
-    
+
     // Tự động xóa toast sau 5 giây
     setTimeout(() => {
         toast.remove();
@@ -409,10 +406,10 @@ function toggleDropdown() {
 }
 
 // Bắt sự kiện click ra ngoài để đóng dropdown
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     const dropdown = document.getElementById('userDropdown');
     const menu = document.getElementById('userDropdownMenu');
-    
+
     if (dropdown && menu && !dropdown.contains(event.target) && !menu.classList.contains('hidden')) {
         menu.classList.add('hidden');
     }

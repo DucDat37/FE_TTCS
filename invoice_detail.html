@@ -1,99 +1,159 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <title>Hóa Đơn Thanh Toán</title>
   <style>
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+
     body {
-      font-family: 'Times New Roman', Times, serif, sans-serif;
-      margin: 40px;
+      font-family: 'Times New Roman', Times, serif;
       background-color: #f8f8f8;
     }
+
     .invoice {
-      background: #fff;
-      padding: 30px;
-      max-width: 800px;
+      width: 210mm;
+      min-height: 297mm;
+      padding: 10mm;
       margin: auto;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: #fff;
+      border-radius: 0;
+      box-shadow: none;
+      box-sizing: border-box;
     }
-    h1, h2 {
+
+    /* Chỉ hiển thị khi không in */
+    @media print {
+      .print-btn {
+        display: none !important;
+      }
+
+      body {
+        background: white;
+        margin: 0;
+        padding: 0;
+      }
+
+      .invoice {
+        box-shadow: none;
+        border-radius: 0;
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    h1,
+    h2 {
       text-align: center;
+      margin-bottom: 10px;
     }
+
     h3 {
       text-align: center;
       font-weight: normal;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
+
     .info {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
+
     .info-section {
       flex: 1;
-      padding: 0 10px;
+      padding: 0 0px;
+      padding-bottom: 3px;
     }
+
     .info-section-title {
       font-weight: bold;
-      margin-bottom: 5px;
+      margin-bottom: 0px;
       border-bottom: 1px solid #ddd;
-      padding-bottom: 5px;
+      padding-bottom: 1px;
     }
+
     table {
-      width: 100%;
+      width: 90%;
       border-collapse: collapse;
-      margin-bottom: 20px;
+      margin: auto;
+      margin-bottom: 6px;
     }
-    table th, table td {
+
+    table th,
+    table td {
       border: 1px solid #ddd;
-      padding: 10px;
+      padding: 5px;
       text-align: center;
     }
+
     table th {
       background-color: #f0f0f0;
     }
+
     .total {
-      width: 350px;              
-      margin-left: auto;         
-      margin-right: 0;           
+      width: 350px;
+      margin-left: auto;
+      margin-right: 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
     }
+
     .total-row {
       display: flex;
-      gap: 20px;
+      gap: 15px;
     }
-    .total-label, .total-value {
+
+    .total-label,
+    .total-value {
       text-align: left;
       font-weight: normal;
     }
+
     .total-label {
       width: 150px;
     }
+
     .total-value {
       width: 200px;
       font-weight: bold;
     }
+
     .signature {
       display: flex;
       justify-content: space-between;
-      margin-top: 40px;
+      margin-top: 5px;
     }
+
     .signature div {
       text-align: center;
-      width: 30%;
+      width: 50%;
     }
+
     .signature-line {
       border-top: 1px solid #000;
       width: 80%;
       margin: 0 auto;
       padding-top: 5px;
     }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      /* Khoảng cách giữa 2 nút */
+      margin: 20px 0;
+    }
+
     .print-btn {
-      display: block;
-      margin: 20px auto;
+      display: inline-block;
       padding: 10px 20px;
       background-color: #4CAF50;
       color: white;
@@ -102,15 +162,18 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     .print-btn:hover {
       background-color: #45a049;
     }
+
     .time-slot {
       background-color: #f9f9f9;
       padding: 10px;
       border-radius: 5px;
       margin-bottom: 15px;
     }
+
     .time-slot-title {
       font-weight: bold;
       margin-bottom: 5px;
@@ -123,14 +186,14 @@
   <div class="invoice">
     <h2>Bệnh viện đa khoa YOUMED</h2>
     <h3>Số 1 Văn Quán, Hà Đông, Hà Nội<br>Hotline: 0988.988.988</h3>
-    
+
     <div style="text-align: right; margin-bottom: 20px;">
       <p><strong>Mã hóa đơn:</strong> <span id="invoice-id">HD123456</span></p>
       <p><strong>Ngày lập:</strong> <span id="invoice-date">24/04/2025 15:45:12</span></p>
     </div>
-    
+
     <h1>HÓA ĐƠN THANH TOÁN DỊCH VỤ Y TẾ</h1>
-    
+
     <div class="info">
       <div class="info-section">
         <div class="info-section-title">THÔNG TIN BỆNH NHÂN</div>
@@ -138,21 +201,21 @@
         <p><strong>Mã:</strong> <span id="patient-id">PT123</span></p>
         <p><strong>Điện thoại:</strong> <span id="patient-phone">0123 456 789</span></p>
       </div>
-      
+
       <div class="info-section">
         <div class="info-section-title">THÔNG TIN BÁC SĨ</div>
         <p><strong>Bác sĩ:</strong> <span id="doctor-name">BS. Trần Văn B</span></p>
         <p><strong>Số Điện thoại:</strong> <span id="doctor-phone">0987 654 321</span></p>
       </div>
     </div>
-    
+
     <div class="info">
       <div class="info-section">
         <div class="info-section-title">THÔNG TIN CUỘC HẸN</div>
         <p><strong>Ngày khám:</strong> <span id="appointment-date">24/04/2025</span></p>
         <p><strong>Trạng thái:</strong> <span id="appointment-status">Hoàn thành</span></p>
       </div>
-      
+
       <div class="info-section">
         <div class="info-section-title">THÔNG TIN CA KHÁM</div>
         <div class="time-slot">
@@ -161,7 +224,7 @@
         </div>
       </div>
     </div>
-    
+
     <table id="service-table">
       <tr>
         <th>STT</th>
@@ -172,7 +235,7 @@
       </tr>
 
     </table>
-    
+
     <div class="total">
       <div class="total-row">
         <div class="total-label">Tổng tiền dịch vụ:</div>
@@ -191,11 +254,11 @@
         <div class="total-value"><span id="invoice-status">Đã thanh toán</span></div>
       </div>
     </div>
-    
+
     <div style="margin-top: 20px; text-align: left;">
       <strong>Ghi chú:</strong> <span id="invoice-note">Thanh toán đầy đủ</span>
     </div>
-    
+
     <div class="signature">
       <div>
         <p>NGƯỜI LẬP HÓA ĐƠN</p>
@@ -209,15 +272,18 @@
         <div class="signature-line"></div>
       </div>
     </div>
-    
+
     <div style="text-align: center; margin-top: 30px; font-style: italic;">
       <p>Cảm ơn quý khách đã sử dụng dịch vụ của chúng tôi!</p>
       <p>Mọi thắc mắc vui lòng liên hệ hotline: 0988.988.988</p>
     </div>
   </div>
-  
-  <button class="print-btn" onclick="downloadPDF()">Xuất PDF</button>
+  <div class="button-group">
+    <button class="print-btn" onclick="printInvoice()">In hóa đơn</button>
+    <button class="print-btn" onclick="exportToPDF()">Xuất PDF</button>
+  </div>
   <script src="invoice_detail.js"></script>
   <script src="toast.js"></script>
 </body>
+
 </html>
