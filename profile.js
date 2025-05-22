@@ -472,4 +472,209 @@ document.addEventListener('click', function(event) {
     if (dropdown && menu && !dropdown.contains(event.target) && !menu.classList.contains('hidden')) {
         menu.classList.add('hidden');
     }
+});
+
+// Xử lý form đổi mật khẩu
+document.addEventListener('DOMContentLoaded', function() {
+    const changePasswordForm = document.getElementById('changePasswordForm');
+    const sendOtpBtn = document.getElementById('sendOtpBtn');
+    const emailInput = document.getElementById('changePasswordEmail');
+    const otpInput = document.getElementById('otpCode');
+    const newPasswordInput = document.getElementById('newPassword');
+    const confirmPasswordInput = document.getElementById('confirmNewPassword');
+    const passwordWarning = document.getElementById('passwordWarning');
+    const confirmPasswordWarning = document.getElementById('confirmPasswordWarning');
+
+    // Xử lý gửi OTP
+    sendOtpBtn.addEventListener('click', async function() {
+        const email = emailInput.value.trim();
+        if (!email) {
+            showToast('Vui lòng nhập email', 'error');
+            return;
+        }
+
+        // Hiển thị trạng thái loading
+        const originalText = sendOtpBtn.textContent;
+        sendOtpBtn.textContent = 'Đang gửi...';
+        sendOtpBtn.disabled = true;
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/auth/send-email-reset-password?email=${encodeURIComponent(email)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.isError === false && data.statusCode === 200) {
+                showToast(data.message, 'success');
+                otpInput.focus();
+            } else {
+                showToast(data.message || 'Không thể gửi OTP', 'error');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('Đã xảy ra lỗi khi gửi OTP', 'error');
+        } finally {
+            // Khôi phục trạng thái nút
+            sendOtpBtn.textContent = originalText;
+            sendOtpBtn.disabled = false;
+        }
+    });
+
+    // Kiểm tra mật khẩu khi nhập
+    newPasswordInput.addEventListener('input', function() {
+        if (this.value.length < 6) {
+            passwordWarning.classList.remove('hidden');
+        } else {
+            passwordWarning.classList.add('hidden');
+        }
+        checkPasswordsMatch();
+    });
+
+    // Kiểm tra mật khẩu khớp nhau
+    confirmPasswordInput.addEventListener('input', checkPasswordsMatch);
+
+    function checkPasswordsMatch() {
+        if (newPasswordInput.value && confirmPasswordInput.value) {
+            if (newPasswordInput.value !== confirmPasswordInput.value) {
+                confirmPasswordWarning.classList.remove('hidden');
+            } else {
+                confirmPasswordWarning.classList.add('hidden');
+            }
+        }
+    }
+
+    // Xử lý submit form
+    changePasswordForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const email = emailInput.value.trim();
+        const otp = otpInput.value.trim();
+        const newPassword = newPasswordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        // Kiểm tra dữ liệu
+        if (!email || !otp || !newPassword || !confirmPassword) {
+            showToast('Vui lòng điền đầy đủ thông tin', 'error');
+            return;
+        }
+
+        if (newPassword.length < 6) {
+            showToast('Mật khẩu phải có ít nhất 6 ký tự', 'error');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            showToast('Mật khẩu không khớp', 'error');
+            return;
+        }
+
+        // Hiển thị trạng thái loading
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Đang xử lý...';
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/change-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                },
+                body: JSON.stringify({
+                    email,
+                    code: otp,
+                    password: newPassword,
+                    confirmPassword
+                })
+            });
+
+            const data = await response.json();
+
+            if (!data.isError) {
+                showToast('Đổi mật khẩu thành công!', 'success');
+                // Reset form
+                changePasswordForm.reset();
+                // Đóng modal
+                closeChangePasswordModal();
+            } else {
+                let errorMessage = data.message;
+                if (data.errors && data.errors.length > 0) {
+                    errorMessage += ':\n';
+                    data.errors.forEach(err => {
+                        errorMessage += `- ${err.message}\n`;
+                    });
+                }
+                showToast(errorMessage, 'error');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('Đã xảy ra lỗi khi đổi mật khẩu', 'error');
+        } finally {
+            // Khôi phục trạng thái nút
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+});
+
+// Xử lý mở/đóng modal đổi mật khẩu
+function openChangePasswordModal() {
+    const modal = document.getElementById('changePassword');
+    const mainContent = document.querySelector('.profile-container');
+    
+    modal.classList.remove('hidden');
+    // Thêm một overlay mới để làm mờ nền
+    const overlay = document.createElement('div');
+    overlay.id = 'modalOverlay';
+    overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-40';
+    document.body.appendChild(overlay);
+    
+    // Focus vào ô email khi mở modal
+    document.getElementById('changePasswordEmail').focus();
+}
+
+function closeChangePasswordModal() {
+    const modal = document.getElementById('changePassword');
+    const overlay = document.getElementById('modalOverlay');
+    
+    modal.classList.add('hidden');
+    if (overlay) {
+        overlay.remove();
+    }
+    
+    // Reset form khi đóng modal
+    document.getElementById('changePasswordForm').reset();
+    document.getElementById('passwordWarning').classList.add('hidden');
+    document.getElementById('confirmPasswordWarning').classList.add('hidden');
+}
+
+// Thêm event listener cho nút đổi mật khẩu
+document.addEventListener('DOMContentLoaded', function() {
+    const changePasswordLink = document.querySelector('a[href="#changePassword"]');
+    if (changePasswordLink) {
+        changePasswordLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            openChangePasswordModal();
+        });
+    }
+    
+    // Đóng modal khi click ra ngoài
+    const modal = document.getElementById('changePassword');
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeChangePasswordModal();
+        }
+    });
+    
+    // Đóng modal khi nhấn ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeChangePasswordModal();
+        }
+    });
 }); 
