@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Lịch sử khám bệnh - YouMed</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link rel="website icon" type="png" href="hospital-logo.png">
     <link rel="stylesheet" href="index.css">
     <style>
-        .main-content { 
+        .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            margin-right: 240px; /* Adjusted to prevent overlap with sidebar */
             padding: 20px;
             padding-top: 120px;
         }
-        
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
         .profile-header {
             background-color: #4a90e2;
             color: white;
             padding: 12px 16px;
             border-radius: 8px 8px 0 0;
         }
+
         .form-group {
             margin-bottom: 16px;
         }
+
         .form-control {
             width: 100%;
             padding: 10px;
@@ -33,11 +42,13 @@
             border-radius: 4px;
             transition: border-color 0.2s;
         }
+
         .form-control:focus {
             border-color: #4a90e2;
             outline: none;
             box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
         }
+
         .btn-primary {
             background-color: #4a90e2;
             color: white;
@@ -47,9 +58,11 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
+
         .btn-primary:hover {
             background-color: #3a7bc8;
         }
+
         .btn-secondary {
             background-color: #718096;
             color: white;
@@ -59,19 +72,22 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
+
         .btn-secondary:hover {
             background-color: #4a5568;
         }
+
         .toast-container {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 1000;
         }
+
         .toast {
             background-color: white;
             border-left: 4px solid;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             padding: 16px;
             margin-bottom: 16px;
             border-radius: 4px;
@@ -81,59 +97,73 @@
             max-width: 400px;
             animation: slideIn 0.3s, fadeOut 0.5s 2.5s forwards;
         }
+
         .toast-success {
             border-left-color: #48bb78;
         }
+
         .toast-error {
             border-left-color: #f56565;
         }
+
         .toast-icon {
             margin-right: 12px;
             font-size: 20px;
         }
+
         .toast-success .toast-icon {
             color: #48bb78;
         }
+
         .toast-error .toast-icon {
             color: #f56565;
         }
+
         .toast-content {
             flex: 1;
         }
+
         .toast-close {
             cursor: pointer;
             font-size: 16px;
             color: #a0aec0;
         }
+
         @keyframes slideIn {
             from {
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
             }
         }
+
         @keyframes fadeOut {
             from {
                 opacity: 1;
             }
+
             to {
                 opacity: 0;
             }
         }
+
         /* Compact table styling */
         .compact-table th,
         .compact-table td {
             padding: 8px 12px;
             font-size: 0.875rem;
         }
+
         /* Blue background for table headers */
         .compact-table th {
             background-color: #4a90e2;
             color: white;
         }
+
         /* Header styling */
         .header {
             position: fixed;
@@ -142,33 +172,43 @@
             width: 100%;
             background-color: #f7fafc;
             padding: 10px 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 100;
+            height: 100px;
         }
+
         .header .flex {
             max-width: 1200px;
             margin: 0 auto;
         }
+
         /* Sidebar styling */
         .sidebar {
-            position: fixed;
-            top: 120px; /* Align below header */
-            right: 20px;
+            position: relative;
+            top: 120px;
+            margin: 0;
+            /* Tăng top để sidebar nằm dưới header (60px header + khoảng cách nhỏ) */
+            align-self: flex-start;
             width: 200px;
             background-color: #f7fafc;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             padding: 16px;
-            z-index: 99; /* Below header but above content */
+            height: fit-content;
+
+            /* Below header but above content */
         }
+
         .sidebar ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
+
         .sidebar li {
             margin-bottom: 8px;
         }
+
         .sidebar a {
             display: block;
             padding: 10px 12px;
@@ -177,38 +217,53 @@
             border-radius: 4px;
             transition: background-color 0.2s, color 0.2s;
         }
+
+        .sidebar a.active {
+            background-color: #4a90e2;
+            color: white;
+        }
+
         .sidebar a:hover {
             background-color: #4a90e2;
             color: white;
         }
+
         .sidebar a i {
             margin-right: 8px;
         }
+
         /* Responsive adjustment for smaller screens */
         @media (max-width: 768px) {
             .sidebar {
                 display: none;
             }
+
             .main-content {
-                margin-right: 20px; /* Reset margin on small screens */
+                margin-right: 20px;
+                /* Reset margin on small screens */
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header mx-auto">
         <div class="flex items-center justify-between">
             <img alt="YouMed logo" class="h-11" src="hospital-logo.png" />
             <a href="index.html">
-                <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg" alt="YouMed">
+                <img width="118" height="25" src="https://cdn.youmed.vn/wp-content/themes/youmed/images/logo.svg"
+                    alt="YouMed">
             </a>
         </div>
         <nav class="flex items-center justify-between">
             <div class="flex space-x-2 pr-4">
-                <a href="all-doctors.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt khám</a>
-                <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn trực tuyến</a>
-                <a href="recruitment.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển dụng</a>
+                <a href="all-doctors.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Đặt
+                    khám</a>
+                <a href="consultation.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tư vấn
+                    trực tuyến</a>
+                <a href="recruitment.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tuyển
+                    dụng</a>
                 <a href="#" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Tin Y tế</a>
                 <a href="contact.html" class="hover:text-blue-500 hover:bg-gray-100 px-4 py-2 rounded-md">Liên hệ</a>
             </div>
@@ -249,58 +304,63 @@
             </div>
         </nav>
     </header>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- History Table -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold">Danh sách lịch sử khám bệnh</h3>
-                <div class="relative">
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm..." class="border rounded-lg px-4 py-2 pl-10 w-64">
-                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+    <div class="container">
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- History Table -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">Danh sách lịch sử khám bệnh</h3>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm..."
+                            class="border rounded-lg px-4 py-2 pl-10 w-64">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="overflow-x-auto">
-                <div id="loadingSpinner" class="hidden flex justify-center items-center py-8">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <div class="overflow-x-auto">
+                    <div id="loadingSpinner" class="hidden flex justify-center items-center py-8">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                    </div>
+                    <table class="min-w-full compact-table">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-xs font-medium uppercase tracking-wider">Mã lịch hẹn</th>
+                                <th class="text-center text-xs font-medium uppercase tracking-wider">Trạng thái</th>
+                                <th class="text-center text-xs font-medium uppercase tracking-wider">Mã bệnh án</th>
+                                <th class="text-center text-xs font-medium uppercase tracking-wider">Bác sĩ</th>
+                                <th class="text-center text-xs font-medium uppercase tracking-wider">Chuẩn đoán</th>
+                                <th class="text-center text-xs font-medium uppercase tracking-wider"
+                                    style="max-width: 150px; width: 150px;">Kê đơn thuốc</th>
+                                <th class="text-center text-xs font-medium uppercase tracking-wider"
+                                    style="max-width: 150px; width: 150px;">Ghi chú</th>
+                                <th class="text-center text-xs font-medium uppercase tracking-wider">Ngày tạo</th>
+                                <th class="text-center text-xs font-medium uppercase tracking-wider">Hóa đơn</th>
+                                <th class="text-center text-xs font-medium uppercase tracking-wider">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody" class="bg-white divide-y divide-gray-200">
+                            <!-- Data will be populated here -->
+                        </tbody>
+                    </table>
                 </div>
-                <table class="min-w-full compact-table">
-                    <thead>
-                        <tr>
-                            <th class="text-center text-xs font-medium uppercase tracking-wider">Mã lịch hẹn</th>
-                            <th class="text-center text-xs font-medium uppercase tracking-wider">Trạng thái</th>
-                            <th class="text-center text-xs font-medium uppercase tracking-wider">Mã bệnh án</th>
-                            <th class="text-center text-xs font-medium uppercase tracking-wider">Bác sĩ</th>
-                            <th class="text-center text-xs font-medium uppercase tracking-wider">Chuẩn đoán</th>
-                            <th class="text-center text-xs font-medium uppercase tracking-wider" style="max-width: 150px; width: 150px;">Kê đơn thuốc</th>
-                            <th class="text-center text-xs font-medium uppercase tracking-wider" style="max-width: 150px; width: 150px;">Ghi chú</th>
-                            <th class="text-center text-xs font-medium uppercase tracking-wider">Ngày tạo</th>
-                            <th class="text-center text-xs font-medium uppercase tracking-wider">Hóa đơn</th>
-                            <th class="text-center text-xs font-medium uppercase tracking-wider">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody id="historyTableBody" class="bg-white divide-y divide-gray-200">
-                        <!-- Data will be populated here -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="flex justify-between items-center mt-4">
-                <div class="text-sm text-gray-500">Hiển thị <span id="currentDisplayed">0</span> / <span id="totalAppoinments">0</span> lịch hẹn</div>
-                <div class="flex space-x-1" id="pagination">
-                    <!-- Pagination will be generated here -->
+                <div class="flex justify-between items-center mt-4">
+                    <div class="text-sm text-gray-500">Hiển thị <span id="currentDisplayed">0</span> / <span
+                            id="totalAppoinments">0</span> lịch hẹn</div>
+                    <div class="flex space-x-1" id="pagination">
+                        <!-- Pagination will be generated here -->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <ul>
-            <li><a href="profile.html"><i class="fas fa-user"></i>Thông tin cá nhân</a></li>
-            <li><a href="user-booking.html"><i class="fas fa-calendar-check"></i>Quản lý lịch hẹn</a></li>
-            <li><a href="user-record.html"><i class="fas fa-history"></i>Lịch sử khám bệnh </a></li>
-        </ul>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <ul>
+                <li><a href="profile.html"><i class="fas fa-user"></i>Thông tin cá nhân</a></li>
+                <li><a href="user-booking.html"><i class="fas fa-calendar-check"></i>Quản lý lịch hẹn</a></li>
+                <li><a href="user-record.html" class="active"><i class="fas fa-history"></i>Lịch sử khám bệnh </a></li>
+            </ul>
+        </div>
     </div>
     <div class="toast-container" id="toastContainer"></div>
     <div class="mb-60"></div>
@@ -477,4 +537,5 @@
     </footer>
     <script src="user-record.js"></script>
 </body>
+
 </html>
