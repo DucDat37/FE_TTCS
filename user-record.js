@@ -49,7 +49,6 @@ function updateappointmentsTable(appointments) {
         row.innerHTML = `
             <td class="py-3 px-4">${appointment.code}</td>
             <td class="py-3 px-4">${appointment.status}</td>
-            <td class="py-3 px-4">${appointment.record.code|| '---'}</td>
             <td class="py-3 px-4">${appointment.record.doctor.userName|| '---'}</td>
             <td class="py-3 px-4">${appointment.record.diagnosis|| '---'}</td>
             <td class="py-3 px-4">${appointment.record.prescription|| '---'}</td>
