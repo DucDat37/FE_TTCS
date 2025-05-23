@@ -345,7 +345,69 @@ async function fetchTimeSlots() {
         toggleLoading(false);
     }
 }
+// Function to open add modal
+function openAddWeekWeekModal() {
+    const selectedDoctor = document.getElementById("doctorSelect").value;
+    if (!selectedDoctor) {
+        toast.warning("Vui lòng chọn bác sĩ trước.");
+        return;
+    }
+    document.getElementById("doctorSelectWeek").value = selectedDoctor;
+    document.getElementById('addWeekModal').style.display = 'block';
+}
 
+// Function to close add modal
+function closeAddWeekModal() {
+    document.getElementById('addWeekModal').style.display = 'none';
+}
+async function submitDefaultWeekSchedule() {
+    const doctorId = document.getElementById('doctorSelectWeek').value;
+    const startDayRaw = document.getElementById('startDayWeek').value;
+    if (!startDayRaw) {
+        toast.warning("Vui lòng chọn đầy đủ thông tin.");
+        return;
+    }
+    const startDayParts = startDayRaw.split('-');
+    const startDay = `${startDayParts[2]}/${startDayParts[1]}/${startDayParts[0]}`;
+    try {
+        const response = await fetch('http://localhost:5000/api/timeSlot/createDefaultTimeSlotForWeek', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+            },
+            body: JSON.stringify({
+                doctorId: doctorId,
+                startDay: startDay
+            })
+        });
+        if (response.status === 401) {
+            handleLogout();
+            return;
+        }
+
+        const data = await response.json();
+
+        if (response.ok) {
+            toast.success(data.message); // Thông báo chung
+            if (Array.isArray(data.data.results)) {
+                data.data.results.forEach(item => {
+                    if (item.success) {
+                        toast.success(`${item.day}: ${item.message}`);
+                    } else {
+                        toast.warning(`${item.day}: ${item.message}`);
+                    }
+                });
+            }
+        } else {
+            toast.error("Tạo lịch thất bại");
+        }
+        closeAddWeekModal();
+
+    } catch (error) {
+        toast.error(error.message);
+    }
+}
 // Function to open add modal
 function openAddModal() {
     document.getElementById('addModal').style.display = 'block';

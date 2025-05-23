@@ -309,12 +309,41 @@
                         class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
                         Thêm lịch khám mặc định
                     </button>
-                    <button type="button" onclick="closeAddModal()"
-                        class="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-50">
-                        Hủy
+                    <button type="button" onclick="openAddWeekWeekModal()"
+                        class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                        Thêm lịch khám mặc định 7 ngày tới
                     </button>
                     <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                         Thêm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Add 7-day Appointment Modal -->
+    <div id="addWeekModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Tạo lịch khám cho 7 ngày tới</h3>
+                <button onclick="closeAddWeekModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addWeekForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Bác sĩ</label>
+                    <input type="hidden" id="doctorSelectWeek">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Ngày bắt đầu</label>
+                    <input type="date" id="startDayWeek"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                        required>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="submitDefaultWeekSchedule()"
+                        class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                        Xác nhận
                     </button>
                 </div>
             </form>
