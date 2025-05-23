@@ -128,19 +128,25 @@ function displayFeaturedNews(news) {
     // Lấy 2 tin tức đầu tiên làm tin nổi bật
     const featuredItems = news.slice(0, 2);
     
-    featuredContainer.innerHTML = featuredItems.map(item => `
-        <article class="bg-white rounded-lg shadow-md overflow-hidden">
-            <img src="${item.img}" 
-                 alt="${item.name}" 
-                 class="w-full h-64 object-cover">
-            <div class="p-6">
-                <span class="text-blue-500 text-sm font-semibold">${CATEGORIES[item.type] || 'Tin tức'}</span>
-                <h2 class="text-xl font-bold mt-2 mb-3">${item.name}</h2>
-                <p class="text-gray-600 mb-4">${item.description.substring(0, 150)}...</p>
-                <a href="#" class="text-blue-500 font-semibold hover:underline">Đọc thêm →</a>
-            </div>
-        </article>
-    `).join('');
+    featuredContainer.innerHTML = featuredItems.map(item => {
+        // Loại bỏ HTML khỏi description
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = item.description;
+        const plainText = tempDiv.textContent || tempDiv.innerText || '';
+        return `
+            <article class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="${item.img}" 
+                     alt="${item.name}" 
+                     class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <span class="text-blue-500 text-sm font-semibold">${CATEGORIES[item.type] || 'Tin tức'}</span>
+                    <h2 class="text-xl font-bold mt-2 mb-3">${item.name}</h2>
+                    <p class="text-gray-600 mb-4">${plainText.substring(0, 150)}...</p>
+                    <a href="news-detail.html?id=${item.id}" class="text-blue-500 font-semibold hover:underline">Đọc thêm →</a>
+                </div>
+            </article>
+        `;
+    }).join('');
 }
 
 // Hiển thị tin tức
@@ -167,35 +173,63 @@ function displayNews(news) {
         return;
     }
 
-    // Render từng hàng 3 bài
-    for (let i = 0; i < filteredNews.length; i += 3) {
-        const rowNews = filteredNews.slice(i, i + 3);
-        const row = document.createElement('div');
-        row.className = 'flex gap-6 mb-6';
+    // Tạo container chính với grid layout
+    const gridContainer = document.createElement('div');
+    gridContainer.className = 'grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch';
 
-        rowNews.forEach(item => {
-            const newsCard = `
-                <a href="news-detail.html?id=${item.id}" class="flex-1 flex flex-col hover:shadow-lg transition-shadow duration-200">
-                    <article class="bg-white rounded-lg shadow-md overflow-hidden flex-1 flex flex-col h-full cursor-pointer">
-                        <img src="${item.img}" alt="${item.name}" class="w-full h-48 object-cover">
-                        <div class="p-4 flex flex-col h-full">
-                            <span class="text-blue-500 text-sm font-semibold">${CATEGORIES[item.type] || 'Tin tức'}</span>
-                            <h3 class="text-lg font-bold mt-2 mb-2">${item.name}</h3>
-                            <p class="text-gray-600 text-sm mb-3 flex-grow">${item.description.substring(0, 150)}...</p>
-                            <div class="flex items-center text-sm text-gray-500 mt-auto">
-                                <span>${item.createdAt}</span>
-                                <span class="mx-2">•</span>
-                                <span>${item.user.userName}</span>
-                            </div>
-                        </div>
-                    </article>
-                </a>
-            `;
-            row.innerHTML += newsCard;
-        });
+    // Thêm từng bài đăng vào grid
+    filteredNews.forEach(item => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'h-full';
 
-        newsContainer.appendChild(row);
-    }
+        const link = document.createElement('a');
+        link.href = `news-detail.html?id=${item.id}`;
+        link.className = 'block h-full hover:shadow-lg transition-shadow duration-200';
+
+        const article = document.createElement('article');
+        article.className = 'bg-white rounded-lg shadow-md overflow-hidden h-full flex flex-col';
+
+        const img = document.createElement('img');
+        img.src = item.img;
+        img.alt = item.name;
+        img.className = 'w-full h-48 object-cover';
+
+        const content = document.createElement('div');
+        content.className = 'p-4 flex flex-col flex-1';
+
+        const category = document.createElement('span');
+        category.className = 'text-blue-500 text-sm font-semibold';
+        category.textContent = CATEGORIES[item.type] || 'Tin tức';
+
+        const title = document.createElement('h3');
+        title.className = 'text-lg font-bold mt-2 mb-2';
+        title.textContent = item.name;
+
+        const desc = document.createElement('p');
+        desc.className = 'text-gray-600 text-sm mb-3 flex-1';
+        // Tạo một thẻ tạm để loại bỏ HTML
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = item.description;
+        const plainText = tempDiv.textContent || tempDiv.innerText || '';
+        desc.textContent = plainText.substring(0, 150) + '...';
+
+        const info = document.createElement('div');
+        info.className = 'flex items-center text-sm text-gray-500 mt-auto';
+        info.innerHTML = `<span>${item.createdAt}</span><span class="mx-2">•</span><span>${item.user.userName}</span>`;
+
+        content.appendChild(category);
+        content.appendChild(title);
+        content.appendChild(desc);
+        content.appendChild(info);
+
+        article.appendChild(img);
+        article.appendChild(content);
+        link.appendChild(article);
+        wrapper.appendChild(link);
+        gridContainer.appendChild(wrapper);
+    });
+
+    newsContainer.appendChild(gridContainer);
 }
 
 // Tạo các tab danh mục
