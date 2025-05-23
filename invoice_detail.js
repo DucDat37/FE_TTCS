@@ -109,7 +109,7 @@ async function fetchInvoiceDetail(id) {
 }
 function updateInvoiceUI(invoiceData) {
   // Thông tin chung
-  document.getElementById('invoice-id').textContent = invoiceData.code;
+  document.getElementById('invoice-id').textContent = invoiceData.id;
   document.getElementById('invoice-date').textContent = invoiceData.createdAt;
 
   // Thông tin bệnh nhân
