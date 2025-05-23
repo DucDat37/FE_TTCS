@@ -3,7 +3,7 @@ const API_BASE_URL = "http://localhost:5000/api";
 const USERS_API = `${API_BASE_URL}/users`;
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     checkLoginStatus();
     loadAppointment();
 });
@@ -49,25 +49,33 @@ function updateappointmentsTable(appointments) {
         row.innerHTML = `
             <td class="py-3 px-4">${appointment.code}</td>
             <td class="py-3 px-4">${appointment.status}</td>
-            <td class="py-3 px-4">${appointment.record.code|| '---'}</td>
-            <td class="py-3 px-4">${appointment.record.doctor.userName|| '---'}</td>
-            <td class="py-3 px-4">${appointment.record.diagnosis|| '---'}</td>
-            <td class="py-3 px-4">${appointment.record.prescription|| '---'}</td>
-            <td class="py-3 px-4">${appointment.record.notes|| '---'}</td>
-            <td class="py-3 px-4">${appointment.record.createdAt|| '---'}</td>
-            <td class="py-3 px-4">${appointment.invoice.status|| '---'} </td>
-            <td class="py-3 px-4">
-                <button onclick="viewInvoice('${appointment.invoice.id}')" class="text-blue-500 hover:text-blue-700 mr-2">
-                    <i class="fas fa-eye"></i>
-                </button> </td>
-            
-        `;
+            <td class="py-3 px-4">${appointment.record.code || '---'}</td>
+            <td class="py-3 px-4">${appointment.record.doctor.userName || '---'}</td>
+            <td class="py-3 px-4">${appointment.record.diagnosis || '---'}</td>
+            <td class="py-3 px-4">${appointment.record.prescription || '---'}</td>
+            <td class="py-3 px-4">${appointment.record.notes || '---'}</td>
+            <td class="py-3 px-4">${appointment.record.createdAt || '---'}</td>
+            <td class="py-3 px-4">${appointment.invoice.status || '---'} </td>
+            `;
+
+        // Nếu có invoice thì thêm cột chứa nút xem
+        if (appointment.invoice) {
+            const td = document.createElement('td');
+            td.className = 'py-3 px-4';
+            td.innerHTML = `
+                    <button onclick="viewInvoice('${appointment.invoice.id}')" class="text-blue-500 hover:text-blue-700 mr-2">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                `;
+            row.appendChild(td);
+        }
+
         tableBody.appendChild(row);
     });
-}function viewInvoice(invoiceId) {
+} function viewInvoice(invoiceId) {
     if (invoiceId) {
         window.location.href = `http://127.0.0.1:5501/invoice_detail.html?id=${invoiceId}`;
-    } 
+    }
 }
 
 // Tải danh sách lịch hẹn
@@ -104,7 +112,7 @@ function updatePagination(total, currentPage) {
     // Page numbers
     let startPage = Math.max(1, currentPage - 2);
     let endPage = Math.min(totalPages, startPage + 4);
-    
+
     if (endPage - startPage < 4) {
         startPage = Math.max(1, endPage - 4);
     }
@@ -177,14 +185,14 @@ function getStatusClass(status) {
 function checkLoginStatus() {
     const token = localStorage.getItem('access_token');
     const userData = getUserDataFromStorage();
-    
+
     if (!token || !userData) {
         window.location.href = 'index.html';
         return;
     }
     updateUserInfoInHeader(userData);
 
-   if (userData.role === "Admin") {
+    if (userData.role === "Admin") {
         document.getElementById('adminPage').classList.remove('hidden');
     }
 }
@@ -214,11 +222,11 @@ function getUserDataFromStorage() {
 function updateUserInfoInHeader(userData) {
     const userNameElement = document.getElementById('userName');
     const userAvatarElement = document.getElementById('userAvatar');
-    
+
     if (userNameElement && userData.userName) {
         userNameElement.textContent = userData.userName;
     }
-    
+
     if (userAvatarElement && userData.img) {
         userAvatarElement.src = userData.img;
     }
@@ -228,11 +236,11 @@ function updateUserInfoInHeader(userData) {
 // Hiển thị thông báo
 function showToast(message, type = 'success') {
     const toastContainer = document.getElementById('toastContainer');
-    
+
     // Tạo toast
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    
+
     // Xác định icon theo loại thông báo
     let icon = '';
     switch (type) {
@@ -245,7 +253,7 @@ function showToast(message, type = 'success') {
         default:
             icon = 'fas fa-info-circle';
     }
-    
+
     // Tạo nội dung toast
     toast.innerHTML = `
         <span class="toast-icon">
@@ -256,10 +264,10 @@ function showToast(message, type = 'success') {
             <i class="fas fa-times"></i>
         </span>
     `;
-    
+
     // Thêm toast vào container
     toastContainer.appendChild(toast);
-    
+
     // Tự động xóa toast sau 5 giây
     setTimeout(() => {
         toast.remove();
@@ -280,10 +288,10 @@ function toggleDropdown() {
 }
 
 // Bắt sự kiện click ra ngoài để đóng dropdown
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     const dropdown = document.getElementById('userDropdown');
     const menu = document.getElementById('userDropdownMenu');
-    
+
     if (dropdown && menu && !dropdown.contains(event.target) && !menu.classList.contains('hidden')) {
         menu.classList.add('hidden');
     }
