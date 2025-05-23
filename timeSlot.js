@@ -32,7 +32,7 @@ async function fetchStatistics() {
 
         // Update statistics
         updateStatistics(result.data);
-        
+
         // Update chart
         if (timeSlotChart) {
             timeSlotChart.data.datasets[0].data = result.data.chart.data;
@@ -182,8 +182,8 @@ function renderTableData(filteredData) {
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-center">${formatTimeOnly(slot.startDate)}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-center">${formatTimeOnly(slot.endDate)}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${slot.status ? 'status-confirmed' : 'status-cancelled'}">
-                        ${slot.status ? 'Sẵn sàng' : 'Bị hủy'}
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${slot.status ? 'status-confirmed' : 'status-completed'}">
+                        ${slot.status ? 'Sẵn sàng' : 'Đã được đặt'}
                     </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-center">
@@ -228,13 +228,13 @@ async function populateDoctorSelects() {
         }
 
         const result = await response.json();
-        
+
         if (result.isError) {
             throw new Error(result.message);
         }
 
         // If user is Doctor, filter to show only their record
-        const doctors = isDoctor 
+        const doctors = isDoctor
             ? result.data.doctors.filter(doctor => doctor.userId === currentUserId)
             : result.data.doctors;
 
@@ -286,7 +286,7 @@ async function fetchTimeSlots() {
     try {
         const doctorId = document.getElementById('filterDoctor').value;
         const date = document.getElementById('filterDate').value;
-        
+
         if (!doctorId || !date) {
             const tableBody = document.getElementById('timeSlotTableBody');
             tableBody.innerHTML = `
@@ -307,10 +307,10 @@ async function fetchTimeSlots() {
         if (!accessToken) {
             throw new Error('Không tìm thấy token đăng nhập');
         }
-        
+
         const formattedDate = date.split('-').reverse().join('/');
         const url = `http://localhost:5000/api/timeSlot?doctorId=${doctorId}&date=${formattedDate}`;
-        
+
         const response = await fetch(url, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
@@ -451,7 +451,7 @@ async function deleteTimeSlot(timeSlotId) {
 // Function to create default time slot
 async function createDefaultTimeSlot() {
     const doctorId = document.getElementById('doctorSelect').value;
-    
+
     if (!doctorId) {
         toast.warning('Vui lòng chọn bác sĩ!');
         return;
@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initChart();
     populateDoctorSelects();
     fetchStatistics();
-    
+
     // Set current date as default
     document.getElementById('filterDate').valueAsDate = new Date();
 
@@ -515,9 +515,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('filterStatus').addEventListener('change', fetchTimeSlots);
 
     // Add form submission handlers
-    document.getElementById('addAppointmentForm').addEventListener('submit', async function(e) {
+    document.getElementById('addAppointmentForm').addEventListener('submit', async function (e) {
         e.preventDefault();
-        
+
         const doctorId = document.getElementById('doctorSelect').value;
         const startTime = document.getElementById('startTime').value;
         const endTime = document.getElementById('endTime').value;
@@ -600,9 +600,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById('editAppointmentForm').addEventListener('submit', async function(e) {
+    document.getElementById('editAppointmentForm').addEventListener('submit', async function (e) {
         e.preventDefault();
-        
+
         const timeSlotId = document.getElementById('editTimeSlotId').value;
         const doctorId = document.getElementById('editDoctorSelect').value;
         const startTime = document.getElementById('editStartTime').value;
