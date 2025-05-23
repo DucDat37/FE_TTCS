@@ -32,7 +32,6 @@ async function fetchBookings(page = 1) {
         if (data.isError) {
             throw new Error(data.message);
         }
-        console.log(data)
         return data.data;
 
     } catch (error) {
