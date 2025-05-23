@@ -28,10 +28,10 @@ async function fetchappointment(page = 1) {
         }
 
         const data = await response.json();
+        console.log('API Response:', data); // Debug log
         if (data.isError) {
             throw new Error(data.message);
         }
-        console.log(data)
         return data.data;
     } catch (error) {
         toast.error('Lỗi', error.message);
@@ -40,30 +40,44 @@ async function fetchappointment(page = 1) {
 }
 // Cập nhật bảng lịch hẹn
 function updateappointmentsTable(appointments) {
+    if (!appointments || !Array.isArray(appointments)) {
+        console.error('Invalid appointments data:', appointments);
+        return;
+    }
+
     const tableBody = document.getElementById('historyTableBody');
+    if (!tableBody) {
+        console.error('Table body element not found');
+        return;
+    }
+
     tableBody.innerHTML = '';
 
     appointments.forEach(appointment => {
         const row = document.createElement('tr');
         row.className = 'hover:bg-gray-50';
         row.innerHTML = `
-            <td class="py-3 px-4">${appointment.code}</td>
-            <td class="py-3 px-4">${appointment.status}</td>
-            <td class="py-3 px-4">${appointment.record.doctor.userName|| '---'}</td>
-            <td class="py-3 px-4">${appointment.record.diagnosis|| '---'}</td>
-            <td class="py-3 px-4">${appointment.record.prescription|| '---'}</td>
-            <td class="py-3 px-4">${appointment.record.notes|| '---'}</td>
-            <td class="py-3 px-4">${appointment.record.createdAt|| '---'}</td>
-            <td class="py-3 px-4">${appointment.invoice.status|| '---'} </td>
+            <td class="py-3 px-4">${appointment.code || '---'}</td>
+            <td class="py-3 px-4">${appointment.status || '---'}</td>
+            <td class="py-3 px-4">${appointment.record?.doctor?.userName || '---'}</td>
+            <td class="py-3 px-4">${appointment.record?.diagnosis || '---'}</td>
+            <td class="py-3 px-4">${appointment.record?.prescription || '---'}</td>
+            <td class="py-3 px-4">${appointment.record?.notes || '---'}</td>
+            <td class="py-3 px-4">${appointment.record?.createdAt || '---'}</td>
+            <td class="py-3 px-4">${appointment.invoice?.status || '---'}</td>
             <td class="py-3 px-4">
+                ${appointment.invoice?.id ? `
                 <button onclick="viewInvoice('${appointment.invoice.id}')" class="text-blue-500 hover:text-blue-700 mr-2">
                     <i class="fas fa-eye"></i>
-                </button> </td>
-            
+                </button>
+                ` : '---'}
+            </td>
         `;
         tableBody.appendChild(row);
     });
-} function viewInvoice(invoiceId) {
+}
+
+function viewInvoice(invoiceId) {
     if (invoiceId) {
         window.location.href = `http://127.0.0.1:5501/invoice_detail.html?id=${invoiceId}`;
     }
@@ -73,13 +87,17 @@ function updateappointmentsTable(appointments) {
 async function loadAppointment(page = 1) {
     currentPage = page;
     const data = await fetchappointment(page);
-    if (data) {
+    console.log('Fetched data:', data);
+
+    if (data && data.appoinments) {
         allAppointments = data.appoinments;
         totalappointments = data.total;
         updateappointmentsTable(allAppointments);
         updatePagination(totalappointments, currentPage);
         document.getElementById('currentDisplayed').textContent = allAppointments.length;
         document.getElementById('totalAppoinments').textContent = totalappointments;
+    } else {
+        console.error('Invalid data structure:', data);
     }
 }
 
@@ -158,6 +176,7 @@ function updatePagination(total, currentPage) {
     };
     paginationContainer.appendChild(nextButton);
 }
+
 function getStatusClass(status) {
     switch (status) {
         case 'Chờ khám':
