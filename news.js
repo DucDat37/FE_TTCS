@@ -146,7 +146,7 @@ function renderNews() {
             <td class="px-6 py-4 whitespace-nowrap">
                 <img src="${news.img || 'https://via.placeholder.com/40'}" alt="News" class="h-10 w-10 rounded">
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">${news.name || ''}</td>
+            <td class="px-6 py-4 max-w-xs truncate" title="${news.name || ''}">${news.name || ''}</td>
             <td class="px-6 py-4 whitespace-nowrap">${news.user.userName || ''}</td>
             <td class="px-6 py-4 whitespace-nowrap">
                 <span class="px-2 py-1 text-xs font-semibold rounded-full text-white ${category.color}">
