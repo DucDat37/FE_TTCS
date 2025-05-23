@@ -49,27 +49,18 @@ function updateappointmentsTable(appointments) {
         row.innerHTML = `
             <td class="py-3 px-4">${appointment.code}</td>
             <td class="py-3 px-4">${appointment.status}</td>
-            <td class="py-3 px-4">${appointment.record.code || '---'}</td>
-            <td class="py-3 px-4">${appointment.record.doctor.userName || '---'}</td>
-            <td class="py-3 px-4">${appointment.record.diagnosis || '---'}</td>
-            <td class="py-3 px-4">${appointment.record.prescription || '---'}</td>
-            <td class="py-3 px-4">${appointment.record.notes || '---'}</td>
-            <td class="py-3 px-4">${appointment.record.createdAt || '---'}</td>
-            <td class="py-3 px-4">${appointment.invoice.status || '---'} </td>
-            `;
-
-        // Nếu có invoice thì thêm cột chứa nút xem
-        if (appointment.invoice) {
-            const td = document.createElement('td');
-            td.className = 'py-3 px-4';
-            td.innerHTML = `
-                    <button onclick="viewInvoice('${appointment.invoice.id}')" class="text-blue-500 hover:text-blue-700 mr-2">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                `;
-            row.appendChild(td);
-        }
-
+            <td class="py-3 px-4">${appointment.record.doctor.userName|| '---'}</td>
+            <td class="py-3 px-4">${appointment.record.diagnosis|| '---'}</td>
+            <td class="py-3 px-4">${appointment.record.prescription|| '---'}</td>
+            <td class="py-3 px-4">${appointment.record.notes|| '---'}</td>
+            <td class="py-3 px-4">${appointment.record.createdAt|| '---'}</td>
+            <td class="py-3 px-4">${appointment.invoice.status|| '---'} </td>
+            <td class="py-3 px-4">
+                <button onclick="viewInvoice('${appointment.invoice.id}')" class="text-blue-500 hover:text-blue-700 mr-2">
+                    <i class="fas fa-eye"></i>
+                </button> </td>
+            
+        `;
         tableBody.appendChild(row);
     });
 } function viewInvoice(invoiceId) {

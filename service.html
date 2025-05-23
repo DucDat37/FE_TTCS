@@ -71,9 +71,82 @@
         .ck-editor__editable {
             min-height: 200px;
         }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background-color: white;
+            border-left: 4px solid;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            min-width: 300px;
+            max-width: 400px;
+            animation: slideIn 0.3s, fadeOut 0.5s 2.5s forwards;
+        }
+
+        .toast-success {
+            border-left-color: #48bb78;
+        }
+
+        .toast-error {
+            border-left-color: #f56565;
+        }
+
+        .toast-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        .toast-success .toast-icon {
+            color: #48bb78;
+        }
+
+        .toast-error .toast-icon {
+            color: #f56565;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-close {
+            cursor: pointer;
+            font-size: 16px;
+            color: #a0aec0;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100">
+    <div id="toastContainer" class="toast-container"></div>
+    
     <!-- Sidebar -->
     <div class="sidebar">
         
